@@ -1,13 +1,25 @@
 'use client'
 import { useHeaderTheme } from '@/providers/HeaderTheme'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
+import { Link } from '@/i18n/routing'
+import { useRouter, usePathname } from 'next/navigation'
+import React, { useEffect, useState, useTransition } from 'react'
 
 import type { Header } from '@/payload-types'
 
 import { Logo } from '@/components/Logo/Logo'
 import { HeaderNav } from './Nav'
+import { cn } from '@/utilities/ui'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import localization from '@/i18n/localization'
+import type { Locale } from '@/i18n/routing'
+import { useLocale } from 'next-intl'
+import Image from 'next/image'
 
 interface HeaderClientProps {
   data: Header
@@ -35,8 +47,51 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
         <Link href="/">
           <Logo loading="eager" priority="high" className="invert dark:invert-0" />
         </Link>
+
+        <LocaleSwitcher />
+
         <HeaderNav data={data} />
       </div>
     </header>
+  )
+}
+
+export function LocaleSwitcher() {
+  const locale = useLocale()
+  const router = useRouter()
+  const pathname = usePathname()
+  const [, startTransition] = useTransition()
+
+  function onSelectChange(value: string) {
+    startTransition(() => {
+      const currentPath = pathname.replace(new RegExp(`^/${locale}`), '')
+      const nextLocale = value as Locale
+      router.replace(`/${nextLocale}${currentPath}`)
+    })
+  }
+
+  return (
+    <div className="md:absolute right-36 top-9">
+      <Select onValueChange={onSelectChange} value={locale}>
+        <SelectTrigger className="w-auto text-sm bg-transparent gap-2 pl-0 md:pl-3 border-none">
+          <SelectValue placeholder="Language" />
+        </SelectTrigger>
+        <SelectContent>
+          {localization.locales
+            .sort((a, b) => a.label.localeCompare(b.label))
+            .map((locale) => (
+              <SelectItem
+                value={locale.code}
+                key={locale.code}
+                className={cn('flex flex-row gap-3 items-center text-xs', {})}
+              >
+                <div className="flex flex-row gap-3 items-center text-xs text-white">
+                  {locale.label}
+                </div>
+              </SelectItem>
+            ))}
+        </SelectContent>
+      </Select>
+    </div>
   )
 }

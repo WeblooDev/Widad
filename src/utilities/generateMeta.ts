@@ -19,31 +19,62 @@ const getImageURL = (image?: Media | Config['db']['defaultIDType'] | null) => {
   return url
 }
 
-export const generateMeta = async (args: {
+interface GenerateMetaArgs {
   doc: Partial<Page> | Partial<Post> | null
-}): Promise<Metadata> => {
-  const { doc } = args
+  locale?: string
+  path?: string
+}
 
-  const ogImage = getImageURL(doc?.meta?.image)
+export const generateMeta = async (args: GenerateMetaArgs): Promise<Metadata> => {
+  const { doc, locale = 'en', path } = args
 
-  const title = doc?.meta?.title
-    ? doc?.meta?.title + ' | Payload Website Template'
-    : 'Payload Website Template'
+  let metaImage: Media | Config['db']['defaultIDType'] | null | undefined = undefined
+  let metaTitle: string | null | undefined = undefined
+  let metaDescription: string | null | undefined = undefined
+  let slug: string | undefined = undefined
+
+  // Handle Page and Post types
+  if (doc && 'meta' in doc) {
+    metaImage = doc.meta?.image
+    metaTitle = doc.meta?.title
+    metaDescription = doc.meta?.description
+
+    // Handle slug safely
+    if (doc.slug) {
+      if (typeof doc.slug === 'string') {
+        slug = doc.slug
+      } else if (doc.slug && typeof doc.slug === 'object') {
+        // Handle array-like objects safely
+        try {
+          const slugArray = Array.from(doc.slug as any)
+          slug = slugArray.filter(Boolean).join('/')
+        } catch (e) {
+          // If conversion fails, use string representation or undefined
+          slug = String(doc.slug) || undefined
+        }
+      }
+    }
+  }
+
+  const title = metaTitle ? `${metaTitle} | Wydad Athletic Club` : 'Wydad Athletic Club'
+
+  const serverUrl = getServerSideURL()
+
+  const canonicalPath = path ? path : slug ? (slug === 'home' ? '' : `/${slug}`) : ''
+
+  const localePath = locale !== 'en' ? `/${locale}` : ''
+  const canonicalUrl = `${serverUrl}${localePath}${canonicalPath}`
 
   return {
-    description: doc?.meta?.description,
+    description: metaDescription,
     openGraph: mergeOpenGraph({
-      description: doc?.meta?.description || '',
-      images: ogImage
-        ? [
-            {
-              url: ogImage,
-            },
-          ]
-        : undefined,
+      description: metaDescription || '',
       title,
-      url: Array.isArray(doc?.slug) ? doc?.slug.join('/') : '/',
+      url: canonicalPath,
     }),
     title,
+    alternates: {
+      canonical: canonicalUrl,
+    },
   }
 }

@@ -1,4 +1,4 @@
-// storage-adapter-import-placeholder
+import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
 
 import sharp from 'sharp' // sharp-import
@@ -67,12 +67,50 @@ export default buildConfig({
   globals: [Header, Footer],
   plugins: [
     ...plugins,
+    vercelBlobStorage({
+      enabled: true, // Optional, defaults to true
+      // Specify which collections should use Vercel Blob
+      collections: {
+        media: true,
+      },
+      // Token provided by Vercel once Blob storage is added to your Vercel project
+      token: process.env.BLOB_READ_WRITE_TOKEN,
+    }),
     // storage-adapter-placeholder
   ],
   secret: process.env.PAYLOAD_SECRET,
   sharp,
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
+  },
+  localization: {
+    defaultLocale: 'en',
+    locales: [
+      {
+        code: 'en',
+        label: {
+          en: 'English',
+          fr: 'Anglais',
+          ar: 'الإنجليزية',
+        },
+      },
+      {
+        code: 'fr',
+        label: {
+          en: 'French',
+          fr: 'Français',
+          ar: 'الفرنسية',
+        },
+      },
+      {
+        code: 'ar',
+        label: {
+          en: 'Arabic',
+          ar: 'العربية',
+          fr: 'Arabe',
+        },
+      },
+    ],
   },
   jobs: {
     access: {
