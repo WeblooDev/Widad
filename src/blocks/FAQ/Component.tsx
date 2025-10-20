@@ -20,14 +20,12 @@ export const FAQ: React.FC<FAQProps> = ({ title, description, questions }) => {
   }
 
   return (
-    <div className="py-16 bg-white">
+    <div className="py-4 lg:py-16 bg-white">
       <div className="container max-w-4xl">
         {/* Header */}
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-bold mb-4">{title || 'Latest From Wydad AC'}</h2>
-          {description && (
-            <p className="text-gray-600 text-lg max-w-3xl mx-auto">{description}</p>
-          )}
+          {description && <p className="text-gray-600 text-lg max-w-3xl mx-auto">{description}</p>}
         </div>
 
         {/* FAQ Items */}

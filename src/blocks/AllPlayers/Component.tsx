@@ -106,7 +106,7 @@ export const AllPlayers: React.FC<AllPlayersProps> = ({ title, team, showFilters
   }
 
   return (
-    <div className="py-16 bg-white">
+    <div className="py-4 lg:py-16 bg-white">
       <div className="container">
         {/* Header */}
         <h1 className="text-5xl md:text-6xl font-bold mb-8">{title || 'All Players'}</h1>
@@ -138,7 +138,9 @@ export const AllPlayers: React.FC<AllPlayersProps> = ({ title, team, showFilters
           return (
             <div key={position} className="mb-16">
               {/* Position Title */}
-              <h2 className="text-4xl font-bold mb-8 uppercase">{POSITION_LABELS[position]}</h2>
+              <h2 className="text-2xl lg:text-4xl font-bold mb-8 uppercase">
+                {POSITION_LABELS[position]}
+              </h2>
 
               {/* Players Grid */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

@@ -6,9 +6,9 @@ export const Quote: React.FC<QuoteType> = ({ image, overlayImage, quote, author 
   const overlayImg = overlayImage as MediaType
 
   return (
-    <div className="py-20">
+    <div className="py-0 lg:py-20">
       <div className="container">
-        <div className="grid grid-cols-2 gap-16 items-end">
+        <div className="grid grid-cols-1 md:grid-cols-2 auto-rows-fr gap-4 lg:gap-16 items-end">
           {/* Quote Section */}
           <div className="relative">
             {/* Large Red Quote Symbol */}
@@ -17,11 +17,11 @@ export const Quote: React.FC<QuoteType> = ({ image, overlayImage, quote, author 
             </div>
 
             {/* Quote Text */}
-            <blockquote className="text-7xl font-normal text-black">{quote}</blockquote>
+            <blockquote className="text-5xl lg:text-7xl font-normal text-black">{quote}</blockquote>
           </div>
 
           {/* Image Section */}
-          <div className="relative aspect-[1/1.1] rounded-[20px] overflow-visible">
+          <div className="relative aspect-[1.5/1] lg:aspect-[1/1.1] rounded-[20px] overflow-visible">
             {quoteImage?.url && (
               <Image
                 src={quoteImage.url}

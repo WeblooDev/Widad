@@ -1,5 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
+import { cn } from '@/utilities/ui'
+import { formatDate } from './MatchCard'
 
 interface MatchInfoProps {
   competition: string
@@ -18,73 +20,53 @@ interface MatchInfoProps {
 }
 
 export const MatchInfo: React.FC<MatchInfoProps> = ({
-  competition,
+  competition: botola,
   matchday,
-  homeTeam,
-  awayTeam,
-  venue,
+  homeTeam: team1,
+  awayTeam: team2,
+  venue: place,
   date,
   time,
 }) => {
   return (
-    <div className="bg-gradient-to-br from-[#8B0000] to-[#2D0000] text-white p-8 rounded-[20px] h-full flex flex-col justify-center items-center relative overflow-hidden">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 bg-[url('/images/match-bg-pattern.png')] bg-cover opacity-20" />
+    <div
+      className={cn(
+        'flex flex-col gap-10 p-8 overflow-hidden justify-center items-center h-full text-center match-grid-image',
+      )}
+    >
+      <div className="flex flex-col justify-center items-center gap-5">
+        <Image
+          src={
+            botola === 'ball'
+              ? '/images/homepage/icons/botola-ball.svg'
+              : '/images/homepage/icons/botola-cup.svg'
+          }
+          alt="Botola"
+          width={54}
+          height={60}
+          className="max-w-[54px] max-h-[60px]"
+        />
 
-      <div className="relative z-10 text-center w-full">
-        {/* Competition Badge */}
-        <div className="mb-6">
-          <div className="w-16 h-16 mx-auto bg-white/10 rounded-full flex items-center justify-center backdrop-blur-sm">
-            <Image
-              src="/icons/wac-logo-white.svg"
-              alt="Competition"
-              width={40}
-              height={40}
-              className="object-contain"
-            />
-          </div>
+        <h3 className="text-sm font-medium text-white">Botola • Matchday {matchday}</h3>
+        <div className="flex flex-row justify-between items-center">
+          <h3 className="text-5xl font-bold text-white uppercase GC_Horizon">
+            {team1.name} vs {team2.name}
+          </h3>
         </div>
+      </div>
 
-        {/* Competition Name */}
-        <div className="text-sm mb-2 opacity-90">
-          {competition} • {matchday}
-        </div>
+      <div className="flex flex-row justify-between items-center gap-6">
+        <Image src={team1.logo} alt="team logo" width={100} height={100} />
+        <h3 className={cn('font-medium text-white uppercase text-5xl GC_Horizon')}>vs</h3>
+        <Image src={team2.logo} alt="team logo" width={100} height={100} />
+      </div>
 
-        {/* Match Title */}
-        <h1 className="text-4xl md:text-5xl font-bold mb-8 uppercase tracking-wide">
-          {homeTeam.name} VS {awayTeam.name}
-        </h1>
-
-        {/* Team Logos */}
-        <div className="flex items-center justify-center gap-8 mb-8">
-          {/* Home Team */}
-          <div className="flex flex-col items-center">
-            <div className="w-24 h-24 relative mb-2">
-              <Image src={homeTeam.logo} alt={homeTeam.name} fill className="object-contain" />
-            </div>
-            <div className="flex gap-1">
-              <div className="w-2 h-2 bg-yellow-400 rounded-full" />
-              <div className="w-2 h-2 bg-yellow-400 rounded-full" />
-            </div>
-          </div>
-
-          {/* VS */}
-          <div className="text-3xl font-bold opacity-50">VS</div>
-
-          {/* Away Team */}
-          <div className="flex flex-col items-center">
-            <div className="w-24 h-24 relative mb-2">
-              <Image src={awayTeam.logo} alt={awayTeam.name} fill className="object-contain" />
-            </div>
-          </div>
-        </div>
-
-        {/* Match Details */}
-        <div className="space-y-1 text-sm">
-          <div className="opacity-90">{venue}</div>
-          <div className="font-semibold text-lg">
-            {date} - {time}
-          </div>
+      <div className="flex flex-col justify-center items-center gap-1">
+        <h3 className="text-sm font-medium text-white">{place}</h3>
+        <div className="flex flex-row justify-between items-center">
+          <h3 className="text-sm font-bold text-white uppercase">
+            {formatDate(date)} - {time}
+          </h3>
         </div>
       </div>
     </div>

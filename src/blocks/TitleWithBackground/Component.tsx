@@ -16,11 +16,11 @@ export const TitleWithBackground: React.FC<TitleWithBackgroundType> = ({
   const fontSize = sizeMap[backgroundSize as keyof typeof sizeMap] || sizeMap.medium
 
   return (
-    <div className="relative pt-20">
+    <div className="relative lg:pt-20">
       <div className="container flex flex-col items-center justify-center relative">
-        <div className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 pointer-events-none">
+        <div className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 pointer-events-none max-w-full lg:max-w-none">
           <h2
-            className="font-bold whitespace-nowrap"
+            className="font-bold whitespace-nowrap scale-75 lg:scale-100"
             style={{
               fontSize,
               WebkitTextStroke: '2px rgba(0, 0, 0, 0.1)',
@@ -33,7 +33,7 @@ export const TitleWithBackground: React.FC<TitleWithBackgroundType> = ({
           </h2>
         </div>
 
-        <div className="relative z-10 flex flex-col items-center text-center gap-4 w-[70%] max-w-4xl">
+        <div className="relative z-10 flex flex-col items-center text-center gap-4 lg:w-[70%] max-w-4xl">
           <h2 className="text-6xl font-semibold text-black capitalize">{title}</h2>
           {description && <p className="text-lg text-gray-700">{description}</p>}
         </div>

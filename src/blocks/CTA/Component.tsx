@@ -45,11 +45,11 @@ export const CTA: React.FC<CTAType> = ({
   const overlayImg = overlayImage as MediaType
 
   return (
-    <div className="pt-24">
-      <div className="container relative rounded-[20px] overflow-visible">
+    <div className="pt-8 lg:pt-24">
+      <div className="container relative lg:rounded-[20px] px-4 py-12 md:p-0 overflow-visible">
         {/* Background Image */}
         {bgImage?.url && (
-          <div className="absolute inset-0 z-0 rounded-[20px] overflow-hidden">
+          <div className="absolute inset-0 z-0 lg:rounded-[20px] overflow-hidden">
             <Image
               src={bgImage.url}
               alt={title || ''}
@@ -70,10 +70,10 @@ export const CTA: React.FC<CTAType> = ({
         )}
 
         <div className="container relative z-10">
-          <div className="grid grid-cols-2 gap-16 items-center">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
             {/* Left Side - Content */}
-            <div className="text-white">
-              <h2 className="text-6xl font-semibold mb-6">{title}</h2>
+            <div className="text-white text-center lg:text-start">
+              <h2 className="text-5xl lg:text-6xl font-semibold mb-6">{title}</h2>
               {description && <p className="text-xl text-white/90 mb-8">{description}</p>}
 
               {/* CTA Type */}
@@ -87,7 +87,7 @@ export const CTA: React.FC<CTAType> = ({
               )}
 
               {ctaType === 'social' && socialIcons && socialIcons.length > 0 && (
-                <div className="flex gap-4">
+                <div className="flex gap-4 justify-center lg:justify-start">
                   {socialIcons.map((social, index) => {
                     const Icon = socialIconMap[social.platform as keyof typeof socialIconMap]
                     return (
@@ -107,7 +107,7 @@ export const CTA: React.FC<CTAType> = ({
             </div>
 
             {/* Right Side - Overlay Image */}
-            <div className="relative h-[500px]">
+            <div className="relative h-[500px] hidden md:block">
               {overlayImg?.url && (
                 <div className="absolute bottom-0 right-[-10%] w-[125%] h-[125%]">
                   <Image

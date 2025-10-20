@@ -75,10 +75,12 @@ export const RenderBlocks: React.FC<{
             if (Block) {
               // Handle different margin classes for different block types
               let marginClass = 'my-16'
-              if (blockType === 'sponsors') {
+              if (blockType === 'sponsors' || blockType === 'wydadTrophies') {
                 marginClass = 'mb-16'
               } else if (blockType === 'postsCarousel') {
                 marginClass = '' // Full width, no margin
+              } else if (blockType === 'ctaBlock') {
+                marginClass = 'mt-16 lg:my-16'
               }
 
               return (

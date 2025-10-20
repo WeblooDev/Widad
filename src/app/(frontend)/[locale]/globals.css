@@ -143,3 +143,12 @@ body {
   background-size: cover;
   transition: background 0.3s ease;
 }
+
+.match-grid-image {
+  background: url('/images/tickets/match-grid-image.webp');
+  background-size: cover;
+}
+
+* {
+  border: 1px red solid;
+}

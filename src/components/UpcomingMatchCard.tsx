@@ -33,10 +33,10 @@ export const UpcomingMatchCard = ({ match }: MatchCardProps) => {
     <Link
       href={`/tickets/${match.id}`}
       className={cn(
-        'flex flex-row gap-6 p-8 rounded-[10px] overflow-hidden justify-between items-center h-full text-center upcoming-match-banner-bg',
+        'flex flex-col lg:flex-row gap-6 p-8 rounded-[10px] overflow-hidden justify-between items-center h-full text-center upcoming-match-banner-bg',
       )}
     >
-      <div className="flex flex-col justify-start items-start gap-2">
+      <div className="flex flex-col justify-center lg:justify-start items-center lg:items-start gap-2">
         <Image
           src={
             match.botola === 'ball'
@@ -69,7 +69,7 @@ export const UpcomingMatchCard = ({ match }: MatchCardProps) => {
         </button>
       </div>
 
-      <div className="flex flex-col justify-center items-stretch gap-1 me-20">
+      <div className="flex flex-col justify-center items-center lg:items-stretch gap-1 lg:me-20">
         <h3 className="text-sm font-medium text-white">{match.place}</h3>
         <div className="flex flex-row justify-between items-center">
           <h3 className="text-md font-bold text-white uppercase">

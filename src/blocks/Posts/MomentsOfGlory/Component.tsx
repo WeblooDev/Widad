@@ -39,14 +39,14 @@ export const MomentsOfGlory: React.FC<MomentsOfGloryProps> = ({ title, descripti
         </div>
 
         {/* Masonry Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 ">
           {/* Right Column - Container for large and small posts */}
-          <div className="grid grid-cols-1 gap-4 auto-rows-fr col-span-2">
+          <div className="grid grid-cols-1 gap-4 lg:auto-rows-fr lg:col-span-2">
             {/* Large Post Right */}
             {largePostRight && (
               <Link
                 href={`/posts/${largePostRight.slug}`}
-                className="group relative block rounded-[10px] overflow-hidden"
+                className="group relative block rounded-[10px] overflow-hidden aspect-[4/3] lg:aspect-auto"
               >
                 <div className="relative w-full h-full">
                   {(() => {
@@ -83,7 +83,7 @@ export const MomentsOfGlory: React.FC<MomentsOfGloryProps> = ({ title, descripti
               </Link>
             )}
             {/* Small Posts Row */}
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {smallPosts.slice(0, 2).map((post) => {
                 const heroImage = post.heroImage as MediaType
                 const metaImage = post.meta?.image as MediaType
@@ -178,7 +178,7 @@ export const MomentsOfGlory: React.FC<MomentsOfGloryProps> = ({ title, descripti
               href={`/posts/${largePostLeft.slug}`}
               className="group relative block rounded-[10px] overflow-hidden aspect-[4/3] lg:aspect-auto"
             >
-              <div className="relative w-full h-full min-h-[400px]">
+              <div className="relative w-full h-full lg:min-h-[400px]">
                 {(() => {
                   const heroImage = largePostLeft.heroImage as MediaType
                   const metaImage = largePostLeft.meta?.image as MediaType

@@ -37,7 +37,7 @@ export const PostsCarousel: React.FC<PostsCarouselProps> = ({ posts }) => {
   }
 
   return (
-    <div className="relative container p-8">
+    <div className="relative lg:container lg:p-8">
       {/* Navigation Arrows */}
       <button
         ref={prevRef}
@@ -79,7 +79,7 @@ export const PostsCarousel: React.FC<PostsCarouselProps> = ({ posts }) => {
         }}
         onSlideChange={handleSlideChange}
         onInit={handleSlideChange}
-        className="w-full  rounded-[20px]"
+        className="w-full  lg:rounded-[20px]"
       >
         {posts.map((post) => {
           const heroImage = post.heroImage as MediaType
@@ -89,7 +89,7 @@ export const PostsCarousel: React.FC<PostsCarouselProps> = ({ posts }) => {
           return (
             <SwiperSlide key={post.id}>
               <Link href={`/posts/${post.slug}`} className="block">
-                <div className="relative w-full h-[400px] md:h-[500px] lg:h-[600px] overflow-hidden">
+                <div className="relative w-full h-[500px] md:h-[600px] lg:h-[600px] overflow-hidden">
                   {/* Background Image */}
                   {imageUrl && (
                     <Image src={imageUrl} alt={post.title} fill className="object-cover" priority />
@@ -100,7 +100,7 @@ export const PostsCarousel: React.FC<PostsCarouselProps> = ({ posts }) => {
 
                   {/* Content */}
                   <div className="absolute bottom-0 left-0 right-0 p-6 md:p-12 lg:p-10">
-                    <div className="container mx-auto max-w-7xl">
+                    <div className="lg:container max-w-7xl">
                       <div className="max-w-2xl">
                         {/* Date */}
                         {post.publishedAt && (

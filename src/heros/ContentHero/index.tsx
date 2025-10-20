@@ -28,15 +28,15 @@ export const ContentHero: React.FC<Page['hero']> = (props) => {
   // Background layout
   if (isBackground && media && typeof media === 'object') {
     return (
-      <div className={'relative flex items-center bg-white container mt-10'}>
+      <div className={'relative flex items-center bg-white container lg:mt-10'}>
         {/* Background Image */}
         <div className="absolute inset-0">
-          <Media resource={media} imgClassName="w-full h-full object-cover" />
+          <Media resource={media} imgClassName="w-full h-full object-cover" fill />
         </div>
 
         {/* Content */}
         <div className="relative z-10 py-20 h-full items-stretch justify-between">
-          <div className="grid grid-cols-2 gap-12 h-full">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 h-full">
             {/* Left column: Subtitle and Title */}
             <div className="flex flex-col gap-6">
               {subtitle && (
@@ -73,9 +73,9 @@ export const ContentHero: React.FC<Page['hero']> = (props) => {
   // Below layout (default)
   return (
     <div className="py-20">
-      <div className="container">
+      <div className="lg:container">
         {/* Content section */}
-        <div className="grid grid-cols-2 gap-12 mb-12">
+        <div className="px-8 lg:px-0 grid grid-cols-1 lg:grid-cols-2 gap-12 mb-12">
           {/* Left column: Subtitle and Title */}
           <div className="flex flex-col gap-6">
             {subtitle && (
@@ -91,7 +91,7 @@ export const ContentHero: React.FC<Page['hero']> = (props) => {
           </div>
 
           {/* Right column: Description and Link */}
-          <div className="flex flex-col justify-between items-start">
+          <div className="flex flex-col justify-between items-start gap-4">
             {description && <p className="text-lg text-gray-700 leading-lg">{description}</p>}
 
             {links && links.length > 0 && (
@@ -107,7 +107,7 @@ export const ContentHero: React.FC<Page['hero']> = (props) => {
 
         {/* Image section - full width */}
         {media && typeof media === 'object' && (
-          <div className="w-full rounded-[20px] overflow-hidden max-h-[70vh]">
+          <div className="w-full lg:rounded-[20px] overflow-hidden max-h-[70vh]">
             <Media resource={media} imgClassName="w-full h-auto object-cover" />
           </div>
         )}

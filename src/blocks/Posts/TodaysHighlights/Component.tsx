@@ -40,7 +40,7 @@ export const TodaysHighlights: React.FC<TodaysHighlightsProps> = ({ posts }) => 
           <Link href={`/posts/${selectedPost.slug}`} className="block group h-full">
             <div className="flex flex-col h-full">
               {/* Image */}
-              <div className="relative w-full flex-1 rounded-[20px] overflow-hidden">
+              <div className="relative w-full flex-1 rounded-[20px] overflow-hidden aspect-square md:aspect-video lg:aspect-auto">
                 {selectedImage?.url && (
                   <Image
                     src={selectedImage.url}

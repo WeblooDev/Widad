@@ -18,20 +18,20 @@ interface TicketPricingProps {
 
 export const TicketPricing: React.FC<TicketPricingProps> = ({ categories, onBuyTicket }) => {
   return (
-    <div className="space-y-0">
+    <div className="space-y-4">
       {categories.map((category) => (
-        <div key={category.id} className="flex items-stretch">
+        <div key={category.id} className="flex items-stretch rounded-[10px] overflow-hidden">
           {/* Color Bar */}
           <div className={`w-2 ${category.color}`} />
 
           {/* Content */}
-          <div className="flex-1 bg-white p-6 flex items-center justify-between border-b border-gray-100">
+          <div className="flex-1 bg-white p-6 flex flex-col lg:flex-row items-start lg:items-end gap-4 justify-between border-b border-gray-100">
             <div>
-              <h3 className="text-xl font-semibold mb-2">{category.name}</h3>
+              <h3 className="text-2xl font-normal mb-5">{category.name}</h3>
               <div className="flex items-baseline gap-2">
-                <span className="text-gray-500 text-sm">Price</span>
-                <span className="text-3xl font-bold text-primary-red">
-                  {category.price.toLocaleString()}DH
+                <span className="text-gray-500 text-md">Price</span>
+                <span className="text-5xl font-bold text-primary-red GC_Horizon">
+                  {category.price.toLocaleString()}.00DH
                 </span>
               </div>
             </div>
@@ -39,7 +39,7 @@ export const TicketPricing: React.FC<TicketPricingProps> = ({ categories, onBuyT
             <button
               onClick={() => onBuyTicket(category.id)}
               disabled={!category.available}
-              className={`flex items-center gap-2 px-6 py-3 rounded-lg font-medium transition-all ${
+              className={`flex items-center gap-2 px-6 py-3 rounded-[10px] overflow-hidden font-medium transition-all text-xs self-end lg:self-auto ${
                 category.available
                   ? 'bg-black text-white hover:bg-gray-800'
                   : 'bg-gray-300 text-gray-500 cursor-not-allowed'

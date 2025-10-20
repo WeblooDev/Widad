@@ -54,7 +54,9 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
             <SearchIcon className="w-5 text-primary text-white" />
           </Link>
 
-          <LocaleSwitcher />
+          <div className="hidden lg:block">
+            <LocaleSwitcher />
+          </div>
         </div>
       </div>
     </header>

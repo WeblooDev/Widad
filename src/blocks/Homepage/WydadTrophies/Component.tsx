@@ -19,9 +19,11 @@ export const WydadTrophies: React.FC<WydadTrophiesBlock> = ({
             'flex-col items-start gap-4': description,
           })}
         >
-          <h2 className="text-6xl font-semibold text-black capitalize">{title}</h2>
+          <h2 className="text-5xl lg:text-6xl font-semibold text-black capitalize">{title}</h2>
 
-          {description && <p className="text-xl text-black mb-8 w-2/3">{description}</p>}
+          {description && (
+            <p className="text-lg lg:text-xl text-black mb-8 lg:w-2/3">{description}</p>
+          )}
 
           {link && link.url && (
             <Link
@@ -33,7 +35,7 @@ export const WydadTrophies: React.FC<WydadTrophiesBlock> = ({
           )}
         </div>
 
-        <div className="grid grid-cols-3 gap-4 auto-rows-fr">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 auto-rows-fr">
           {trophies?.map((trophy, index) => (
             <div
               key={index}

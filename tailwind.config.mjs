@@ -40,7 +40,7 @@ const config = {
       screens: {
         '2xl': '86rem',
         lg: '64rem',
-        md: '48rem',
+        md: '100vw',
         sm: '40rem',
         xl: '80rem',
       },

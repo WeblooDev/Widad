@@ -15,10 +15,10 @@ export const TicketsHero: React.FC<Page['hero']> = (props) => {
   }
 
   return (
-    <div className="py-20">
-      <div className="container">
+    <div className="py-8 lg:py-20">
+      <div className="lg:container">
         {/* Content section */}
-        <div className="grid grid-cols-2 gap-12 mb-12 relative">
+        <div className="px-8 lg:px-0 grid grid-cols-1 lg:grid-cols-2 gap-12 mb-12 relative">
           {/* Left column: Subtitle and Title */}
           <div className="flex flex-col gap-6">
             {subtitle && <p className="text-primary-red text-2xl font-normal">{subtitle}</p>}
@@ -31,14 +31,14 @@ export const TicketsHero: React.FC<Page['hero']> = (props) => {
           </div>
 
           {/* Right column: Description and Link */}
-          <div className="absolute top-0 right-20 flex flex-col justify-between items-start">
+          <div className="hidden lg:flex absolute top-0 right-20 flex-col justify-between items-start">
             <MatchCard match={matches[0]} />
           </div>
         </div>
 
         {/* Image section - full width */}
         {media && typeof media === 'object' && (
-          <div className="w-full rounded-[20px] overflow-hidden max-h-[70vh]">
+          <div className="w-full lg:rounded-[20px] overflow-hidden max-h-[70vh]">
             <Media resource={media} imgClassName="w-full h-auto object-cover" />
           </div>
         )}

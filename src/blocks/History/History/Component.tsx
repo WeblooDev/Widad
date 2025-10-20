@@ -57,13 +57,13 @@ export const History: React.FC<HistoryType> = ({ title, timeline }) => {
   const activeImage = activeItem?.image as MediaType
 
   return (
-    <div ref={containerRef} className="relative py-20">
+    <div ref={containerRef} className="relative py-10 lg:py-20">
       <div className="container">
-        {title && <h2 className="text-6xl font-semibold text-black mb-16 text-center">{title}</h2>}
+        {title && <h2 className="text-4xl lg:text-6xl font-semibold text-black mb-8 lg:mb-16 text-center">{title}</h2>}
 
-        <div className="grid grid-cols-2 gap-16">
-          {/* Fixed Image Section */}
-          <div className="sticky top-32 h-[500px]">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
+          {/* Fixed Image Section - Desktop Only */}
+          <div className="relative hidden lg:block lg:sticky lg:top-32 h-[500px]">
             <div className="relative w-full h-full rounded-[20px] overflow-hidden">
               {timeline.map((item, index) => {
                 const itemImage = item.image as MediaType
@@ -91,8 +91,8 @@ export const History: React.FC<HistoryType> = ({ title, timeline }) => {
 
           {/* Timeline Section */}
           <div className="relative z-0">
-            {/* Vertical Line */}
-            <div className="absolute left-[0.25rem] top-[2rem] bottom-0 w-[1px] bg-gray-300">
+            {/* Vertical Line - Desktop Only */}
+            <div className="absolute left-[0.25rem] top-[2rem] bottom-0 w-[1px] bg-gray-300 hidden lg:block">
               {/* Red progress line */}
               <div
                 className="absolute top-0 left-0 w-full bg-primary-red transition-all duration-300"
@@ -103,10 +103,11 @@ export const History: React.FC<HistoryType> = ({ title, timeline }) => {
             </div>
 
             {/* Timeline Items */}
-            <div className="pl-16 space-y-32">
+            <div className="lg:pl-16 space-y-12 lg:space-y-32">
               {timeline.map((item, index) => {
                 const isActive = index === activeIndex
                 const isPassed = index < activeIndex
+                const itemImage = item.image as MediaType
 
                 return (
                   <div
@@ -116,9 +117,25 @@ export const History: React.FC<HistoryType> = ({ title, timeline }) => {
                     }}
                     className="relative z-10"
                   >
-                    {/* Dot on the line */}
+                    {/* Mobile Image - Show above each timeline item */}
+                    {itemImage?.url && (
+                      <div className="relative w-full h-[250px] rounded-[20px] overflow-hidden mb-6 lg:hidden transition-all duration-500">
+                        <Image
+                          src={itemImage.url}
+                          alt={item.title || ''}
+                          fill
+                          className="object-cover transition-all duration-500"
+                          style={{
+                            filter: isActive ? 'grayscale(0)' : 'grayscale(100%)',
+                            opacity: isActive ? 1 : 0.5,
+                          }}
+                        />
+                      </div>
+                    )}
+
+                    {/* Dot on the line - Desktop Only */}
                     <div
-                      className="absolute -left-[65px] top-2 w-3 h-3 rounded-full transition-all duration-300"
+                      className="absolute -left-[65px] top-2 w-3 h-3 rounded-full transition-all duration-300 hidden lg:block"
                       style={{
                         backgroundColor: isPassed || isActive ? '#FF2020' : '#D1D5DB',
                       }}
@@ -135,9 +152,9 @@ export const History: React.FC<HistoryType> = ({ title, timeline }) => {
                       </div>
                     </div>
 
-                    {/* Horizontal line from dot */}
+                    {/* Horizontal line from dot - Desktop Only */}
                     <div
-                      className="absolute -left-16 top-[0.75rem] h-[1px] w-16 transition-colors duration-300"
+                      className="absolute -left-16 top-[0.75rem] h-[1px] w-16 transition-colors duration-300 hidden lg:block"
                       style={{
                         backgroundColor: isPassed || isActive ? '#FF2020' : '#D1D5DB',
                       }}
@@ -158,8 +175,8 @@ export const History: React.FC<HistoryType> = ({ title, timeline }) => {
                       >
                         <span className="text-white text-xs font-semibold">{item.year}</span>
                       </div>
-                      <h3 className="text-3xl font-semibold mb-3">{item.title}</h3>
-                      <p className="text-md leading-md text-black/80">{item.description}</p>
+                      <h3 className="text-2xl lg:text-3xl font-semibold mb-3">{item.title}</h3>
+                      <p className="text-sm lg:text-md leading-relaxed lg:leading-md text-black/80">{item.description}</p>
                     </div>
                   </div>
                 )

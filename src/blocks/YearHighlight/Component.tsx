@@ -15,7 +15,7 @@ export const YearHighlight: React.FC<YearHighlightType> = ({
   const logoImg = logoImage as MediaType
 
   return (
-    <div className="bg-white pb-16">
+    <div className="bg-white lg:pb-16">
       <div className="container">
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 items-end">
           {/* Left Side - Images Grid */}
@@ -49,13 +49,13 @@ export const YearHighlight: React.FC<YearHighlightType> = ({
           <div className="space-y-4 col-span-2">
             {/* Year Badge */}
             {year && (
-              <div className="inline-block bg-primary-red text-white px-6 py-2 rounded-full text-xs font-medium mb-20">
+              <div className="inline-block bg-primary-red text-white px-6 py-2 rounded-full text-xs font-medium lg:mb-20">
                 {year}
               </div>
             )}
 
             {/* Title */}
-            <h2 className="text-6xl md:text-4xl font-semibold text-black leading-tight">{title}</h2>
+            <h2 className="text-4xl md:text-4xl font-semibold text-black leading-tight">{title}</h2>
 
             {/* Description */}
             <p className="text-lg text-black/70 leading-relaxed">{description}</p>

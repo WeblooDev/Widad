@@ -22,7 +22,7 @@ export const LogoFooter = (props: Props) => {
       loading={loading}
       fetchPriority={priority}
       decoding="async"
-      className={clsx('max-w-[130px] w-full h-[164px]', className)}
+      className={clsx('max-w-[100px] lg:max-w-[130px] w-full h-[120px] lg:h-[164px]', className)}
       src="/images/footer-logo.png"
     />
   )
