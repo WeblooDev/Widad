@@ -1,0 +1,90 @@
+'use client'
+
+import React from 'react'
+import { MatchInfo } from '@/components/MatchInfo'
+import { TicketPricing } from '@/components/TicketPricing'
+import { useRouter } from 'next/navigation'
+
+interface TicketCategory {
+  id: string
+  name: string
+  price: number
+  color: string
+  available: boolean
+}
+
+interface MatchData {
+  id: string
+  competition: string
+  matchday: string
+  homeTeam: {
+    name: string
+    logo: string
+  }
+  awayTeam: {
+    name: string
+    logo: string
+  }
+  venue: string
+  date: string
+  time: string
+  ticketCategories: TicketCategory[]
+}
+
+interface TicketsClientProps {
+  match: MatchData
+}
+
+export const TicketsClient: React.FC<TicketsClientProps> = ({ match }) => {
+  const router = useRouter()
+
+  const handleBuyTicket = (categoryId: string) => {
+    // TODO: Implement ticket purchase flow
+    // This could redirect to a payment page or open a modal
+    console.log('Buying ticket for category:', categoryId)
+    
+    // Example: redirect to checkout
+    // router.push(`/checkout?match=${match.id}&category=${categoryId}`)
+    
+    // For now, just show an alert
+    const category = match.ticketCategories.find((c) => c.id === categoryId)
+    if (category) {
+      alert(`Redirecting to purchase ${category.name} ticket for ${category.price.toLocaleString()}DH`)
+    }
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <div className="container py-12">
+        {/* Header */}
+        <div className="mb-8">
+          <span className="text-primary-red text-sm font-semibold uppercase tracking-wider">
+            Tickets
+          </span>
+          <h1 className="text-5xl font-bold mt-2">Get Your Seat.</h1>
+        </div>
+
+        {/* Main Content Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Left Side - Match Info */}
+          <div>
+            <MatchInfo
+              competition={match.competition}
+              matchday={match.matchday}
+              homeTeam={match.homeTeam}
+              awayTeam={match.awayTeam}
+              venue={match.venue}
+              date={match.date}
+              time={match.time}
+            />
+          </div>
+
+          {/* Right Side - Ticket Pricing */}
+          <div className="bg-white rounded-[20px] overflow-hidden shadow-lg">
+            <TicketPricing categories={match.ticketCategories} onBuyTicket={handleBuyTicket} />
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}

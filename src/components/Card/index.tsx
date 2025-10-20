@@ -32,42 +32,23 @@ export const Card: React.FC<{
   return (
     <article
       className={cn(
-        'border border-border rounded-lg overflow-hidden bg-card hover:cursor-pointer',
+        'rounded-[10px] overflow-hidden bg-card hover:cursor-pointer flex flex-col aspect-[4/3.5]',
         className,
       )}
       ref={card.ref}
     >
-      <div className="relative w-full ">
+      <div className="relative w-full h-auto flex-1">
         {!metaImage && <div className="">No image</div>}
-        {metaImage && typeof metaImage !== 'string' && <Media resource={metaImage} size="33vw" />}
-      </div>
-      <div className="p-4">
-        {showCategories && hasCategories && (
-          <div className="uppercase text-sm mb-4">
-            {showCategories && hasCategories && (
-              <div>
-                {categories?.map((category, index) => {
-                  if (typeof category === 'object') {
-                    const { title: titleFromCategory } = category
-
-                    const categoryTitle = titleFromCategory || 'Untitled category'
-
-                    const isLast = index === categories.length - 1
-
-                    return (
-                      <Fragment key={index}>
-                        {categoryTitle}
-                        {!isLast && <Fragment>, &nbsp;</Fragment>}
-                      </Fragment>
-                    )
-                  }
-
-                  return null
-                })}
-              </div>
-            )}
-          </div>
+        {metaImage && typeof metaImage !== 'string' && (
+          <Media
+            resource={metaImage}
+            size="33vw"
+            fill
+            imgClassName="object-cover w-full h-auto bg-center"
+          />
         )}
+      </div>
+      <div className="p-4 flex flex-col bg-primary-red text-white">
         {titleToUse && (
           <div className="prose">
             <h3>
@@ -77,7 +58,11 @@ export const Card: React.FC<{
             </h3>
           </div>
         )}
-        {description && <div className="mt-2">{description && <p>{sanitizedDescription}</p>}</div>}
+        {description && (
+          <div className="mt-2">
+            {description && <p className="text-sm">{sanitizedDescription}</p>}
+          </div>
+        )}
       </div>
     </article>
   )

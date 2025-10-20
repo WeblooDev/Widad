@@ -13,17 +13,7 @@ export const Archive: Block = {
   fields: [
     {
       name: 'introContent',
-      type: 'richText',
-      editor: lexicalEditor({
-        features: ({ rootFeatures }) => {
-          return [
-            ...rootFeatures,
-            HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
-            FixedToolbarFeature(),
-            InlineToolbarFeature(),
-          ]
-        },
-      }),
+      type: 'text',
       label: 'Intro Content',
     },
     {

@@ -81,7 +81,7 @@ export default async function Page({ params: paramsPromise }: Args) {
 
   return (
     <article
-      className={cn('pt-16', {
+      className={cn('pt-16 bg-white', {
         'pt-0': hero,
       })}
     >

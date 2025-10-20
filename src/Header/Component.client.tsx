@@ -8,18 +8,10 @@ import type { Header } from '@/payload-types'
 
 import { Logo } from '@/components/Logo/Logo'
 import { HeaderNav } from './Nav'
-import { cn } from '@/utilities/ui'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
-import localization from '@/i18n/localization'
 import type { Locale } from '@/i18n/routing'
 import { useLocale } from 'next-intl'
 import Image from 'next/image'
+import { SearchIcon } from 'lucide-react'
 
 interface HeaderClientProps {
   data: Header
@@ -42,15 +34,28 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   }, [headerTheme])
 
   return (
-    <header className="container relative z-20   " {...(theme ? { 'data-theme': theme } : {})}>
-      <div className="py-8 flex justify-between">
-        <Link href="/">
-          <Logo loading="eager" priority="high" className="invert dark:invert-0" />
-        </Link>
-
-        <LocaleSwitcher />
+    <header className="relative z-20 bg-black">
+      <div className="py-4 flex justify-between container">
+        <div className="flex flex-row gap-8 justify-between items-center">
+          <button>
+            <Image src="/icons/hamburger.svg" alt="hamburger" width={23} height={15} />
+          </button>
+          <Link href="/" className="flex flex-row items-center gap-2 w-full min-w-max">
+            <Logo loading="eager" priority="high" />
+            <p className="text-md font-semibold text-white">Wydad Athletic Club</p>
+          </Link>
+        </div>
 
         <HeaderNav data={data} />
+
+        <div className="flex gap-3 items-center">
+          <Link href="/search">
+            <span className="sr-only">Search</span>
+            <SearchIcon className="w-5 text-primary text-white" />
+          </Link>
+
+          <LocaleSwitcher />
+        </div>
       </div>
     </header>
   )
@@ -71,27 +76,24 @@ export function LocaleSwitcher() {
   }
 
   return (
-    <div className="md:absolute right-36 top-9">
-      <Select onValueChange={onSelectChange} value={locale}>
-        <SelectTrigger className="w-auto text-sm bg-transparent gap-2 pl-0 md:pl-3 border-none">
-          <SelectValue placeholder="Language" />
-        </SelectTrigger>
-        <SelectContent>
-          {localization.locales
-            .sort((a, b) => a.label.localeCompare(b.label))
-            .map((locale) => (
-              <SelectItem
-                value={locale.code}
-                key={locale.code}
-                className={cn('flex flex-row gap-3 items-center text-xs', {})}
-              >
-                <div className="flex flex-row gap-3 items-center text-xs text-white">
-                  {locale.label}
-                </div>
-              </SelectItem>
-            ))}
-        </SelectContent>
-      </Select>
+    <div className="w-max">
+      <button
+        onClick={() => onSelectChange('fr')}
+        className="border-r border-r-white border-r-[1px] py-[1px] px-2"
+      >
+        <p className="text-white text-sm font-medium">FR</p>
+      </button>
+
+      <button
+        onClick={() => onSelectChange('ar')}
+        className="border-r border-r-white border-r-[1px] py-[1px] px-2"
+      >
+        <p className="text-white text-sm font-medium">AR</p>
+      </button>
+
+      <button onClick={() => onSelectChange('en')} className="py-[1px] px-2">
+        <p className="text-white text-sm font-medium">EN</p>
+      </button>
     </div>
   )
 }

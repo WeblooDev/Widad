@@ -5,6 +5,33 @@ export const MediaBlock: Block = {
   interfaceName: 'MediaBlock',
   fields: [
     {
+      name: 'logo',
+      type: 'upload',
+      relationTo: 'media',
+    },
+    {
+      name: 'title',
+      type: 'text',
+    },
+    {
+      name: 'description',
+      type: 'textarea',
+    },
+    {
+      name: 'link',
+      type: 'group',
+      fields: [
+        {
+          name: 'label',
+          type: 'text',
+        },
+        {
+          name: 'url',
+          type: 'text',
+        },
+      ],
+    },
+    {
       name: 'media',
       type: 'upload',
       relationTo: 'media',

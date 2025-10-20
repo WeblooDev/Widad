@@ -129,6 +129,37 @@ export const Posts: CollectionConfig<'posts'> = {
               hasMany: true,
               relationTo: 'categories',
             },
+            {
+              name: 'tags',
+              type: 'select',
+              hasMany: true,
+              admin: {
+                position: 'sidebar',
+                description: 'Add tags to categorize posts (e.g., "today", "featured")',
+              },
+              options: [
+                {
+                  label: 'Today',
+                  value: 'today',
+                },
+                {
+                  label: 'Featured',
+                  value: 'featured',
+                },
+                {
+                  label: 'Breaking News',
+                  value: 'breaking',
+                },
+                {
+                  label: 'Trending',
+                  value: 'trending',
+                },
+                {
+                  label: 'Moments of Glory',
+                  value: 'moments-of-glory',
+                },
+              ],
+            },
           ],
           label: 'Meta',
         },

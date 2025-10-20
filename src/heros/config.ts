@@ -35,8 +35,27 @@ export const hero: Field = {
           label: 'Low Impact',
           value: 'lowImpact',
         },
+        {
+          label: 'Home',
+          value: 'home',
+        },
+        {
+          label: 'Content Hero',
+          value: 'contentHero',
+        },
+        {
+          label: 'Tickets Hero',
+          value: 'ticketsHero',
+        },
       ],
       required: true,
+    },
+    {
+      name: 'subtitle',
+      type: 'text',
+      admin: {
+        condition: (_, { type } = {}) => type === 'contentHero' || type === 'ticketsHero',
+      },
     },
     {
       name: 'richText',
@@ -53,6 +72,32 @@ export const hero: Field = {
       }),
       label: false,
     },
+    {
+      name: 'description',
+      type: 'textarea',
+      admin: {
+        condition: (_, { type } = {}) => type === 'contentHero' || type === 'ticketsHero',
+      },
+    },
+    {
+      name: 'imageLayout',
+      type: 'select',
+      defaultValue: 'below',
+      label: 'Image Layout',
+      options: [
+        {
+          label: 'Below Content',
+          value: 'below',
+        },
+        {
+          label: 'Background',
+          value: 'background',
+        },
+      ],
+      admin: {
+        condition: (_, { type } = {}) => type === 'contentHero' || type === 'ticketsHero',
+      },
+    },
     linkGroup({
       overrides: {
         maxRows: 2,
@@ -62,7 +107,8 @@ export const hero: Field = {
       name: 'media',
       type: 'upload',
       admin: {
-        condition: (_, { type } = {}) => ['highImpact', 'mediumImpact'].includes(type),
+        condition: (_, { type } = {}) =>
+          ['highImpact', 'mediumImpact', 'home', 'contentHero', 'ticketsHero'].includes(type),
       },
       relationTo: 'media',
       required: true,

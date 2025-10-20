@@ -2,7 +2,7 @@ import type { StaticImageData } from 'next/image'
 
 import { cn } from '@/utilities/ui'
 import React from 'react'
-import RichText from '@/components/RichText'
+import Link from 'next/link'
 
 import type { MediaBlock as MediaBlockProps } from '@/payload-types'
 
@@ -19,48 +19,25 @@ type Props = MediaBlockProps & {
 }
 
 export const MediaBlock: React.FC<Props> = (props) => {
-  const {
-    captionClassName,
-    className,
-    enableGutter = true,
-    imgClassName,
-    media,
-    staticImage,
-    disableInnerContainer,
-  } = props
-
-  let caption
-  if (media && typeof media === 'object') caption = media.caption
+  const { className, imgClassName, media, logo, title, description, link, staticImage } = props
 
   return (
-    <div
-      className={cn(
-        '',
-        {
-          container: enableGutter,
-        },
-        className,
-      )}
-    >
+    <div className={cn('relative')}>
+      <div className="absolute inset-0 flex flex-col items-center justify-center z-10 text-center gap-6 px-8">
+        {logo && <Media resource={logo} imgClassName="w-auto h-40" />}
+        {title && <h2 className="text-6xl font-semibold text-white">{title}</h2>}
+        {description && <p className="text-lg text-white max-w-2xl">{description}</p>}
+        {link?.url && link?.label && (
+          <Link
+            href={link.url}
+            className="bg-primary-red text-white rounded-[10px] py-3 px-8 text-md font-semibold capitalize hover:bg-primary-red/90 transition-colors"
+          >
+            {link.label}
+          </Link>
+        )}
+      </div>
       {(media || staticImage) && (
-        <Media
-          imgClassName={cn('border border-border rounded-[0.8rem]', imgClassName)}
-          resource={media}
-          src={staticImage}
-        />
-      )}
-      {caption && (
-        <div
-          className={cn(
-            'mt-6',
-            {
-              container: !disableInnerContainer,
-            },
-            captionClassName,
-          )}
-        >
-          <RichText data={caption} enableGutter={false} />
-        </div>
+        <Media imgClassName={cn(' w-full', imgClassName)} resource={media} src={staticImage} />
       )}
     </div>
   )

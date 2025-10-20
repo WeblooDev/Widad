@@ -72,6 +72,8 @@ export interface Config {
     media: Media;
     categories: Category;
     users: User;
+    teams: Team;
+    players: Player;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -88,6 +90,8 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
+    teams: TeamsSelect<false> | TeamsSelect<true>;
+    players: PlayersSelect<false> | PlayersSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -149,7 +153,8 @@ export interface Page {
   id: string;
   title: string;
   hero: {
-    type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact';
+    type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact' | 'home' | 'contentHero' | 'ticketsHero';
+    subtitle?: string | null;
     richText?: {
       root: {
         type: string;
@@ -165,6 +170,8 @@ export interface Page {
       };
       [k: string]: unknown;
     } | null;
+    description?: string | null;
+    imageLayout?: ('below' | 'background') | null;
     links?:
       | {
           link: {
@@ -191,7 +198,32 @@ export interface Page {
       | null;
     media?: (string | null) | Media;
   };
-  layout: (CallToActionBlock | ContentBlock | MediaBlock | ArchiveBlock | FormBlock)[];
+  layout: (
+    | CallToActionBlock
+    | ContentBlock
+    | MediaBlock
+    | ArchiveBlock
+    | FormBlock
+    | StoreBlock
+    | WydadTV
+    | WydadMatches
+    | WydadAcademy
+    | WydadTrophies
+    | TitleWithBackground
+    | Sponsors
+    | History
+    | HistoricalMoments
+    | Quote
+    | CTABlock
+    | PostsCarouselBlock
+    | TodaysHighlightsBlock
+    | AllNewsBlock
+    | MomentsOfGloryBlock
+    | YearHighlight
+    | AllPlayers
+    | FAQ
+    | UpcomingMatches
+  )[];
   meta?: {
     title?: string | null;
     /**
@@ -235,6 +267,10 @@ export interface Post {
   };
   relatedPosts?: (string | Post)[] | null;
   categories?: (string | Category)[] | null;
+  /**
+   * Add tags to categorize posts (e.g., "today", "featured")
+   */
+  tags?: ('today' | 'featured' | 'breaking' | 'trending' | 'moments-of-glory')[] | null;
   meta?: {
     title?: string | null;
     /**
@@ -504,6 +540,13 @@ export interface ContentBlock {
  * via the `definition` "MediaBlock".
  */
 export interface MediaBlock {
+  logo?: (string | null) | Media;
+  title?: string | null;
+  description?: string | null;
+  link?: {
+    label?: string | null;
+    url?: string | null;
+  };
   media: string | Media;
   id?: string | null;
   blockName?: string | null;
@@ -514,21 +557,7 @@ export interface MediaBlock {
  * via the `definition` "ArchiveBlock".
  */
 export interface ArchiveBlock {
-  introContent?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
+  introContent?: string | null;
   populateBy?: ('collection' | 'selection') | null;
   relationTo?: 'posts' | null;
   categories?: (string | Category)[] | null;
@@ -745,6 +774,511 @@ export interface Form {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "StoreBlock".
+ */
+export interface StoreBlock {
+  title: string;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'storeBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "WydadTV".
+ */
+export interface WydadTV {
+  title?: string | null;
+  link: {
+    type?: ('reference' | 'custom') | null;
+    newTab?: boolean | null;
+    reference?:
+      | ({
+          relationTo: 'pages';
+          value: string | Page;
+        } | null)
+      | ({
+          relationTo: 'posts';
+          value: string | Post;
+        } | null);
+    url?: string | null;
+    label: string;
+  };
+  channels?:
+    | {
+        title?: string | null;
+        url?: string | null;
+        image?: (string | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'wydadTV';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "WydadMatches".
+ */
+export interface WydadMatches {
+  title: string;
+  link: {
+    label?: string | null;
+    url?: string | null;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'wydadMatches';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "WydadAcademy".
+ */
+export interface WydadAcademy {
+  title: string;
+  description: string;
+  reversed?: boolean | null;
+  centered?: boolean | null;
+  columns?:
+    | {
+        type: 'text' | 'image';
+        backgroundColor?: string | null;
+        title?: string | null;
+        description?: string | null;
+        link?: {
+          label?: string | null;
+          url?: string | null;
+        };
+        image?: (string | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'wydadAcademy';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "WydadTrophies".
+ */
+export interface WydadTrophies {
+  title: string;
+  description?: string | null;
+  link: {
+    label?: string | null;
+    url?: string | null;
+  };
+  trophies?:
+    | {
+        logo: string | Media;
+        name: string;
+        count: number;
+        description?: string | null;
+        link?: {
+          label?: string | null;
+          url?: string | null;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'wydadTrophies';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TitleWithBackground".
+ */
+export interface TitleWithBackground {
+  title: string;
+  description?: string | null;
+  backgroundTitle: string;
+  backgroundSize?: ('small' | 'medium' | 'large' | 'xlarge') | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'titleWithBackground';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Sponsors".
+ */
+export interface Sponsors {
+  title?: string | null;
+  sponsors?:
+    | {
+        logo: string | Media;
+        name: string;
+        link?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'sponsors';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "History".
+ */
+export interface History {
+  title?: string | null;
+  timeline?:
+    | {
+        image: string | Media;
+        year: string;
+        title: string;
+        description: string;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'history';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "HistoricalMoments".
+ */
+export interface HistoricalMoments {
+  backgroundImage: string | Media;
+  title: string;
+  description?: string | null;
+  columns?:
+    | {
+        backgroundImage: string | Media;
+        year: string;
+        title: string;
+        description: string;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'historicalMoments';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Quote".
+ */
+export interface Quote {
+  image: string | Media;
+  /**
+   * Image positioned at bottom right
+   */
+  overlayImage: string | Media;
+  quote: string;
+  author?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'quote';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CTABlock".
+ */
+export interface CTABlock {
+  backgroundImage: string | Media;
+  /**
+   * Image positioned at bottom right
+   */
+  overlayImage: string | Media;
+  title: string;
+  description?: string | null;
+  ctaType: 'link' | 'social';
+  link?: {
+    label?: string | null;
+    url?: string | null;
+  };
+  socialIcons?:
+    | {
+        platform?: ('facebook' | 'twitter' | 'instagram' | 'youtube' | 'linkedin' | 'tiktok') | null;
+        url?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'ctaBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PostsCarouselBlock".
+ */
+export interface PostsCarouselBlock {
+  /**
+   * Select the category to filter posts (e.g., "News")
+   */
+  category: string | Category;
+  /**
+   * Maximum number of posts to display in the carousel
+   */
+  limit?: number | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'postsCarousel';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TodaysHighlightsBlock".
+ */
+export interface TodaysHighlightsBlock {
+  /**
+   * Select the tag to filter posts
+   */
+  tag: 'today' | 'featured' | 'breaking' | 'trending';
+  /**
+   * Number of posts to display (recommended: 3)
+   */
+  limit?: number | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'todaysHighlights';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "AllNewsBlock".
+ */
+export interface AllNewsBlock {
+  /**
+   * Select categories to display as filters (e.g., Club, Matches, Transfers, etc.)
+   */
+  categories: (string | Category)[];
+  /**
+   * Maximum number of posts to fetch (will be paginated on the frontend)
+   */
+  limit?: number | null;
+  /**
+   * Number of posts to display per page
+   */
+  postsPerPage?: number | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'allNews';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "MomentsOfGloryBlock".
+ */
+export interface MomentsOfGloryBlock {
+  /**
+   * Title for the block
+   */
+  title?: string | null;
+  /**
+   * Description text displayed next to the title
+   */
+  description?: string | null;
+  /**
+   * Select the tag to filter posts (e.g., "Moments of Glory")
+   */
+  tag: 'today' | 'featured' | 'breaking' | 'trending' | 'moments-of-glory';
+  /**
+   * Number of posts to display (recommended: 6 for best layout)
+   */
+  limit?: number | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'momentsOfGlory';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "YearHighlight".
+ */
+export interface YearHighlight {
+  /**
+   * The year to highlight (e.g., 2020)
+   */
+  year: string;
+  /**
+   * Main title (e.g., "A historic double: League and CAF")
+   */
+  title: string;
+  /**
+   * Description text
+   */
+  description: string;
+  /**
+   * Large image on the left
+   */
+  mainImage: string | Media;
+  /**
+   * Trophy image (top right)
+   */
+  trophyImage: string | Media;
+  /**
+   * Team logo image (bottom right)
+   */
+  logoImage: string | Media;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'yearHighlight';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "AllPlayers".
+ */
+export interface AllPlayers {
+  /**
+   * Main heading for the players section
+   */
+  title?: string | null;
+  /**
+   * Select which team to display players from
+   */
+  team: string | Team;
+  /**
+   * Show position filter buttons
+   */
+  showFilters?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'allPlayers';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "teams".
+ */
+export interface Team {
+  id: string;
+  /**
+   * e.g., "Men's Team", "Women's Team"
+   */
+  name: string;
+  type: 'men' | 'women' | 'youth';
+  /**
+   * URL-friendly identifier (e.g., "mens-team")
+   */
+  slug: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FAQ".
+ */
+export interface FAQ {
+  /**
+   * Main heading for the FAQ section
+   */
+  title?: string | null;
+  /**
+   * Description text below the title
+   */
+  description?: string | null;
+  questions: {
+    /**
+     * The question text
+     */
+    question: string;
+    /**
+     * The answer text
+     */
+    answer: string;
+    id?: string | null;
+  }[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'faq';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "UpcomingMatches".
+ */
+export interface UpcomingMatches {
+  title?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'upcomingMatches';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "players".
+ */
+export interface Player {
+  id: string;
+  name: string;
+  team: string | Team;
+  /**
+   * Player jersey number
+   */
+  jerseyNumber: number;
+  position: 'goalkeeper' | 'defender' | 'midfielder' | 'forward' | 'staff';
+  status?: ('active' | 'onLoan' | 'injured') | null;
+  /**
+   * Player portrait image for card
+   */
+  image: string | Media;
+  /**
+   * Different image for modal (optional, uses card image if not provided)
+   */
+  modalImage?: (string | null) | Media;
+  /**
+   * Player nationality (e.g., "Morocco", "Brazil")
+   */
+  nationality?: string | null;
+  /**
+   * Country flag image
+   */
+  nationalityFlag?: (string | null) | Media;
+  dateOfBirth?: string | null;
+  /**
+   * Height in cm
+   */
+  height?: number | null;
+  /**
+   * Weight in kg
+   */
+  weight?: number | null;
+  statistics?: {
+    appearances?: number | null;
+    goals?: number | null;
+    assists?: number | null;
+    yellowCards?: number | null;
+    redCards?: number | null;
+    /**
+     * For goalkeepers
+     */
+    cleanSheets?: number | null;
+    /**
+     * For goalkeepers
+     */
+    savesMade?: number | null;
+    /**
+     * For goalkeepers
+     */
+    goalsConceded?: number | null;
+    /**
+     * For goalkeepers (0-100)
+     */
+    savePercentage?: number | null;
+    /**
+     * For goalkeepers (0-100)
+     */
+    distributionAccuracy?: number | null;
+  };
+  /**
+   * Player biography
+   */
+  bio?: string | null;
+  previousClubs?:
+    | {
+        clubName?: string | null;
+        /**
+         * e.g., "2018-2020"
+         */
+        years?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  socialMedia?: {
+    instagram?: string | null;
+    twitter?: string | null;
+    facebook?: string | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -937,6 +1471,14 @@ export interface PayloadLockedDocument {
         value: string | User;
       } | null)
     | ({
+        relationTo: 'teams';
+        value: string | Team;
+      } | null)
+    | ({
+        relationTo: 'players';
+        value: string | Player;
+      } | null)
+    | ({
         relationTo: 'redirects';
         value: string | Redirect;
       } | null)
@@ -1008,7 +1550,10 @@ export interface PagesSelect<T extends boolean = true> {
     | T
     | {
         type?: T;
+        subtitle?: T;
         richText?: T;
+        description?: T;
+        imageLayout?: T;
         links?:
           | T
           | {
@@ -1034,6 +1579,25 @@ export interface PagesSelect<T extends boolean = true> {
         mediaBlock?: T | MediaBlockSelect<T>;
         archive?: T | ArchiveBlockSelect<T>;
         formBlock?: T | FormBlockSelect<T>;
+        storeBlock?: T | StoreBlockSelect<T>;
+        wydadTV?: T | WydadTVSelect<T>;
+        wydadMatches?: T | WydadMatchesSelect<T>;
+        wydadAcademy?: T | WydadAcademySelect<T>;
+        wydadTrophies?: T | WydadTrophiesSelect<T>;
+        titleWithBackground?: T | TitleWithBackgroundSelect<T>;
+        sponsors?: T | SponsorsSelect<T>;
+        history?: T | HistorySelect<T>;
+        historicalMoments?: T | HistoricalMomentsSelect<T>;
+        quote?: T | QuoteSelect<T>;
+        ctaBlock?: T | CTABlockSelect<T>;
+        postsCarousel?: T | PostsCarouselBlockSelect<T>;
+        todaysHighlights?: T | TodaysHighlightsBlockSelect<T>;
+        allNews?: T | AllNewsBlockSelect<T>;
+        momentsOfGlory?: T | MomentsOfGloryBlockSelect<T>;
+        yearHighlight?: T | YearHighlightSelect<T>;
+        allPlayers?: T | AllPlayersSelect<T>;
+        faq?: T | FAQSelect<T>;
+        upcomingMatches?: T | UpcomingMatchesSelect<T>;
       };
   meta?:
     | T
@@ -1104,6 +1668,15 @@ export interface ContentBlockSelect<T extends boolean = true> {
  * via the `definition` "MediaBlock_select".
  */
 export interface MediaBlockSelect<T extends boolean = true> {
+  logo?: T;
+  title?: T;
+  description?: T;
+  link?:
+    | T
+    | {
+        label?: T;
+        url?: T;
+      };
   media?: T;
   id?: T;
   blockName?: T;
@@ -1135,6 +1708,314 @@ export interface FormBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "StoreBlock_select".
+ */
+export interface StoreBlockSelect<T extends boolean = true> {
+  title?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "WydadTV_select".
+ */
+export interface WydadTVSelect<T extends boolean = true> {
+  title?: T;
+  link?:
+    | T
+    | {
+        type?: T;
+        newTab?: T;
+        reference?: T;
+        url?: T;
+        label?: T;
+      };
+  channels?:
+    | T
+    | {
+        title?: T;
+        url?: T;
+        image?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "WydadMatches_select".
+ */
+export interface WydadMatchesSelect<T extends boolean = true> {
+  title?: T;
+  link?:
+    | T
+    | {
+        label?: T;
+        url?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "WydadAcademy_select".
+ */
+export interface WydadAcademySelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  reversed?: T;
+  centered?: T;
+  columns?:
+    | T
+    | {
+        type?: T;
+        backgroundColor?: T;
+        title?: T;
+        description?: T;
+        link?:
+          | T
+          | {
+              label?: T;
+              url?: T;
+            };
+        image?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "WydadTrophies_select".
+ */
+export interface WydadTrophiesSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  link?:
+    | T
+    | {
+        label?: T;
+        url?: T;
+      };
+  trophies?:
+    | T
+    | {
+        logo?: T;
+        name?: T;
+        count?: T;
+        description?: T;
+        link?:
+          | T
+          | {
+              label?: T;
+              url?: T;
+            };
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TitleWithBackground_select".
+ */
+export interface TitleWithBackgroundSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  backgroundTitle?: T;
+  backgroundSize?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Sponsors_select".
+ */
+export interface SponsorsSelect<T extends boolean = true> {
+  title?: T;
+  sponsors?:
+    | T
+    | {
+        logo?: T;
+        name?: T;
+        link?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "History_select".
+ */
+export interface HistorySelect<T extends boolean = true> {
+  title?: T;
+  timeline?:
+    | T
+    | {
+        image?: T;
+        year?: T;
+        title?: T;
+        description?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "HistoricalMoments_select".
+ */
+export interface HistoricalMomentsSelect<T extends boolean = true> {
+  backgroundImage?: T;
+  title?: T;
+  description?: T;
+  columns?:
+    | T
+    | {
+        backgroundImage?: T;
+        year?: T;
+        title?: T;
+        description?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Quote_select".
+ */
+export interface QuoteSelect<T extends boolean = true> {
+  image?: T;
+  overlayImage?: T;
+  quote?: T;
+  author?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CTABlock_select".
+ */
+export interface CTABlockSelect<T extends boolean = true> {
+  backgroundImage?: T;
+  overlayImage?: T;
+  title?: T;
+  description?: T;
+  ctaType?: T;
+  link?:
+    | T
+    | {
+        label?: T;
+        url?: T;
+      };
+  socialIcons?:
+    | T
+    | {
+        platform?: T;
+        url?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PostsCarouselBlock_select".
+ */
+export interface PostsCarouselBlockSelect<T extends boolean = true> {
+  category?: T;
+  limit?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TodaysHighlightsBlock_select".
+ */
+export interface TodaysHighlightsBlockSelect<T extends boolean = true> {
+  tag?: T;
+  limit?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "AllNewsBlock_select".
+ */
+export interface AllNewsBlockSelect<T extends boolean = true> {
+  categories?: T;
+  limit?: T;
+  postsPerPage?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "MomentsOfGloryBlock_select".
+ */
+export interface MomentsOfGloryBlockSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  tag?: T;
+  limit?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "YearHighlight_select".
+ */
+export interface YearHighlightSelect<T extends boolean = true> {
+  year?: T;
+  title?: T;
+  description?: T;
+  mainImage?: T;
+  trophyImage?: T;
+  logoImage?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "AllPlayers_select".
+ */
+export interface AllPlayersSelect<T extends boolean = true> {
+  title?: T;
+  team?: T;
+  showFilters?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FAQ_select".
+ */
+export interface FAQSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  questions?:
+    | T
+    | {
+        question?: T;
+        answer?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "UpcomingMatches_select".
+ */
+export interface UpcomingMatchesSelect<T extends boolean = true> {
+  title?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "posts_select".
  */
 export interface PostsSelect<T extends boolean = true> {
@@ -1143,6 +2024,7 @@ export interface PostsSelect<T extends boolean = true> {
   content?: T;
   relatedPosts?: T;
   categories?: T;
+  tags?: T;
   meta?:
     | T
     | {
@@ -1299,6 +2181,66 @@ export interface UsersSelect<T extends boolean = true> {
         createdAt?: T;
         expiresAt?: T;
       };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "teams_select".
+ */
+export interface TeamsSelect<T extends boolean = true> {
+  name?: T;
+  type?: T;
+  slug?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "players_select".
+ */
+export interface PlayersSelect<T extends boolean = true> {
+  name?: T;
+  team?: T;
+  jerseyNumber?: T;
+  position?: T;
+  status?: T;
+  image?: T;
+  modalImage?: T;
+  nationality?: T;
+  nationalityFlag?: T;
+  dateOfBirth?: T;
+  height?: T;
+  weight?: T;
+  statistics?:
+    | T
+    | {
+        appearances?: T;
+        goals?: T;
+        assists?: T;
+        yellowCards?: T;
+        redCards?: T;
+        cleanSheets?: T;
+        savesMade?: T;
+        goalsConceded?: T;
+        savePercentage?: T;
+        distributionAccuracy?: T;
+      };
+  bio?: T;
+  previousClubs?:
+    | T
+    | {
+        clubName?: T;
+        years?: T;
+        id?: T;
+      };
+  socialMedia?:
+    | T
+    | {
+        instagram?: T;
+        twitter?: T;
+        facebook?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1610,6 +2552,139 @@ export interface Footer {
         id?: string | null;
       }[]
     | null;
+  football?: {
+    title?: string | null;
+    links?:
+      | {
+          link: {
+            type?: ('reference' | 'custom') | null;
+            newTab?: boolean | null;
+            reference?:
+              | ({
+                  relationTo: 'pages';
+                  value: string | Page;
+                } | null)
+              | ({
+                  relationTo: 'posts';
+                  value: string | Post;
+                } | null);
+            url?: string | null;
+            label: string;
+          };
+          id?: string | null;
+        }[]
+      | null;
+  };
+  info?: {
+    title?: string | null;
+    links?:
+      | {
+          link: {
+            type?: ('reference' | 'custom') | null;
+            newTab?: boolean | null;
+            reference?:
+              | ({
+                  relationTo: 'pages';
+                  value: string | Page;
+                } | null)
+              | ({
+                  relationTo: 'posts';
+                  value: string | Post;
+                } | null);
+            url?: string | null;
+            label: string;
+          };
+          id?: string | null;
+        }[]
+      | null;
+  };
+  help?: {
+    title?: string | null;
+    links?:
+      | {
+          link: {
+            type?: ('reference' | 'custom') | null;
+            newTab?: boolean | null;
+            reference?:
+              | ({
+                  relationTo: 'pages';
+                  value: string | Page;
+                } | null)
+              | ({
+                  relationTo: 'posts';
+                  value: string | Post;
+                } | null);
+            url?: string | null;
+            label: string;
+          };
+          id?: string | null;
+        }[]
+      | null;
+  };
+  other?: {
+    title?: string | null;
+    links?:
+      | {
+          link: {
+            type?: ('reference' | 'custom') | null;
+            newTab?: boolean | null;
+            reference?:
+              | ({
+                  relationTo: 'pages';
+                  value: string | Page;
+                } | null)
+              | ({
+                  relationTo: 'posts';
+                  value: string | Post;
+                } | null);
+            url?: string | null;
+            label: string;
+          };
+          id?: string | null;
+        }[]
+      | null;
+  };
+  contactInfo?: {
+    title?: string | null;
+    links?:
+      | {
+          link: {
+            type?: ('reference' | 'custom') | null;
+            newTab?: boolean | null;
+            reference?:
+              | ({
+                  relationTo: 'pages';
+                  value: string | Page;
+                } | null)
+              | ({
+                  relationTo: 'posts';
+                  value: string | Post;
+                } | null);
+            url?: string | null;
+            label: string;
+          };
+          id?: string | null;
+        }[]
+      | null;
+  };
+  appLinks?: {
+    links?:
+      | {
+          url: string;
+          icon: string | Media;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  socialLinks?: {
+    links?:
+      | {
+          url: string;
+          icon: string | Media;
+          id?: string | null;
+        }[]
+      | null;
+  };
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1654,6 +2729,123 @@ export interface FooterSelect<T extends boolean = true> {
               label?: T;
             };
         id?: T;
+      };
+  football?:
+    | T
+    | {
+        title?: T;
+        links?:
+          | T
+          | {
+              link?:
+                | T
+                | {
+                    type?: T;
+                    newTab?: T;
+                    reference?: T;
+                    url?: T;
+                    label?: T;
+                  };
+              id?: T;
+            };
+      };
+  info?:
+    | T
+    | {
+        title?: T;
+        links?:
+          | T
+          | {
+              link?:
+                | T
+                | {
+                    type?: T;
+                    newTab?: T;
+                    reference?: T;
+                    url?: T;
+                    label?: T;
+                  };
+              id?: T;
+            };
+      };
+  help?:
+    | T
+    | {
+        title?: T;
+        links?:
+          | T
+          | {
+              link?:
+                | T
+                | {
+                    type?: T;
+                    newTab?: T;
+                    reference?: T;
+                    url?: T;
+                    label?: T;
+                  };
+              id?: T;
+            };
+      };
+  other?:
+    | T
+    | {
+        title?: T;
+        links?:
+          | T
+          | {
+              link?:
+                | T
+                | {
+                    type?: T;
+                    newTab?: T;
+                    reference?: T;
+                    url?: T;
+                    label?: T;
+                  };
+              id?: T;
+            };
+      };
+  contactInfo?:
+    | T
+    | {
+        title?: T;
+        links?:
+          | T
+          | {
+              link?:
+                | T
+                | {
+                    type?: T;
+                    newTab?: T;
+                    reference?: T;
+                    url?: T;
+                    label?: T;
+                  };
+              id?: T;
+            };
+      };
+  appLinks?:
+    | T
+    | {
+        links?:
+          | T
+          | {
+              url?: T;
+              icon?: T;
+              id?: T;
+            };
+      };
+  socialLinks?:
+    | T
+    | {
+        links?:
+          | T
+          | {
+              url?: T;
+              icon?: T;
+              id?: T;
+            };
       };
   updatedAt?: T;
   createdAt?: T;
