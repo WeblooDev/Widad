@@ -31,7 +31,11 @@ export const ContentHero: React.FC<Page['hero']> = (props) => {
       <div className={'relative flex items-center bg-white container lg:mt-10'}>
         {/* Background Image */}
         <div className="absolute inset-0">
-          <Media resource={media} imgClassName="w-full h-full object-cover" fill />
+          <Media
+            resource={media}
+            imgClassName="w-full h-full object-cover lg:rounded-[20px]"
+            fill
+          />
         </div>
 
         {/* Content */}

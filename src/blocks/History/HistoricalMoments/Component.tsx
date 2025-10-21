@@ -3,6 +3,7 @@ import type {
   HistoricalMoments as HistoricalMomentsType,
   Media as MediaType,
 } from '@/payload-types'
+import { cn } from '@/utilities/ui'
 import Image from 'next/image'
 import { useState } from 'react'
 
@@ -52,7 +53,7 @@ export const HistoricalMoments: React.FC<HistoricalMomentsType> = ({
             return (
               <div
                 key={index}
-                className="relative h-[500px] transition-all duration-500 ease-in-out overflow-hidden rounded-[20px] !flex-none lg:flex-1"
+                className="relative h-[500px] transition-all duration-500 ease-in-out overflow-hidden rounded-[20px] max-lg:!flex-none lg:flex-1"
                 style={{
                   flex: isHovered ? '2' : '1',
                   opacity: isOtherHovered ? 0.7 : 1,

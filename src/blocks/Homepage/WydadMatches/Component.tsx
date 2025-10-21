@@ -1,28 +1,68 @@
+'use client'
+
 import type { WydadMatches as WydadMatchesBlock } from '@/payload-types'
 import { ChevronRightIcon } from 'lucide-react'
 import Link from 'next/link'
 import { MatchCard } from '@/components/MatchCard'
+import { motion } from 'framer-motion'
 
 export const WydadMatches: React.FC<WydadMatchesBlock> = ({ title, link }) => {
   return (
     <div className="wydad-matches-bg py-20">
       <div className="flex flex-col gap-8 w-full container">
         <div className="flex flex-row justify-between items-end">
-          <h2 className="text-6xl font-semibold text-white">{title}</h2>
-
-          <Link
-            href={link.url ? link.url : ''}
-            className="flex justify-center items-center text-white text-sm font-bold uppercase"
+          <motion.h2
+            className="text-6xl font-semibold text-white"
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
           >
-            {link.label} <ChevronRightIcon size={20} />
-          </Link>
+            {title}
+          </motion.h2>
+
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <Link
+              href={link.url ? link.url : ''}
+              className="flex justify-center items-center text-white text-sm font-bold uppercase hover:text-primary-red transition-colors"
+            >
+              {link.label} <ChevronRightIcon size={20} />
+            </Link>
+          </motion.div>
         </div>
 
-        <div className="grid grid-cols-3 gap-4">
+        <motion.div
+          className="grid grid-cols-3 gap-4"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          variants={{
+            hidden: {},
+            visible: {
+              transition: {
+                staggerChildren: 0.15,
+              },
+            },
+          }}
+        >
           {matches.map((match, index) => (
-            <MatchCard key={index} match={match} />
+            <motion.div
+              key={index}
+              variants={{
+                hidden: { opacity: 0, y: 50 },
+                visible: { opacity: 1, y: 0 },
+              }}
+              transition={{ duration: 0.5, ease: 'easeOut' }}
+            >
+              <MatchCard match={match} />
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </div>
   )

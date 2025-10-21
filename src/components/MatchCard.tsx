@@ -1,5 +1,9 @@
+'use client'
+
 import { cn } from '@/utilities/ui'
 import Image from 'next/image'
+import { motion } from 'framer-motion'
+import { useState } from 'react'
 
 interface MatchCardProps {
   match: {
@@ -27,12 +31,20 @@ export const formatDate = (dateString: string) => {
 }
 
 export const MatchCard = ({ match }: MatchCardProps) => {
+  const [isHovered, setIsHovered] = useState(false)
+
   return (
-    <div
+    <motion.div
       className={cn(
-        'flex flex-col gap-6 p-8 rounded-[10px] overflow-hidden justify-center items-center h-full text-center',
+        'flex flex-col gap-6 p-8 rounded-[10px] overflow-hidden justify-center items-center h-full text-center cursor-pointer',
         match.ongoing ? 'current-match-bg' : 'upcoming-match-bg',
       )}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      whileHover={{ scale: 1.02, y: -5 }}
+      onHoverStart={() => setIsHovered(true)}
+      onHoverEnd={() => setIsHovered(false)}
     >
       <div className="flex flex-col justify-center items-center gap-2">
         <Image
@@ -78,7 +90,12 @@ export const MatchCard = ({ match }: MatchCardProps) => {
         <h3 className="text-sm font-medium text-white">{match.place}</h3>
       </div>
 
-      <button className="bg-white text-black rounded-[9px] py-3 px-5 overflow-hidden text-sm font-bold">
+      <motion.button
+        className="bg-white text-black rounded-[9px] py-3 px-5 overflow-hidden text-sm font-bold"
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        transition={{ type: 'spring', stiffness: 400, damping: 17 }}
+      >
         {match.ongoing ? (
           'Match'
         ) : (
@@ -92,7 +109,7 @@ export const MatchCard = ({ match }: MatchCardProps) => {
             Ticketplace
           </p>
         )}
-      </button>
-    </div>
+      </motion.button>
+    </motion.div>
   )
 }

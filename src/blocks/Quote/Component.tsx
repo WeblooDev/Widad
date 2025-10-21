@@ -1,9 +1,40 @@
+'use client'
+
 import type { Quote as QuoteType, Media as MediaType } from '@/payload-types'
 import Image from 'next/image'
+import { motion } from 'framer-motion'
+import { useState, useEffect } from 'react'
 
 export const Quote: React.FC<QuoteType> = ({ image, overlayImage, quote, author }) => {
   const quoteImage = image as MediaType
   const overlayImg = overlayImage as MediaType
+  const [isInView, setIsInView] = useState(false)
+  const [displayedText, setDisplayedText] = useState('')
+  const [isTypingComplete, setIsTypingComplete] = useState(false)
+
+  useEffect(() => {
+    if (!isInView || !quote) return
+
+    let currentIndex = 0
+    const typingSpeed = 30 // milliseconds per character
+
+    const typeNextChar = () => {
+      if (currentIndex < quote.length) {
+        setDisplayedText(quote.slice(0, currentIndex + 1))
+        currentIndex++
+        setTimeout(typeNextChar, typingSpeed)
+      } else {
+        setIsTypingComplete(true)
+      }
+    }
+
+    typeNextChar()
+
+    return () => {
+      setDisplayedText('')
+      setIsTypingComplete(false)
+    }
+  }, [isInView, quote])
 
   return (
     <div className="py-0 lg:py-20">
@@ -12,16 +43,51 @@ export const Quote: React.FC<QuoteType> = ({ image, overlayImage, quote, author 
           {/* Quote Section */}
           <div className="relative">
             {/* Large Red Quote Symbol */}
-            <div className="text-primary-red text-[120px] leading-none font-serif mb-16">
+            <motion.div
+              className="text-primary-red text-[120px] leading-none font-serif mb-16"
+              initial={{ opacity: 0, scale: 0.5, rotate: -10 }}
+              whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, ease: 'easeOut' }}
+            >
               <Image src="/icons/quote.svg" alt="quote" width={80} height={66} />
-            </div>
+            </motion.div>
 
-            {/* Quote Text */}
-            <blockquote className="text-5xl lg:text-7xl font-normal text-black">{quote}</blockquote>
+            {/* Quote Text with Typewriter Effect */}
+            <motion.div
+              className="relative"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true, amount: 0.3 }}
+              onViewportEnter={() => setIsInView(true)}
+              transition={{ duration: 0.3 }}
+            >
+              <blockquote className="text-5xl lg:text-7xl font-normal text-black">
+                {displayedText}
+                {/* Blinking Cursor - follows typing */}
+                <motion.span
+                  className="inline-block w-1 h-[0.8em] bg-primary-red ml-1 align-middle"
+                  animate={{
+                    opacity: isTypingComplete ? [1, 1, 0, 0] : 1,
+                  }}
+                  transition={{
+                    duration: isTypingComplete ? 1 : 0,
+                    repeat: isTypingComplete ? Infinity : 0,
+                    ease: 'linear',
+                  }}
+                />
+              </blockquote>
+            </motion.div>
           </div>
 
           {/* Image Section */}
-          <div className="relative aspect-[1.5/1] lg:aspect-[1/1.1] rounded-[20px] overflow-visible">
+          <motion.div
+            className="relative aspect-[1.5/1] lg:aspect-[1/1.1] rounded-[20px] overflow-visible"
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+          >
             {quoteImage?.url && (
               <Image
                 src={quoteImage.url}
@@ -33,11 +99,17 @@ export const Quote: React.FC<QuoteType> = ({ image, overlayImage, quote, author 
 
             {/* Right Side - Overlay Image */}
             {overlayImg?.url && (
-              <div className="absolute bottom-0 -left-[30%] w-[125%] h-[125%]">
+              <motion.div
+                className="absolute bottom-0 -left-[30%] w-[125%] h-[125%]"
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.5 }}
+              >
                 <Image src={overlayImg.url} alt="" fill className="object-contain object-bottom" />
-              </div>
+              </motion.div>
             )}
-          </div>
+          </motion.div>
         </div>
       </div>
     </div>

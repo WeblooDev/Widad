@@ -61,7 +61,7 @@ export const CardsCarousel = ({
       <Swiper
         modules={[Navigation]}
         slidesPerView={3.5}
-        spaceBetween={30}
+        spaceBetween={20}
         navigation={{
           prevEl: prevRef.current,
           nextEl: nextRef.current,

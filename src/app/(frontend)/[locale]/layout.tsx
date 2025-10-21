@@ -62,22 +62,6 @@ export default async function RootLayout({
         <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
         <meta name="theme-color" content="#ffffff" />
 
-        {/* Preload critical fonts */}
-        <link
-          rel="preload"
-          href="/_next/static/media/geist-sans.woff2"
-          as="font"
-          type="font/woff2"
-          crossOrigin="anonymous"
-        />
-        <link
-          rel="preload"
-          href="/_next/static/media/geist-mono.woff2"
-          as="font"
-          type="font/woff2"
-          crossOrigin="anonymous"
-        />
-
         {/* DNS prefetch for external resources */}
         <link rel="dns-prefetch" href="//fonts.googleapis.com" />
         <link rel="dns-prefetch" href="//fonts.gstatic.com" />
@@ -94,6 +78,7 @@ export default async function RootLayout({
         <Providers>
           <NextIntlClientProvider messages={messages}>
             <Header locale={locale} />
+            <div className="h-[72px]" />
             {children}
             <Footer locale={locale} />
           </NextIntlClientProvider>

@@ -13,16 +13,37 @@ export const TitleWithBackground: React.FC<TitleWithBackgroundType> = ({
     xlarge: '370px',
   }
 
-  const fontSize = sizeMap[backgroundSize as keyof typeof sizeMap] || sizeMap.medium
+  const mobileSizeMap = {
+    small: '100px',
+    medium: '130px',
+    large: '180px',
+    xlarge: '225px',
+  }
+
+  const desktopFontSize = sizeMap[backgroundSize as keyof typeof sizeMap] || sizeMap.medium
+  const mobileFontSize =
+    mobileSizeMap[backgroundSize as keyof typeof mobileSizeMap] || mobileSizeMap.medium
 
   return (
     <div className="relative lg:pt-20">
       <div className="container flex flex-col items-center justify-center relative">
         <div className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 pointer-events-none max-w-full lg:max-w-none">
           <h2
-            className="font-bold whitespace-nowrap scale-75 lg:scale-100"
+            className="font-bold whitespace-nowrap block lg:hidden"
             style={{
-              fontSize,
+              fontSize: mobileFontSize,
+              WebkitTextStroke: '2px rgba(0, 0, 0, 0.1)',
+              WebkitTextFillColor: 'transparent',
+              maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%)',
+              WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%)',
+            }}
+          >
+            {backgroundTitle}
+          </h2>
+          <h2
+            className="font-bold whitespace-nowrap hidden lg:block "
+            style={{
+              fontSize: desktopFontSize,
               WebkitTextStroke: '2px rgba(0, 0, 0, 0.1)',
               WebkitTextFillColor: 'transparent',
               maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%)',

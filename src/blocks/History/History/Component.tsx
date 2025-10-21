@@ -13,9 +13,8 @@ export const History: React.FC<HistoryType> = ({ title, timeline }) => {
     const handleScroll = () => {
       if (!containerRef.current || !timeline || timeline.length === 0) return
 
-      const triggerPoint = window.innerHeight * 0.5 // 40% from top
+      const triggerPoint = window.innerHeight * 0.5
 
-      // Determine active timeline item based on scroll position
       let newActiveIndex = 0
 
       timelineRefs.current.forEach((ref, index) => {
@@ -30,23 +29,20 @@ export const History: React.FC<HistoryType> = ({ title, timeline }) => {
 
       setActiveIndex(newActiveIndex)
 
-      // Calculate the actual pixel height to the active dot
       const activeRef = timelineRefs.current[newActiveIndex]
       const firstRef = timelineRefs.current[0]
 
       if (activeRef && firstRef) {
-        // Get the position of the active circle relative to the first circle
-        // Circles are at top-2 (0.5rem = 8px) from their container top
         const firstCircleTop = firstRef.getBoundingClientRect().top + 8
         const activeCircleTop = activeRef.getBoundingClientRect().top + 8
         const distanceToActive = activeCircleTop - firstCircleTop
 
-        setScrollProgress(distanceToActive)
+        setScrollProgress(Math.max(0, distanceToActive))
       }
     }
 
     window.addEventListener('scroll', handleScroll)
-    handleScroll() // Initial call
+    handleScroll()
 
     return () => window.removeEventListener('scroll', handleScroll)
   }, [timeline])
@@ -59,7 +55,11 @@ export const History: React.FC<HistoryType> = ({ title, timeline }) => {
   return (
     <div ref={containerRef} className="relative py-10 lg:py-20">
       <div className="container">
-        {title && <h2 className="text-4xl lg:text-6xl font-semibold text-black mb-8 lg:mb-16 text-center">{title}</h2>}
+        {title && (
+          <h2 className="text-4xl lg:text-6xl font-semibold text-black mb-8 lg:mb-16 text-center">
+            {title}
+          </h2>
+        )}
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
           {/* Fixed Image Section - Desktop Only */}
@@ -97,13 +97,13 @@ export const History: React.FC<HistoryType> = ({ title, timeline }) => {
               <div
                 className="absolute top-0 left-0 w-full bg-primary-red transition-all duration-300"
                 style={{
-                  height: `${scrollProgress - 15}px`,
+                  height: `${Math.max(0, scrollProgress - 15)}px`,
                 }}
               />
             </div>
 
             {/* Timeline Items */}
-            <div className="lg:pl-16 space-y-12 lg:space-y-32">
+            <div className="lg:pl-16 space-y-12 lg:space-y-32 pb-12">
               {timeline.map((item, index) => {
                 const isActive = index === activeIndex
                 const isPassed = index < activeIndex
@@ -176,7 +176,9 @@ export const History: React.FC<HistoryType> = ({ title, timeline }) => {
                         <span className="text-white text-xs font-semibold">{item.year}</span>
                       </div>
                       <h3 className="text-2xl lg:text-3xl font-semibold mb-3">{item.title}</h3>
-                      <p className="text-sm lg:text-md leading-relaxed lg:leading-md text-black/80">{item.description}</p>
+                      <p className="text-sm lg:text-md leading-relaxed lg:leading-md text-black/80">
+                        {item.description}
+                      </p>
                     </div>
                   </div>
                 )

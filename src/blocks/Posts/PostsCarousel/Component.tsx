@@ -1,9 +1,10 @@
 'use client'
 
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { Navigation } from 'swiper/modules'
+import { Navigation, EffectFade } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/navigation'
+import 'swiper/css/effect-fade'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useState, useRef } from 'react'
 import type { Swiper as SwiperType } from 'swiper'
@@ -61,7 +62,9 @@ export const PostsCarousel: React.FC<PostsCarouselProps> = ({ posts }) => {
       </button>
 
       <Swiper
-        modules={[Navigation]}
+        modules={[Navigation, EffectFade]}
+        fadeEffect={{ crossFade: true }}
+        effect="fade"
         slidesPerView={1}
         spaceBetween={0}
         navigation={{

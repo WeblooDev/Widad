@@ -7,6 +7,7 @@ import React, { Fragment } from 'react'
 import type { Post } from '@/payload-types'
 
 import { Media } from '@/components/Media'
+import { motion } from 'framer-motion'
 
 export type CardPostData = Pick<Post, 'slug' | 'categories' | 'meta' | 'title'>
 
@@ -37,15 +38,21 @@ export const Card: React.FC<{
       )}
       ref={card.ref}
     >
-      <div className="relative w-full h-auto flex-1">
+      <div className="relative w-full h-auto flex-1 overflow-hidden">
         {!metaImage && <div className="">No image</div>}
         {metaImage && typeof metaImage !== 'string' && (
-          <Media
-            resource={metaImage}
-            size="33vw"
-            fill
-            imgClassName="object-cover w-full h-auto bg-center"
-          />
+          <motion.div
+            className="w-full h-full"
+            whileHover={{ scale: 1.1 }}
+            transition={{ duration: 0.3 }}
+          >
+            <Media
+              resource={metaImage}
+              size="33vw"
+              fill
+              imgClassName="object-cover w-full h-auto bg-center"
+            />
+          </motion.div>
         )}
       </div>
       <div className="p-4 flex flex-col bg-primary-red text-white">

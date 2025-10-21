@@ -109,7 +109,7 @@ export const AllPlayers: React.FC<AllPlayersProps> = ({ title, team, showFilters
     <div className="py-4 lg:py-16 bg-white">
       <div className="container">
         {/* Header */}
-        <h1 className="text-5xl md:text-6xl font-bold mb-8">{title || 'All Players'}</h1>
+        <h1 className="text-5xl md:text-6xl font-normal mb-8">{title || 'All Players'}</h1>
 
         {/* Filters */}
         {showFilters && (
@@ -138,9 +138,12 @@ export const AllPlayers: React.FC<AllPlayersProps> = ({ title, team, showFilters
           return (
             <div key={position} className="mb-16">
               {/* Position Title */}
-              <h2 className="text-2xl lg:text-4xl font-bold mb-8 uppercase">
-                {POSITION_LABELS[position]}
-              </h2>
+              <div className="w-full flex items-end gap-4 mb-8">
+                <h2 className="text-2xl lg:text-4xl font-bold uppercase">
+                  {POSITION_LABELS[position]}
+                </h2>
+                <span className="h-[1px] mb-2 w-full bg-[#B8B8B8]"></span>
+              </div>
 
               {/* Players Grid */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

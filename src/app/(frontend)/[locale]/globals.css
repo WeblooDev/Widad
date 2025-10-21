@@ -149,6 +149,9 @@ body {
   background-size: cover;
 }
 
-* {
-  border: 1px red solid;
+.stats-card-bg {
+  background: url('/images/men team/stats-card-bg.webp');
+  background-size: 116% 128%;
+  background-position: center;
+  background-repeat: no-repeat;
 }

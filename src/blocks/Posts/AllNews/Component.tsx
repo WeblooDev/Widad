@@ -6,6 +6,7 @@ import { Link } from '@/i18n/routing'
 import { cn } from '@/utilities/ui'
 import type { Post, Media as MediaType, Category } from '@/payload-types'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
 
 interface AllNewsProps {
   posts: Post[]
@@ -95,11 +96,23 @@ export const AllNews: React.FC<AllNewsProps> = ({ posts, categories, postsPerPag
     <div className="bg-[#F5F5F5]">
       <div className="container py-16">
         {/* Title */}
-        <h1 className="text-5xl md:text-6xl font-semibold mb-8">All News</h1>
+        <motion.h1
+          className="text-5xl md:text-6xl font-semibold mb-8"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          All News
+        </motion.h1>
 
         {/* Category Filter */}
-        <div className="flex flex-wrap gap-3 mb-4 bg-white p-2 w-fit rounded-[10px]">
-          <button
+        <motion.div
+          className="flex flex-wrap gap-3 mb-4 bg-white p-2 w-fit rounded-[10px]"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+        >
+          <motion.button
             onClick={() => setSelectedCategory('All')}
             className={cn(
               'px-3 py-2 rounded-[10px] font-medium transition-colors text-xs',
@@ -107,11 +120,13 @@ export const AllNews: React.FC<AllNewsProps> = ({ posts, categories, postsPerPag
                 ? 'bg-primary-red text-white'
                 : 'border border-black/30 text-black hover:border-black/50',
             )}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
             All
-          </button>
+          </motion.button>
           {categories.map((category) => (
-            <button
+            <motion.button
               key={category.id}
               onClick={() => setSelectedCategory(category.title)}
               className={cn(
@@ -120,16 +135,30 @@ export const AllNews: React.FC<AllNewsProps> = ({ posts, categories, postsPerPag
                   ? 'bg-primary-red text-white'
                   : 'border border-black/10 text-black hover:border-black/50',
               )}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
               {category.title}
-            </button>
+            </motion.button>
           ))}
-        </div>
+        </motion.div>
 
         {/* Posts Grid */}
         {currentPosts.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
-            {currentPosts.map((post) => {
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-12"
+            initial="hidden"
+            animate="visible"
+            variants={{
+              hidden: {},
+              visible: {
+                transition: {
+                  staggerChildren: 0.1,
+                },
+              },
+            }}
+          >
+            {currentPosts.map((post, index) => {
               const heroImage = post.heroImage as MediaType
               const metaImage = post.meta?.image as MediaType
               const imageUrl = heroImage?.url || metaImage?.url
@@ -140,11 +169,19 @@ export const AllNews: React.FC<AllNewsProps> = ({ posts, categories, postsPerPag
                 typeof postCategory === 'object' ? postCategory.title : undefined
 
               return (
-                <Link
+                <motion.div
                   key={post.id}
-                  href={`/posts/${post.slug}`}
-                  className="group block rounded-[10px] overflow-hidden bg-white border border-[#F5F5F5] p-2"
+                  variants={{
+                    hidden: { opacity: 0, y: 30 },
+                    visible: { opacity: 1, y: 0 },
+                  }}
+                  transition={{ duration: 0.5 }}
+                  whileHover={{ y: -8 }}
                 >
+                  <Link
+                    href={`/posts/${post.slug}`}
+                    className="group block rounded-[10px] overflow-hidden bg-white border border-[#F5F5F5] p-2 shadow-sm hover:shadow-lg transition-shadow"
+                  >
                   {/* Image */}
                   <div className="relative w-full aspect-[4/2.5] rounded-[10px] overflow-hidden">
                     {imageUrl && (
@@ -183,10 +220,11 @@ export const AllNews: React.FC<AllNewsProps> = ({ posts, categories, postsPerPag
                       <p className="text-black/70 text-sm line-clamp-2">{post.meta.description}</p>
                     )}
                   </div>
-                </Link>
+                  </Link>
+                </motion.div>
               )
             })}
-          </div>
+          </motion.div>
         ) : (
           <div className="text-center py-16">
             <p className="text-xl text-black/60">No posts found in this category.</p>
@@ -195,9 +233,14 @@ export const AllNews: React.FC<AllNewsProps> = ({ posts, categories, postsPerPag
 
         {/* Pagination */}
         {totalPages > 1 && (
-          <div className="flex items-center justify-center gap-2 bg-white w-fit rounded-[10px] mx-auto p-2">
+          <motion.div
+            className="flex items-center justify-center gap-2 bg-white w-fit rounded-[10px] mx-auto p-2"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+          >
             {/* Previous Button */}
-            <button
+            <motion.button
               onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
               disabled={currentPage === 1}
               className={cn(
@@ -207,9 +250,11 @@ export const AllNews: React.FC<AllNewsProps> = ({ posts, categories, postsPerPag
                   : 'text-black hover:bg-gray-100',
               )}
               aria-label="Previous page"
+              whileHover={currentPage !== 1 ? { scale: 1.1 } : {}}
+              whileTap={currentPage !== 1 ? { scale: 0.9 } : {}}
             >
               <ChevronLeft className="w-5 h-5" />
-            </button>
+            </motion.button>
 
             {/* Page Numbers */}
             {getPageNumbers().map((pageNum, index) => {
@@ -223,7 +268,7 @@ export const AllNews: React.FC<AllNewsProps> = ({ posts, categories, postsPerPag
 
               const page = pageNum as number
               return (
-                <button
+                <motion.button
                   key={page}
                   onClick={() => setCurrentPage(page)}
                   className={cn(
@@ -232,14 +277,16 @@ export const AllNews: React.FC<AllNewsProps> = ({ posts, categories, postsPerPag
                       ? 'bg-primary-red text-white'
                       : 'text-black hover:bg-gray-100',
                   )}
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
                 >
                   {page}
-                </button>
+                </motion.button>
               )
             })}
 
             {/* Next Button */}
-            <button
+            <motion.button
               onClick={() => setCurrentPage((prev) => Math.min(totalPages, prev + 1))}
               disabled={currentPage === totalPages}
               className={cn(
@@ -249,10 +296,12 @@ export const AllNews: React.FC<AllNewsProps> = ({ posts, categories, postsPerPag
                   : 'text-black hover:bg-gray-100',
               )}
               aria-label="Next page"
+              whileHover={currentPage !== totalPages ? { scale: 1.1 } : {}}
+              whileTap={currentPage !== totalPages ? { scale: 0.9 } : {}}
             >
               <ChevronRight className="w-5 h-5" />
-            </button>
-          </div>
+            </motion.button>
+          </motion.div>
         )}
       </div>
     </div>

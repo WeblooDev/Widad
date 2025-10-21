@@ -13,7 +13,7 @@ export const Categories = ({ categories }: { categories: Category[] }) => {
           key={category.title}
           className={cn('text-black px-4 py-3 rounded-[10px] font-medium w-max cursor-pointer', {
             'bg-primary-red text-white': category.title === currentCategory,
-            'border border-black/30': category.title !== currentCategory,
+            'border border-black/30 hover:border-black/50': category.title !== currentCategory,
           })}
           onClick={() => setCurrentCategory(category.title)}
         >

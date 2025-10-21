@@ -1,9 +1,10 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import type { Player, Media as MediaType, Media } from '@/payload-types'
 import { GlassButton } from '@/components/GlassButton'
+import { motion } from 'framer-motion'
 
 interface PlayerCardProps {
   player: Player
@@ -12,17 +13,54 @@ interface PlayerCardProps {
 
 export const PlayerCard: React.FC<PlayerCardProps> = ({ player, onClick }) => {
   const [isHovered, setIsHovered] = useState(false)
+  const [animatedSavePercentage, setAnimatedSavePercentage] = useState(0)
+  const [animatedDistributionAccuracy, setAnimatedDistributionAccuracy] = useState(0)
   const playerImage = player.image as MediaType
   const flagImage = player.nationalityFlag as MediaType
 
   const positionLabel = player.position?.toUpperCase() || ''
 
+  // Animate percentages when hovered
+  useEffect(() => {
+    if (isHovered) {
+      const savePercentage = player.statistics?.savePercentage || 0
+      const distributionAccuracy = player.statistics?.distributionAccuracy || 0
+      
+      const duration = 1000 // 1 second
+      const steps = 60
+      const stepDuration = duration / steps
+      
+      let currentStep = 0
+      const interval = setInterval(() => {
+        currentStep++
+        const progress = currentStep / steps
+        
+        setAnimatedSavePercentage(Math.round(savePercentage * progress))
+        setAnimatedDistributionAccuracy(Math.round(distributionAccuracy * progress))
+        
+        if (currentStep >= steps) {
+          clearInterval(interval)
+        }
+      }, stepDuration)
+      
+      return () => clearInterval(interval)
+    } else {
+      setAnimatedSavePercentage(0)
+      setAnimatedDistributionAccuracy(0)
+    }
+  }, [isHovered, player.statistics?.savePercentage, player.statistics?.distributionAccuracy])
+
   return (
-    <div
+    <motion.div
       className="relative rounded-[20px] overflow-hidden cursor-pointer group aspect-[3/4]"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onClick={onClick}
+      initial={{ opacity: 0, scale: 0.9 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      viewport={{ once: true, amount: 0.3 }}
+      transition={{ duration: 0.5, ease: 'easeOut' }}
+      whileHover={{ scale: 1.03 }}
     >
       {/* Background Image */}
       <div className="absolute inset-0 bg-gradient-to-br from-[#8B0000] to-[#2D0000]">
@@ -77,35 +115,53 @@ export const PlayerCard: React.FC<PlayerCardProps> = ({ player, onClick }) => {
 
       {/* Hover Stats Overlay */}
       <div
-        className={`absolute inset-0 bg-gradient-to-br from-[#8B0000] to-[#2D0000] transition-opacity duration-300 z-20 ${
-          isHovered ? 'opacity-100' : 'opacity-0'
+        className={`absolute inset-0  transition-opacity duration-300 z-30 stats-card-bg ${
+          isHovered ? 'opacity-100' : 'opacity-0 pointer-events-none'
         }`}
       >
-        <div className="absolute inset-0 bg-[url('/images/player-card-pattern.png')] bg-cover opacity-20" />
+        {/* <div className="absolute inset-0  opacity-100" /> */}
 
-        <div className="relative text-white p-4 h-full flex flex-col">
-          {/* Header with name and logo */}
-          <div className="flex items-start justify-between mb-2">
-            <div className="flex items-center justify-center gap-2">
-              <div className="w-2 h-2 bg-primary-red rounded-full" />
-              <h4 className="text-lg font-bold uppercase">{player.name}</h4>
+        <div className="relative text-white p-4 h-full flex flex-col overflow-hidden">
+          {/* Header Section - Slides up */}
+          <div
+            className={`transition-transform duration-500 ease-out ${
+              isHovered ? '-translate-y-0' : 'translate-y-8'
+            }`}
+          >
+            {/* Header with name and logo */}
+            <div className="flex items-start justify-between mb-2">
+              <div className="flex items-center justify-center gap-2">
+                <div className="w-2 h-2 bg-primary-red rounded-full" />
+                <h4 className="text-lg font-bold uppercase">{player.name}</h4>
+              </div>
+              <div className="w-10 h-10 bg-white/10 rounded-full backdrop-blur-sm flex items-center justify-center">
+                <Image
+                  src="/icons/wac-logo-white.svg"
+                  alt="WAC Logo"
+                  fill
+                  className="object-cover"
+                />
+              </div>
             </div>
-            <div className="w-10 h-10 bg-white/10 rounded-full backdrop-blur-sm flex items-center justify-center">
-              <Image src="/icons/wac-logo-white.svg" alt="WAC Logo" fill className="object-cover" />
+
+            {/* Position Title */}
+            <h5 className="text-base font-medium mb-1 capitalize">{positionLabel} Stats</h5>
+
+            {/* Season Badge */}
+            <div className="inline-block bg-primary-red px-3 py-0.5 rounded-full text-[10px] font-semibold mb-5 self-start">
+              SEASON 2024/25
             </div>
           </div>
 
-          {/* Position Title */}
-          <h5 className="text-base font-medium mb-1 capitalize">{positionLabel} Stats</h5>
-
-          {/* Season Badge */}
-          <div className="inline-block bg-primary-red px-3 py-0.5 rounded-full text-[10px] font-semibold mb-5 self-start">
-            SEASON 2024/25
-          </div>
-
-          {/* Stats List */}
-          <div className="space-y-1.5 flex-1 flex flex-col justify-between">
-            <div className="flex items-center justify-between">
+          {/* Stats List - Slides up from bottom */}
+          <div
+            className={`space-y-1.5 flex-1 flex flex-col justify-between transition-all duration-700 ease-out ${
+              isHovered ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'
+            }`}
+          >
+            <div
+              className={`flex items-center justify-between transition-all duration-300 delay-100 ${isHovered ? 'opacity-100' : 'opacity-0'}`}
+            >
               <div className="flex items-center gap-2">
                 <div className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center">
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -208,13 +264,13 @@ export const PlayerCard: React.FC<PlayerCardProps> = ({ player, onClick }) => {
                       <div className="flex items-center gap-2 justify-between">
                         <span className="text-sm">Save Percentage</span>
                         <span className="text-lg font-bold">
-                          {player.statistics?.savePercentage || 0}%
+                          {animatedSavePercentage}%
                         </span>
                       </div>
                       <div className="w-full bg-gray-700 h-1.5 rounded-full overflow-hidden">
                         <div
-                          className="bg-gradient-to-r from-red-600 to-pink-600 h-full transition-all"
-                          style={{ width: `${player.statistics?.savePercentage || 0}%` }}
+                          className="bg-gradient-to-r from-red-600 to-pink-600 h-full transition-all duration-75"
+                          style={{ width: `${animatedSavePercentage}%` }}
                         />
                       </div>
                     </div>
@@ -243,13 +299,13 @@ export const PlayerCard: React.FC<PlayerCardProps> = ({ player, onClick }) => {
                           <span className="text-sm">Distribution Accuracy</span>
                         </div>
                         <span className="text-lg font-bold">
-                          {player.statistics?.distributionAccuracy || 0}%
+                          {animatedDistributionAccuracy}%
                         </span>
                       </div>
                       <div className="w-full bg-gray-700 h-1.5 rounded-full overflow-hidden">
                         <div
-                          className="bg-gradient-to-r from-red-600 to-pink-600 h-full transition-all"
-                          style={{ width: `${player.statistics?.distributionAccuracy || 0}%` }}
+                          className="bg-gradient-to-r from-red-600 to-pink-600 h-full transition-all duration-75"
+                          style={{ width: `${animatedDistributionAccuracy}%` }}
                         />
                       </div>
                     </div>
@@ -312,6 +368,6 @@ export const PlayerCard: React.FC<PlayerCardProps> = ({ player, onClick }) => {
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   )
 }
