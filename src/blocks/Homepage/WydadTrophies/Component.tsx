@@ -3,34 +3,42 @@ import { cn } from '@/utilities/ui'
 import { ChevronRightIcon } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { getLocalizedField } from '@/utilities/getLocalizedField'
+import type { TypedLocale } from 'payload'
 
-export const WydadTrophies: React.FC<WydadTrophiesBlock> = ({
+export const WydadTrophies: React.FC<WydadTrophiesBlock & { locale: TypedLocale }> = ({
   title,
   description,
   link,
   trophies,
+  locale,
 }) => {
+  const localizedTitle = getLocalizedField(title, locale)
+  const localizedDescription = getLocalizedField(description, locale)
+  const localizedLinkLabel = getLocalizedField(link?.label, locale)
   return (
     <div className="">
       <div className="flex flex-col gap-8 w-full container">
         <div
           className={cn('flex', {
-            'flex-row justify-between items-end': !description,
+            'flex-col lg:flex-row justify-between items-start lg:items-end gap-y-4': !description,
             'flex-col items-start gap-4': description,
           })}
         >
-          <h2 className="text-5xl lg:text-6xl font-semibold text-black capitalize">{title}</h2>
+          <h2 className="text-5xl lg:text-6xl font-semibold text-black capitalize">
+            {localizedTitle}
+          </h2>
 
-          {description && (
-            <p className="text-lg lg:text-xl text-black mb-8 lg:w-2/3">{description}</p>
+          {localizedDescription && (
+            <p className="text-lg lg:text-xl text-black mb-8 lg:w-2/3">{localizedDescription}</p>
           )}
 
-          {link && link.url && (
+          {link && link.url && localizedLinkLabel && (
             <Link
               href={link.url ? link.url : ''}
               className="flex justify-center items-center text-black text-sm font-bold uppercase"
             >
-              {link.label} <ChevronRightIcon size={20} />
+              {localizedLinkLabel} <ChevronRightIcon size={20} />
             </Link>
           )}
         </div>
@@ -88,8 +96,14 @@ export const WydadTrophies: React.FC<WydadTrophiesBlock> = ({
               </div>
 
               <div className="flex flex-col gap-4 items-center">
-                <h3 className="text-4xl font-normal text-white">{trophy.name}</h3>
-                {trophy.description && <p className="text-sm text-white">{trophy.description}</p>}
+                <h3 className="text-4xl font-normal text-white">
+                  {getLocalizedField(trophy.name, locale)}
+                </h3>
+                {trophy.description && (
+                  <p className="text-sm text-white">
+                    {getLocalizedField(trophy.description, locale)}
+                  </p>
+                )}
               </div>
 
               {trophy.link?.url && trophy.link?.label && (
@@ -97,7 +111,7 @@ export const WydadTrophies: React.FC<WydadTrophiesBlock> = ({
                   href={trophy.link.url}
                   className="backdrop-blur-md bg-white/10 border border-white/10 w-full text-white rounded-[9px] py-3 px-5 text-sm font-normal shadow-lg hover:bg-white/30 transition-all"
                 >
-                  {trophy.link.label}
+                  {getLocalizedField(trophy.link.label, locale)}
                 </Link>
               )}
             </div>

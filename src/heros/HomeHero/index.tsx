@@ -17,12 +17,14 @@ export const HomeHero: React.FC<Page['hero']> = ({ links, media, richText }) => 
 
   return (
     <div className="relative flex items-end justify-center text-white min-h-[80vh]">
-      <div className="container mb-16 z-10 p-12 absolute inset-0 flex flex-col justify-end h-full">
-        <div className="w-full flex flex-row justify-between items-end">
-          <h1 className="text-6xl font-semibold max-w-[25.5rem]">Wydad Athletic Club</h1>
+      <div className="container mb-16 z-10 p-8 lg:p-12 absolute inset-0 flex flex-col justify-end h-full">
+        <div className="w-full flex flex-col lg:flex-row justify-between items-end">
+          <h1 className="text-5xl lg:text-6xl font-semibold max-w-[25.5rem]">
+            Wydad Athletic Club
+          </h1>
 
           <div className="flex flex-col justify-start">
-            <p className="text-lg font-semibold pb-4 ps-4">Get the WYDAD MOBILE APP</p>
+            <p className="text-lg font-semibold pb-2 lg:pb-4 lg:ps-4">Get the WYDAD MOBILE APP</p>
             <div className="flex flex-row gap-4 items-center">
               <Image src="/images/app-store.svg" alt="app-store" width={180} height={53} />
               <Image src="/images/google-play.svg" alt="google-play" width={180} height={53} />

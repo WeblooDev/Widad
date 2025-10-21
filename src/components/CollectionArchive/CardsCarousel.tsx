@@ -43,7 +43,7 @@ export const CardsCarousel = ({
       <button
         ref={prevRef}
         className={cn(
-          'absolute left-12 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white flex items-center justify-center hover:bg-gray-100 transition-all shadow-lg',
+          'absolute left-2 lg:left-12 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white flex items-center justify-center hover:bg-gray-100 transition-all shadow-lg',
           isBeginning && 'opacity-0 pointer-events-none',
         )}
       >
@@ -52,7 +52,7 @@ export const CardsCarousel = ({
       <button
         ref={nextRef}
         className={cn(
-          'absolute right-12 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white flex items-center justify-center hover:bg-gray-100 transition-all shadow-lg',
+          'absolute right-2 lg:right-12 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white flex items-center justify-center hover:bg-gray-100 transition-all shadow-lg',
           isEnd && 'opacity-0 pointer-events-none',
         )}
       >
@@ -77,6 +77,26 @@ export const CardsCarousel = ({
         }}
         onSlideChange={handleSlideChange}
         onInit={handleSlideChange}
+        breakpoints={{
+          320: {
+            slidesPerView: 1,
+          },
+          640: {
+            slidesPerView: 2,
+          },
+          768: {
+            slidesPerView: 3,
+          },
+          1024: {
+            slidesPerView: 4,
+          },
+          1280: {
+            slidesPerView: 5,
+          },
+          1536: {
+            slidesPerView: 6,
+          },
+        }}
       >
         {posts &&
           posts.map((post, index) => (

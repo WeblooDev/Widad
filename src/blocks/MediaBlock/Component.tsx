@@ -22,8 +22,8 @@ export const MediaBlock: React.FC<Props> = (props) => {
   const { className, imgClassName, media, logo, title, description, link, staticImage } = props
 
   return (
-    <div className={cn('relative')}>
-      <div className="absolute inset-0 flex flex-col items-center justify-center z-10 text-center gap-6 px-8">
+    <div className={cn('relative h-max')}>
+      <div className="py-4 lg:py-0 relative flex flex-col items-center justify-center z-10 text-center gap-6 px-8">
         {logo && <Media resource={logo} imgClassName="w-auto h-40" />}
         {title && <h2 className="text-6xl font-semibold text-white">{title}</h2>}
         {description && <p className="text-lg text-white max-w-2xl">{description}</p>}
@@ -37,7 +37,12 @@ export const MediaBlock: React.FC<Props> = (props) => {
         )}
       </div>
       {(media || staticImage) && (
-        <Media imgClassName={cn(' w-full', imgClassName)} resource={media} src={staticImage} />
+        <Media
+          imgClassName={cn('object-cover z-0 w-full', imgClassName)}
+          fill
+          resource={media}
+          src={staticImage}
+        />
       )}
     </div>
   )

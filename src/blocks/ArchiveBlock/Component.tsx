@@ -56,24 +56,24 @@ export const ArchiveBlock: React.FC<
   // Safely render introContent - handle both string and localized object
   const renderIntroContent = () => {
     if (!introContent) return null
-    
+
     // If it's a string, render it directly
     if (typeof introContent === 'string') {
-      return <h2 className="ms-0 max-w-[48rem] text-6xl !font-bold">{introContent}</h2>
+      return <h2 className="ms-0 max-w-[48rem] text-5xl lg:text-6xl !font-bold">{introContent}</h2>
     }
-    
+
     // If it's an object (localized), try to get a value
     if (typeof introContent === 'object' && introContent !== null) {
       const content = (introContent as any).en || Object.values(introContent)[0]
       return <h2 className="ms-0 max-w-[48rem] text-6xl !font-bold">{content}</h2>
     }
-    
+
     return null
   }
 
   return (
     <div className="container my-16" id={`block-${id}`}>
-      <div className="flex flex-row justify-between items-center mb-16">
+      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-6 lg:mb-16 gap-4 lg:gap-0">
         {renderIntroContent()}
 
         {categories && <Categories categories={categories as Category[]} />}

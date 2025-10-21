@@ -1,10 +1,14 @@
 import type { TitleWithBackground as TitleWithBackgroundType } from '@/payload-types'
+import { cn } from '@/utilities/ui'
+import { getLocalizedField } from '@/utilities/getLocalizedField'
+import type { TypedLocale } from 'payload'
 
-export const TitleWithBackground: React.FC<TitleWithBackgroundType> = ({
+export const TitleWithBackground: React.FC<TitleWithBackgroundType & { locale: TypedLocale }> = ({
   title,
   description,
   backgroundTitle,
   backgroundSize = 'medium',
+  locale,
 }) => {
   const sizeMap = {
     small: '150px',
@@ -55,8 +59,8 @@ export const TitleWithBackground: React.FC<TitleWithBackgroundType> = ({
         </div>
 
         <div className="relative z-10 flex flex-col items-center text-center gap-4 lg:w-[70%] max-w-4xl">
-          <h2 className="text-6xl font-semibold text-black capitalize">{title}</h2>
-          {description && <p className="text-lg text-gray-700">{description}</p>}
+          <h2 className="text-6xl font-semibold text-black capitalize">{getLocalizedField(title, locale)}</h2>
+          {description && <p className="text-lg text-gray-700">{getLocalizedField(description, locale)}</p>}
         </div>
       </div>
     </div>

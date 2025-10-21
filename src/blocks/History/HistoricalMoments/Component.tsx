@@ -3,15 +3,20 @@ import type {
   HistoricalMoments as HistoricalMomentsType,
   Media as MediaType,
 } from '@/payload-types'
-import { cn } from '@/utilities/ui'
 import Image from 'next/image'
 import { useState } from 'react'
+import { motion } from 'framer-motion'
+import { Media } from '@/components/Media'
+import { cn } from '@/utilities/ui'
+import { getLocalizedField } from '@/utilities/getLocalizedField'
+import type { TypedLocale } from 'payload'
 
-export const HistoricalMoments: React.FC<HistoricalMomentsType> = ({
+export const HistoricalMoments: React.FC<HistoricalMomentsType & { locale: TypedLocale }> = ({
   backgroundImage,
   title,
   description,
   columns,
+  locale,
 }) => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
   const bgImage = backgroundImage as MediaType
@@ -38,8 +43,14 @@ export const HistoricalMoments: React.FC<HistoricalMomentsType> = ({
         {/* Header Section */}
         <div className="flex items-center justify-between mb-12 text-white">
           <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end">
-            <h2 className="text-5xl lg:text-6xl font-semibold mb-4 lg:w-[40%]">{title}</h2>
-            {description && <p className="text-lg text-white/80 max-w-2xl">{description}</p>}
+            <h2 className="text-5xl lg:text-6xl font-semibold mb-4 lg:w-[40%]">
+              {getLocalizedField(title, locale)}
+            </h2>
+            {description && (
+              <p className="text-lg text-white/80 max-w-2xl">
+                {getLocalizedField(description, locale)}
+              </p>
+            )}
           </div>
         </div>
 
@@ -93,16 +104,9 @@ export const HistoricalMoments: React.FC<HistoricalMomentsType> = ({
                   </div>
 
                   {/* Title */}
-                  <h3
-                    className="text-white font-semibold mb-2 transition-all duration-300"
-                    style={{
-                      fontSize: isHovered ? '1.5rem' : '1.25rem',
-                      lineHeight: isHovered ? '2rem' : '1.75rem',
-                    }}
-                  >
-                    {column.title}
+                  <h3 className="text-2xl font-semibold text-white mb-2">
+                    {getLocalizedField(column.title, locale)}
                   </h3>
-
                   {/* Description - Only visible on hover */}
                   <div
                     className="overflow-hidden transition-all duration-500"
@@ -111,7 +115,9 @@ export const HistoricalMoments: React.FC<HistoricalMomentsType> = ({
                       opacity: isHovered ? 1 : 0,
                     }}
                   >
-                    <p className="text-white/90 text-sm leading-relaxed">{column.description}</p>
+                    <p className="text-white/90 text-sm leading-relaxed">
+                      {getLocalizedField(column.description, locale)}
+                    </p>
                   </div>
                 </div>
               </div>

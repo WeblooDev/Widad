@@ -8,15 +8,19 @@ import { motion } from 'framer-motion'
 import { getLocalizedField } from '@/utilities/getLocalizedField'
 import type { TypedLocale } from 'payload'
 
-export const WydadMatches: React.FC<WydadMatchesBlock & { locale: TypedLocale }> = ({ title, link, locale }) => {
+export const WydadMatches: React.FC<WydadMatchesBlock & { locale: TypedLocale }> = ({
+  title,
+  link,
+  locale,
+}) => {
   const localizedTitle = getLocalizedField(title, locale)
   const localizedLabel = getLocalizedField(link?.label, locale)
   return (
     <div className="wydad-matches-bg py-20">
       <div className="flex flex-col gap-8 w-full container">
-        <div className="flex flex-row justify-between items-end">
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-y-4">
           <motion.h2
-            className="text-6xl font-semibold text-white"
+            className="text-5xl lg:text-6xl font-semibold text-white"
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -41,7 +45,7 @@ export const WydadMatches: React.FC<WydadMatchesBlock & { locale: TypedLocale }>
         </div>
 
         <motion.div
-          className="grid grid-cols-3 gap-4"
+          className="grid grid-cols-1 lg:grid-cols-3 gap-4"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}

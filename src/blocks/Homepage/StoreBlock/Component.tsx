@@ -59,13 +59,19 @@ const productsData = [
   },
 ]
 
-export const StoreBlock = ({ title, locale }: { title: string | Record<string, string>; locale: TypedLocale }) => {
+export const StoreBlock = ({
+  title,
+  locale,
+}: {
+  title: string | Record<string, string>
+  locale: TypedLocale
+}) => {
   const localizedTitle = getLocalizedField(title, locale)
-  
+
   return (
-    <div className="store-bg flex flex-col gap-8 p-24 pe-0">
-      <div className="flex flex-row justify-between items-end pe-24">
-        <h2 className="text-6xl font-semibold text-white">{localizedTitle}</h2>
+    <div className="store-bg flex flex-col gap-8 p-8 lg:p-24 pe-8 lg:pe-0">
+      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-y-4 pe-24">
+        <h2 className="text-5xl lg:text-6xl font-semibold text-white">{localizedTitle}</h2>
 
         <Link
           href="/"

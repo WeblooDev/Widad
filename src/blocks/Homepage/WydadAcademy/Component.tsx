@@ -16,25 +16,23 @@ export const WydadAcademy: React.FC<WydadAcademyBlock & { locale: TypedLocale }>
   const localizedTitle = getLocalizedField(title, locale)
   const localizedDescription = getLocalizedField(description, locale)
   return (
-    <div className="container flex flex-row justify-between items-stretch gap-x-12 pb-24 w-full">
+    <div className="container flex flex-col lg:flex-row justify-between items-stretch gap-x-12 gap-y-4 lg:gap-y-0 pb-8 lg:pb-24 w-full">
       <div
         className={cn('flex flex-col items-start text-black gap-6', {
-          'order-2': reversed,
-          'order-1': !reversed,
+          'lg:order-2 lg:w-[60%]': reversed,
+          'lg:order-1 lg:w-[40%]': !reversed,
           'justify-center': centered,
           'justify-between': !centered,
         })}
-        style={{ width: reversed ? '60%' : '40%' }}
       >
-        <h2 className="text-6xl font-semibold text-black">{localizedTitle}</h2>
-        <p className="text-md w-[80%]">{localizedDescription}</p>
+        <h2 className="text-5xl lg:text-6xl font-semibold text-black">{localizedTitle}</h2>
+        <p className="text-md lg:w-[80%]">{localizedDescription}</p>
       </div>
       <div
-        className={cn('grid grid-cols-2 gap-4 auto-rows-fr', {
-          'order-1': reversed,
-          'order-2': !reversed,
+        className={cn('grid grid-cols-1 lg:grid-cols-2 gap-4 auto-rows-fr', {
+          'lg:order-1 lg:w-[65%]': reversed,
+          'lg:order-2 lg:w-[60%]': !reversed,
         })}
-        style={{ width: reversed ? '65%' : '60%' }}
       >
         {columns?.map((column, index) =>
           column.type === 'text' ? (
@@ -58,15 +56,15 @@ export const WydadAcademy: React.FC<WydadAcademyBlock & { locale: TypedLocale }>
                 href={column.link?.url ? column.link.url : ''}
                 className="bg-white rounded-[10px] py-2 px-4 text-black text-xs capitalize font-medium"
               >
-                {column.link?.label}
+                {getLocalizedField(column.link?.label, locale)}
               </Link>
             </div>
           ) : (
             <div
               key={index}
               className={cn('relative rounded-[10px] overflow-hidden', {
-                'row-span-3': index === 1,
-                'row-span-2': index === 2 && !columns?.find((col) => col.type === 'text'),
+                'lg:row-span-3 aspect-video lg:aspect-auto': index === 1,
+                'lg:row-span-2': index === 2 && !columns?.find((col) => col.type === 'text'),
               })}
             >
               <Media

@@ -20,7 +20,7 @@ export const CollectionArchive: React.FC<Props> = (props) => {
     <div>
       <div className="grid grid-cols-4 sm:grid-cols-8 lg:grid-cols-12 gap-y-4 gap-x-1 lg:gap-y-8 lg:gap-x-3 xl:gap-x-3">
         <motion.div
-          className="col-span-4 lg:col-span-12 grid grid-cols-2 lg:grid-cols-2 rounded-[10px] overflow-hidden"
+          className="col-span-12 lg:col-span-12 grid grid-cols-1 lg:grid-cols-2 rounded-[10px] overflow-hidden"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
@@ -39,7 +39,7 @@ export const CollectionArchive: React.FC<Props> = (props) => {
             </motion.div>
           </div>
 
-          <div className="flex flex-col justify-center items-start gap-4 p-8 bg-black text-white rounded-e-[10px] overflow-hidden">
+          <div className="flex flex-col justify-center items-start gap-4 p-8 bg-black text-white lg:rounded-e-[10px] overflow-hidden">
             <motion.h2
               className="text-2xl font-semibold"
               initial={{ opacity: 0, x: -20 }}

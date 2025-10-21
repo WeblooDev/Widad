@@ -6,13 +6,18 @@ import Link from 'next/link'
 import { getLocalizedField } from '@/utilities/getLocalizedField'
 import type { TypedLocale } from 'payload'
 
-export const WydadTV: React.FC<WydadTVBlock & { locale: TypedLocale }> = ({ title, link, channels, locale }) => {
+export const WydadTV: React.FC<WydadTVBlock & { locale: TypedLocale }> = ({
+  title,
+  link,
+  channels,
+  locale,
+}) => {
   const localizedTitle = getLocalizedField(title, locale)
   const localizedLabel = getLocalizedField(link?.label, locale)
   return (
     <div className="flex flex-col gap-8 w-full container py-10">
-      <div className="flex flex-row justify-between items-end">
-        <h2 className="text-6xl font-semibold text-black">{localizedTitle}</h2>
+      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-y-4">
+        <h2 className="text-5xl lg:text-6xl font-semibold text-black">{localizedTitle}</h2>
 
         <Link
           href={link.url ? link.url : ''}
@@ -22,7 +27,7 @@ export const WydadTV: React.FC<WydadTVBlock & { locale: TypedLocale }> = ({ titl
         </Link>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 auto-rows-fr">
         {channels &&
           channels.map((channel, index) => {
             return (
@@ -36,7 +41,9 @@ export const WydadTV: React.FC<WydadTVBlock & { locale: TypedLocale }> = ({ titl
                   },
                 )}
               >
-                <h3 className="text-2xl font-bold text-white uppercase z-10">{getLocalizedField(channel.title, locale)}</h3>
+                <h3 className="text-2xl font-bold text-white uppercase z-10">
+                  {getLocalizedField(channel.title, locale)}
+                </h3>
 
                 <Media resource={channel.image} fill imgClassName="object-cover w-full z-0" />
               </Link>

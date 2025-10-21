@@ -1,14 +1,18 @@
 import React from 'react'
 import Image from 'next/image'
 import type { YearHighlight as YearHighlightType, Media as MediaType } from '@/payload-types'
+import { Media } from '@/components/Media'
+import { getLocalizedField } from '@/utilities/getLocalizedField'
+import type { TypedLocale } from 'payload'
 
-export const YearHighlight: React.FC<YearHighlightType> = ({
+export const YearHighlight: React.FC<YearHighlightType & { locale: TypedLocale }> = ({
   year,
   title,
   description,
   mainImage,
   trophyImage,
   logoImage,
+  locale,
 }) => {
   const mainImg = mainImage as MediaType
   const trophyImg = trophyImage as MediaType
@@ -55,10 +59,10 @@ export const YearHighlight: React.FC<YearHighlightType> = ({
             )}
 
             {/* Title */}
-            <h2 className="text-4xl md:text-4xl font-semibold text-black leading-tight">{title}</h2>
+            <h2 className="text-4xl md:text-4xl font-semibold text-black leading-tight">{getLocalizedField(title, locale)}</h2>
 
             {/* Description */}
-            <p className="text-lg text-black/70 leading-relaxed">{description}</p>
+            <p className="text-lg text-black/70 leading-relaxed">{getLocalizedField(description, locale)}</p>
           </div>
         </div>
       </div>
