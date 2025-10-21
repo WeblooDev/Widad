@@ -13,6 +13,7 @@ async function getGlobal(slug: Global, depth = 0, locale?: TypedLocale) {
     slug,
     depth,
     locale,
+    fallbackLocale: false,
   })
 
   return global

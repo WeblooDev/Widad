@@ -42,6 +42,11 @@ export const CMSLink: React.FC<CMSLinkType> = (props) => {
 
   if (!href) return null
 
+  // Handle localized label - if it's an object, extract the string value
+  const labelText = typeof label === 'object' && label !== null 
+    ? (label as any).en || Object.values(label)[0]
+    : label
+
   const size = appearance === 'link' ? 'clear' : sizeFromProps
   const newTabProps = newTab ? { rel: 'noopener noreferrer', target: '_blank' } : {}
 
@@ -49,7 +54,7 @@ export const CMSLink: React.FC<CMSLinkType> = (props) => {
   if (appearance === 'inline') {
     return (
       <Link className={cn(className)} href={href || url || ''} {...newTabProps}>
-        {label && label}
+        {labelText && labelText}
         {children && children}
       </Link>
     )
@@ -58,7 +63,7 @@ export const CMSLink: React.FC<CMSLinkType> = (props) => {
   return (
     <Button asChild className={className} size={size} variant={appearance}>
       <Link className={cn(className)} href={href || url || ''} {...newTabProps}>
-        {label && label}
+        {labelText && labelText}
         {children && children}
       </Link>
     </Button>

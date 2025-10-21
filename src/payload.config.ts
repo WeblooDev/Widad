@@ -87,6 +87,7 @@ export default buildConfig({
   },
   localization: {
     defaultLocale: 'en',
+    fallback: true,
     locales: [
       {
         code: 'en',
