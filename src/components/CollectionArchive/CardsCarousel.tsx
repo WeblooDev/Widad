@@ -88,13 +88,13 @@ export const CardsCarousel = ({
             slidesPerView: 3,
           },
           1024: {
-            slidesPerView: 4,
+            slidesPerView: 3.5,
           },
           1280: {
-            slidesPerView: 5,
+            slidesPerView: 3.5,
           },
           1536: {
-            slidesPerView: 6,
+            slidesPerView: 3.5,
           },
         }}
       >
