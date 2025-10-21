@@ -2,14 +2,19 @@ import { Media } from '@/components/Media'
 import type { WydadAcademy as WydadAcademyBlock } from '@/payload-types'
 import { cn } from '@/utilities/ui'
 import Link from 'next/link'
+import { getLocalizedField } from '@/utilities/getLocalizedField'
+import type { TypedLocale } from 'payload'
 
-export const WydadAcademy: React.FC<WydadAcademyBlock> = ({
+export const WydadAcademy: React.FC<WydadAcademyBlock & { locale: TypedLocale }> = ({
   title,
   description,
   reversed,
   centered,
   columns,
+  locale,
 }) => {
+  const localizedTitle = getLocalizedField(title, locale)
+  const localizedDescription = getLocalizedField(description, locale)
   return (
     <div className="container flex flex-row justify-between items-stretch gap-x-12 pb-24 w-full">
       <div
@@ -21,8 +26,8 @@ export const WydadAcademy: React.FC<WydadAcademyBlock> = ({
         })}
         style={{ width: reversed ? '60%' : '40%' }}
       >
-        <h2 className="text-6xl font-semibold text-black">{title}</h2>
-        <p className="text-md w-[80%]">{description}</p>
+        <h2 className="text-6xl font-semibold text-black">{localizedTitle}</h2>
+        <p className="text-md w-[80%]">{localizedDescription}</p>
       </div>
       <div
         className={cn('grid grid-cols-2 gap-4 auto-rows-fr', {
@@ -44,9 +49,9 @@ export const WydadAcademy: React.FC<WydadAcademyBlock> = ({
             >
               <div className="flex flex-col gap-2">
                 <h2 className="text-3xl font-medium" style={{ fontStyle: 'italic' }}>
-                  {column.title}
+                  {getLocalizedField(column.title, locale)}
                 </h2>
-                <p className="text-md">{column.description}</p>
+                <p className="text-md">{getLocalizedField(column.description, locale)}</p>
               </div>
 
               <Link
