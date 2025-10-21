@@ -29,9 +29,9 @@ export const Players: CollectionConfig = {
     {
       name: 'jerseyNumber',
       type: 'number',
-      required: true,
+      required: false,
       admin: {
-        description: 'Player jersey number',
+        description: 'Player jersey number (not required for staff)',
       },
     },
     {
@@ -199,6 +199,65 @@ export const Players: CollectionConfig = {
           defaultValue: 0,
           admin: {
             description: 'For goalkeepers (0-100)',
+          },
+        },
+        // Defender-specific stats
+        {
+          name: 'blocks',
+          type: 'number',
+          defaultValue: 0,
+          admin: {
+            description: 'For defenders',
+          },
+        },
+        {
+          name: 'passingAccuracy',
+          type: 'number',
+          defaultValue: 0,
+          admin: {
+            description: 'For defenders (0-100)',
+          },
+        },
+        {
+          name: 'duelsWon',
+          type: 'number',
+          defaultValue: 0,
+          admin: {
+            description: 'For defenders (0-100)',
+          },
+        },
+        // Midfielder-specific stats
+        {
+          name: 'keyPasses',
+          type: 'number',
+          defaultValue: 0,
+          admin: {
+            description: 'For midfielders',
+          },
+        },
+        {
+          name: 'chancesCreated',
+          type: 'number',
+          defaultValue: 0,
+          admin: {
+            description: 'For midfielders',
+          },
+        },
+        // Forward-specific stats
+        {
+          name: 'shotsOnTarget',
+          type: 'number',
+          defaultValue: 0,
+          admin: {
+            description: 'For forwards',
+          },
+        },
+        {
+          name: 'conversionRate',
+          type: 'number',
+          defaultValue: 0,
+          admin: {
+            description: 'For forwards (0-100)',
           },
         },
       ],

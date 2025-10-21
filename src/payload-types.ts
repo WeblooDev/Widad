@@ -1198,9 +1198,9 @@ export interface Player {
   name: string;
   team: string | Team;
   /**
-   * Player jersey number
+   * Player jersey number (not required for staff)
    */
-  jerseyNumber: number;
+  jerseyNumber?: number | null;
   position: 'goalkeeper' | 'defender' | 'midfielder' | 'forward' | 'staff';
   status?: ('active' | 'onLoan' | 'injured') | null;
   /**
@@ -1254,6 +1254,34 @@ export interface Player {
      * For goalkeepers (0-100)
      */
     distributionAccuracy?: number | null;
+    /**
+     * For defenders
+     */
+    blocks?: number | null;
+    /**
+     * For defenders (0-100)
+     */
+    passingAccuracy?: number | null;
+    /**
+     * For defenders (0-100)
+     */
+    duelsWon?: number | null;
+    /**
+     * For midfielders
+     */
+    keyPasses?: number | null;
+    /**
+     * For midfielders
+     */
+    chancesCreated?: number | null;
+    /**
+     * For forwards
+     */
+    shotsOnTarget?: number | null;
+    /**
+     * For forwards (0-100)
+     */
+    conversionRate?: number | null;
   };
   /**
    * Player biography
@@ -2223,6 +2251,13 @@ export interface PlayersSelect<T extends boolean = true> {
         goalsConceded?: T;
         savePercentage?: T;
         distributionAccuracy?: T;
+        blocks?: T;
+        passingAccuracy?: T;
+        duelsWon?: T;
+        keyPasses?: T;
+        chancesCreated?: T;
+        shotsOnTarget?: T;
+        conversionRate?: T;
       };
   bio?: T;
   previousClubs?:
