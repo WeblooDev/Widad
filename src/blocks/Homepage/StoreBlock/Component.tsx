@@ -71,7 +71,7 @@ export const StoreBlock = ({
   return (
     <div className="store-bg flex flex-col gap-8 p-8 lg:p-24 pe-8 lg:pe-0">
       <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-y-4 pe-24">
-        <h2 className="text-5xl lg:text-6xl font-semibold text-white">{localizedTitle}</h2>
+        <h2 className="text-5xl lg:text-6xl font-semibold text-white">{localizedTitle || ''}</h2>
 
         <Link
           href="/"

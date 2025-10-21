@@ -1,5 +1,5 @@
 import configPromise from '@payload-config'
-import { getPayload } from 'payload'
+import { getPayload, TypedLocale } from 'payload'
 import React from 'react'
 import { MomentsOfGlory as MomentsOfGloryComponent } from './Component'
 
@@ -9,6 +9,7 @@ interface MomentsOfGloryBlockProps {
   tag?: string | null
   limit?: number | null
   blockType?: 'momentsOfGlory'
+  locale: TypedLocale
 }
 
 export const MomentsOfGlory: React.FC<MomentsOfGloryBlockProps> = async ({
@@ -16,6 +17,7 @@ export const MomentsOfGlory: React.FC<MomentsOfGloryBlockProps> = async ({
   description,
   tag,
   limit,
+  locale,
 }) => {
   const payload = await getPayload({ config: configPromise })
 
@@ -47,6 +49,7 @@ export const MomentsOfGlory: React.FC<MomentsOfGloryBlockProps> = async ({
       title={title}
       description={description}
       posts={fetchedPosts.docs}
+      locale={locale}
     />
   )
 }

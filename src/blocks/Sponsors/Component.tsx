@@ -14,7 +14,7 @@ export const Sponsors: React.FC<SponsorsType & { locale: TypedLocale }> = ({
       <div className="container flex flex-col gap-12">
         {title && (
           <h2 className="text-4xl font-semibold text-black text-center">
-            {getLocalizedField(title, locale)}
+            {getLocalizedField(title, locale) || ''}
           </h2>
         )}
 

@@ -2,13 +2,15 @@
 import React from 'react'
 
 import type { Page } from '@/payload-types'
+import type { TypedLocale } from 'payload'
 
 import { Media } from '@/components/Media'
 import RichText from '@/components/RichText'
 import { MatchCard } from '@/components/MatchCard'
 import { matches } from '@/blocks/Homepage/WydadMatches/Component'
 
-export const TicketsHero: React.FC<Page['hero']> = (props) => {
+export const TicketsHero: React.FC<Page['hero'] & { locale?: TypedLocale }> = (props) => {
+  const locale = props.locale || 'en'
   const { subtitle, richText, description, links, media } = props as Page['hero'] & {
     subtitle?: string | null
     description?: string | null
@@ -24,7 +26,7 @@ export const TicketsHero: React.FC<Page['hero']> = (props) => {
             {subtitle && <p className="text-primary-red text-2xl font-normal">{subtitle}</p>}
             {richText && (
               <div className="text-black [&_h1]:text-5xl [&_h1]:leading-[5xl] [&_h2]:text-5xl [&_h2]:leading-[5xl] [&_p]:text-5xl [&_p]:leading-[5xl]">
-                <RichText data={richText} enableGutter={false} />
+                <RichText data={richText} enableGutter={false} locale={locale} />
               </div>
             )}
             {description && <p className="text-lg text-gray-700 leading-lg">{description}</p>}

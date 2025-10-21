@@ -5,12 +5,18 @@ import { ChevronDown, ChevronUp } from 'lucide-react'
 import type { FAQ as FAQType } from '@/payload-types'
 import { getLocalizedField } from '@/utilities/getLocalizedField'
 import type { TypedLocale } from 'payload'
+import { cn } from '@/utilities/ui'
 
 interface FAQProps extends FAQType {
   locale?: string
 }
 
-export const FAQ: React.FC<FAQProps & { locale: TypedLocale }> = ({ title, description, questions, locale }) => {
+export const FAQ: React.FC<FAQProps & { locale: TypedLocale }> = ({
+  title,
+  description,
+  questions,
+  locale,
+}) => {
   const [openIndex, setOpenIndex] = useState<number>(0)
 
   const toggleQuestion = (index: number) => {
@@ -26,8 +32,14 @@ export const FAQ: React.FC<FAQProps & { locale: TypedLocale }> = ({ title, descr
       <div className="container max-w-4xl">
         {/* Header */}
         <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">{getLocalizedField(title, locale) || 'Latest From Wydad AC'}</h2>
-          {description && <p className="text-gray-600 text-lg max-w-3xl mx-auto">{getLocalizedField(description, locale)}</p>}
+          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+            {getLocalizedField(title, locale) || 'Latest From Wydad AC'}
+          </h2>
+          {description && (
+            <p className="text-gray-600 text-lg max-w-3xl mx-auto">
+              {getLocalizedField(description, locale) || ''}
+            </p>
+          )}
         </div>
 
         {/* FAQ Items */}
@@ -48,7 +60,13 @@ export const FAQ: React.FC<FAQProps & { locale: TypedLocale }> = ({ title, descr
                   onClick={() => toggleQuestion(index)}
                   className="w-full px-6 py-5 flex items-center justify-between text-left hover:opacity-90 transition-opacity"
                 >
-                  <h3 className="text-lg font-semibold text-gray-900">{getLocalizedField(item.question, locale)}</h3>
+                  <h3
+                    className={cn('text-lg font-semibold text-gray-900 ', {
+                      'text-white': isOpen,
+                    })}
+                  >
+                    {getLocalizedField(item.question, locale) || ''}
+                  </h3>
                   {isOpen ? (
                     <ChevronUp className="w-6 h-6 flex-shrink-0" />
                   ) : (
@@ -63,7 +81,13 @@ export const FAQ: React.FC<FAQProps & { locale: TypedLocale }> = ({ title, descr
                   }`}
                 >
                   <div className="px-6 pb-5">
-                    <p className="text-gray-600 leading-relaxed">{getLocalizedField(item.answer, locale)}</p>
+                    <p
+                      className={cn('text-gray-600 leading-relaxed', {
+                        'text-white': isOpen,
+                      })}
+                    >
+                      {getLocalizedField(item.answer, locale) || ''}
+                    </p>
                   </div>
                 </div>
               </div>

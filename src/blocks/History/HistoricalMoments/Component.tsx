@@ -30,7 +30,7 @@ export const HistoricalMoments: React.FC<HistoricalMomentsType & { locale: Typed
         <div className="absolute inset-0 z-0">
           <Image
             src={bgImage.url}
-            alt={title || ''}
+            alt={getLocalizedField(title, locale) || ''}
             fill
             className="object-cover"
             priority={false}
@@ -44,11 +44,11 @@ export const HistoricalMoments: React.FC<HistoricalMomentsType & { locale: Typed
         <div className="flex items-center justify-between mb-12 text-white">
           <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end">
             <h2 className="text-5xl lg:text-6xl font-semibold mb-4 lg:w-[40%]">
-              {getLocalizedField(title, locale)}
+              {getLocalizedField(title, locale) || ''}
             </h2>
             {description && (
               <p className="text-lg text-white/80 max-w-2xl">
-                {getLocalizedField(description, locale)}
+                {getLocalizedField(description, locale) || ''}
               </p>
             )}
           </div>
@@ -77,7 +77,7 @@ export const HistoricalMoments: React.FC<HistoricalMomentsType & { locale: Typed
                   <div className="absolute inset-0 z-0">
                     <Image
                       src={columnBg.url}
-                      alt={column.title || ''}
+                      alt={getLocalizedField(column.title, locale) || ''}
                       fill
                       className="object-cover"
                     />
@@ -105,7 +105,7 @@ export const HistoricalMoments: React.FC<HistoricalMomentsType & { locale: Typed
 
                   {/* Title */}
                   <h3 className="text-2xl font-semibold text-white mb-2">
-                    {getLocalizedField(column.title, locale)}
+                    {getLocalizedField(column.title, locale) || ''}
                   </h3>
                   {/* Description - Only visible on hover */}
                   <div
@@ -116,7 +116,7 @@ export const HistoricalMoments: React.FC<HistoricalMomentsType & { locale: Typed
                     }}
                   >
                     <p className="text-white/90 text-sm leading-relaxed">
-                      {getLocalizedField(column.description, locale)}
+                      {getLocalizedField(column.description, locale) || ''}
                     </p>
                   </div>
                 </div>

@@ -1,6 +1,7 @@
 import React from 'react'
 
 import type { Page } from '@/payload-types'
+import type { TypedLocale } from 'payload'
 
 import { HighImpactHero } from '@/heros/HighImpact'
 import { LowImpactHero } from '@/heros/LowImpact'
@@ -18,8 +19,8 @@ const heroes = {
   ticketsHero: TicketsHero,
 }
 
-export const RenderHero: React.FC<Page['hero']> = (props) => {
-  const { type } = props || {}
+export const RenderHero: React.FC<Page['hero'] & { locale?: TypedLocale }> = (props) => {
+  const { type, locale = 'en' } = props || {}
 
   if (!type || type === 'none') return null
 
@@ -27,5 +28,5 @@ export const RenderHero: React.FC<Page['hero']> = (props) => {
 
   if (!HeroToRender) return null
 
-  return <HeroToRender {...props} />
+  return <HeroToRender {...props} locale={locale} />
 }

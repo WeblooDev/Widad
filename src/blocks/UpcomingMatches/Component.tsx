@@ -12,7 +12,7 @@ export const UpcomingMatches: React.FC<UpcomingMatchesBlock & { locale: TypedLoc
   const localizedTitle = getLocalizedField(title, locale)
   return (
     <div className="container flex flex-col gap-4">
-      <h2 className="text-5xl lg:text-6xl font-semibold text-black capitalize">{localizedTitle}</h2>
+      <h2 className="text-5xl lg:text-6xl font-semibold text-black capitalize">{localizedTitle || ''}</h2>
       <div className="flex flex-col gap-2">
         {matches.map((match) => (
           <UpcomingMatchCard key={match.date} match={match} />

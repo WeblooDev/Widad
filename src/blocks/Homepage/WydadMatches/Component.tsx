@@ -26,7 +26,7 @@ export const WydadMatches: React.FC<WydadMatchesBlock & { locale: TypedLocale }>
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            {localizedTitle}
+            {localizedTitle || ''}
           </motion.h2>
 
           <motion.div
@@ -39,7 +39,7 @@ export const WydadMatches: React.FC<WydadMatchesBlock & { locale: TypedLocale }>
               href={link.url ? link.url : ''}
               className="flex justify-center items-center text-white text-sm font-bold uppercase hover:text-primary-red transition-colors"
             >
-              {localizedLabel} <ChevronRightIcon size={20} />
+              {localizedLabel || ''} <ChevronRightIcon size={20} />
             </Link>
           </motion.div>
         </div>

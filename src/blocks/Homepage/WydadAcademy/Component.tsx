@@ -25,8 +25,8 @@ export const WydadAcademy: React.FC<WydadAcademyBlock & { locale: TypedLocale }>
           'justify-between': !centered,
         })}
       >
-        <h2 className="text-5xl lg:text-6xl font-semibold text-black">{localizedTitle}</h2>
-        <p className="text-md lg:w-[80%]">{localizedDescription}</p>
+        <h2 className="text-5xl lg:text-6xl font-semibold text-black">{localizedTitle || ''}</h2>
+        <p className="text-md lg:w-[80%]">{localizedDescription || ''}</p>
       </div>
       <div
         className={cn('grid grid-cols-1 lg:grid-cols-2 gap-4 auto-rows-fr', {
@@ -47,16 +47,16 @@ export const WydadAcademy: React.FC<WydadAcademyBlock & { locale: TypedLocale }>
             >
               <div className="flex flex-col gap-2">
                 <h2 className="text-3xl font-medium" style={{ fontStyle: 'italic' }}>
-                  {getLocalizedField(column.title, locale)}
+                  {getLocalizedField(column.title, locale) || ''}
                 </h2>
-                <p className="text-md">{getLocalizedField(column.description, locale)}</p>
+                <p className="text-md">{getLocalizedField(column.description, locale) || ''}</p>
               </div>
 
               <Link
                 href={column.link?.url ? column.link.url : ''}
                 className="bg-white rounded-[10px] py-2 px-4 text-black text-xs capitalize font-medium"
               >
-                {getLocalizedField(column.link?.label, locale)}
+                {getLocalizedField(column.link?.label, locale) || ''}
               </Link>
             </div>
           ) : (

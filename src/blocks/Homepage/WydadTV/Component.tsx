@@ -17,13 +17,13 @@ export const WydadTV: React.FC<WydadTVBlock & { locale: TypedLocale }> = ({
   return (
     <div className="flex flex-col gap-8 w-full container py-10">
       <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-y-4">
-        <h2 className="text-5xl lg:text-6xl font-semibold text-black">{localizedTitle}</h2>
+        <h2 className="text-5xl lg:text-6xl font-semibold text-black">{localizedTitle || ''}</h2>
 
         <Link
           href={link.url ? link.url : ''}
           className="flex justify-center items-center text-black text-sm font-bold uppercase"
         >
-          {localizedLabel} <ChevronRightIcon size={20} />
+          {localizedLabel || ''} <ChevronRightIcon size={20} />
         </Link>
       </div>
 
@@ -42,7 +42,7 @@ export const WydadTV: React.FC<WydadTVBlock & { locale: TypedLocale }> = ({
                 )}
               >
                 <h3 className="text-2xl font-bold text-white uppercase z-10">
-                  {getLocalizedField(channel.title, locale)}
+                  {getLocalizedField(channel.title, locale) || ''}
                 </h3>
 
                 <Media resource={channel.image} fill imgClassName="object-cover w-full z-0" />

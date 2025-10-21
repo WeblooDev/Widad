@@ -3,6 +3,7 @@ import { useHeaderTheme } from '@/providers/HeaderTheme'
 import React, { useEffect } from 'react'
 
 import type { Page } from '@/payload-types'
+import type { TypedLocale } from 'payload'
 
 import { Media } from '@/components/Media'
 import RichText from '@/components/RichText'
@@ -10,8 +11,10 @@ import { CMSLink } from '@/components/Link'
 import { Link } from '@/i18n/routing'
 import { ChevronRightIcon } from 'lucide-react'
 import { cn } from '@/utilities/ui'
+import { getLocalizedField } from '@/utilities/getLocalizedField'
 
-export const ContentHero: React.FC<Page['hero']> = (props) => {
+export const ContentHero: React.FC<Page['hero'] & { locale?: TypedLocale }> = (props) => {
+  const locale = props.locale || 'en'
   const { subtitle, richText, description, links, media, imageLayout } = props as Page['hero'] & {
     subtitle?: string | null
     description?: string | null
@@ -50,7 +53,7 @@ export const ContentHero: React.FC<Page['hero']> = (props) => {
               )}
               {richText && (
                 <div className="text-white [&_h1]:text-5xl [&_h1]:leading-[5xl] [&_h2]:text-5xl [&_h2]:leading-[5xl] [&_p]:text-5xl [&_p]:leading-[5xl]">
-                  <RichText data={richText} enableGutter={false} />
+                  <RichText data={richText} enableGutter={false} locale={locale} />
                 </div>
               )}
             </div>
@@ -64,7 +67,7 @@ export const ContentHero: React.FC<Page['hero']> = (props) => {
                   href={links[0].link.url ? links[0].link.url : ''}
                   className="flex justify-center items-center text-white text-sm font-bold uppercase"
                 >
-                  {links[0].link.label} <ChevronRightIcon size={20} />
+                  {getLocalizedField(links[0].link.label, locale) || ''} <ChevronRightIcon size={20} />
                 </Link>
               )}
             </div>
@@ -89,7 +92,7 @@ export const ContentHero: React.FC<Page['hero']> = (props) => {
             )}
             {richText && (
               <div className="text-black [&_h1]:text-5xl [&_h1]:leading-[5xl] [&_h2]:text-5xl [&_h2]:leading-[5xl] [&_p]:text-5xl [&_p]:leading-[5xl]">
-                <RichText data={richText} enableGutter={false} />
+                <RichText data={richText} enableGutter={false} locale={locale} />
               </div>
             )}
           </div>
@@ -103,7 +106,7 @@ export const ContentHero: React.FC<Page['hero']> = (props) => {
                 href={links[0].link.url ? links[0].link.url : ''}
                 className="flex justify-center items-center text-black text-sm font-bold uppercase"
               >
-                {links[0].link.label} <ChevronRightIcon size={20} />
+                {getLocalizedField(links[0].link.label, locale) || ''} <ChevronRightIcon size={20} />
               </Link>
             )}
           </div>

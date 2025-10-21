@@ -2,14 +2,19 @@ import React from 'react'
 import Image from 'next/image'
 import { Link } from '@/i18n/routing'
 import type { Post, Media as MediaType } from '@/payload-types'
+import { getLocalizedField } from '@/utilities/getLocalizedField'
+import type { TypedLocale } from 'payload'
 
 interface MomentsOfGloryProps {
-  title?: string
-  description?: string
+  title?: string | { [key: string]: string }
+  description?: string | { [key: string]: string }
   posts: Post[]
+  locale: TypedLocale
 }
 
-export const MomentsOfGlory: React.FC<MomentsOfGloryProps> = ({ title, description, posts }) => {
+export const MomentsOfGlory: React.FC<MomentsOfGloryProps> = ({ title, description, posts, locale }) => {
+  const localizedTitle = getLocalizedField(title, locale)
+  const localizedDescription = getLocalizedField(description, locale)
   const formatDate = (dateString: string | null | undefined) => {
     if (!dateString) return ''
     const date = new Date(dateString)
@@ -31,10 +36,10 @@ export const MomentsOfGlory: React.FC<MomentsOfGloryProps> = ({ title, descripti
         {/* Header */}
         <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between mb-12 gap-6">
           <h2 className="text-5xl md:text-6xl font-semibold max-w-md">
-            {title || 'Moments Of Glory'}
+            {localizedTitle || 'Moments Of Glory'}
           </h2>
-          {description && (
-            <p className="text-lg text-black/70 max-w-xl lg:text-right">{description}</p>
+          {localizedDescription && (
+            <p className="text-lg text-black/70 max-w-xl lg:text-right">{localizedDescription}</p>
           )}
         </div>
 

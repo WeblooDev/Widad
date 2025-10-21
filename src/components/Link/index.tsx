@@ -2,6 +2,8 @@ import { Button, type ButtonProps } from '@/components/ui/button'
 import { cn } from '@/utilities/ui'
 import { Link } from '@/i18n/routing'
 import React from 'react'
+import { getLocalizedField } from '@/utilities/getLocalizedField'
+import type { TypedLocale } from 'payload'
 
 import type { Page, Post } from '@/payload-types'
 
@@ -9,7 +11,7 @@ type CMSLinkType = {
   appearance?: 'inline' | ButtonProps['variant']
   children?: React.ReactNode
   className?: string
-  label?: string | null
+  label?: string | Record<string, string> | null
   newTab?: boolean | null
   reference?: {
     relationTo: 'pages' | 'posts'
@@ -18,6 +20,7 @@ type CMSLinkType = {
   size?: ButtonProps['size'] | null
   type?: 'custom' | 'reference' | null
   url?: string | null
+  locale?: TypedLocale
 }
 
 export const CMSLink: React.FC<CMSLinkType> = (props) => {
@@ -31,6 +34,7 @@ export const CMSLink: React.FC<CMSLinkType> = (props) => {
     reference,
     size: sizeFromProps,
     url,
+    locale = 'en',
   } = props
 
   const href =
@@ -42,10 +46,8 @@ export const CMSLink: React.FC<CMSLinkType> = (props) => {
 
   if (!href) return null
 
-  // Handle localized label - if it's an object, extract the string value
-  const labelText = typeof label === 'object' && label !== null 
-    ? (label as any).en || Object.values(label)[0]
-    : label
+  // Handle localized label
+  const labelText = getLocalizedField(label, locale) || ''
 
   const size = appearance === 'link' ? 'clear' : sizeFromProps
   const newTabProps = newTab ? { rel: 'noopener noreferrer', target: '_blank' } : {}

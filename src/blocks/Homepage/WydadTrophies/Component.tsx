@@ -26,7 +26,7 @@ export const WydadTrophies: React.FC<WydadTrophiesBlock & { locale: TypedLocale 
           })}
         >
           <h2 className="text-5xl lg:text-6xl font-semibold text-black capitalize">
-            {localizedTitle}
+            {localizedTitle || ''}
           </h2>
 
           {localizedDescription && (
@@ -82,7 +82,7 @@ export const WydadTrophies: React.FC<WydadTrophiesBlock & { locale: TypedLocale 
                   {trophy.logo && typeof trophy.logo !== 'string' && trophy.logo.url && (
                     <Image
                       src={trophy.logo.url}
-                      alt={trophy.name}
+                      alt={getLocalizedField(trophy.name, locale) || ''}
                       width={100}
                       height={100}
                       className="object-contain max-w-full max-h-full"
@@ -97,11 +97,11 @@ export const WydadTrophies: React.FC<WydadTrophiesBlock & { locale: TypedLocale 
 
               <div className="flex flex-col gap-4 items-center">
                 <h3 className="text-4xl font-normal text-white">
-                  {getLocalizedField(trophy.name, locale)}
+                  {getLocalizedField(trophy.name, locale) || ''}
                 </h3>
                 {trophy.description && (
                   <p className="text-sm text-white">
-                    {getLocalizedField(trophy.description, locale)}
+                    {getLocalizedField(trophy.description, locale) || ''}
                   </p>
                 )}
               </div>
@@ -111,7 +111,7 @@ export const WydadTrophies: React.FC<WydadTrophiesBlock & { locale: TypedLocale 
                   href={trophy.link.url}
                   className="backdrop-blur-md bg-white/10 border border-white/10 w-full text-white rounded-[9px] py-3 px-5 text-sm font-normal shadow-lg hover:bg-white/30 transition-all"
                 >
-                  {getLocalizedField(trophy.link.label, locale)}
+                  {getLocalizedField(trophy.link.label, locale) || ''}
                 </Link>
               )}
             </div>

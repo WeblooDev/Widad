@@ -2,6 +2,8 @@ import type { CTABlock as CTAType, Media as MediaType } from '@/payload-types'
 import Image from 'next/image'
 import { Link } from '@/i18n/routing'
 import { Facebook, Instagram, Youtube, Linkedin, X } from 'lucide-react'
+import { TypedLocale } from 'payload'
+import { getLocalizedField } from '@/utilities/getLocalizedField'
 
 const socialIconMap = {
   facebook: Facebook,
@@ -32,7 +34,7 @@ const socialIconMap = {
   ),
 }
 
-export const CTA: React.FC<CTAType> = ({
+export const CTA: React.FC<CTAType & { locale: TypedLocale }> = ({
   backgroundImage,
   overlayImage,
   title,
@@ -40,9 +42,14 @@ export const CTA: React.FC<CTAType> = ({
   ctaType,
   link,
   socialIcons,
+  locale,
 }) => {
   const bgImage = backgroundImage as MediaType
   const overlayImg = overlayImage as MediaType
+
+  const localizedTitle = getLocalizedField(title, locale)
+  const localizedDescription = getLocalizedField(description, locale)
+  const localizedLabel = getLocalizedField(link?.label, locale)
 
   return (
     <div className="pt-8 lg:pt-24">
@@ -52,7 +59,7 @@ export const CTA: React.FC<CTAType> = ({
           <div className="absolute inset-0 z-0 lg:rounded-[20px] overflow-hidden">
             <Image
               src={bgImage.url}
-              alt={title || ''}
+              alt={localizedTitle || ''}
               fill
               className="object-cover"
               priority={false}
@@ -73,16 +80,18 @@ export const CTA: React.FC<CTAType> = ({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
             {/* Left Side - Content */}
             <div className="text-white text-center lg:text-start">
-              <h2 className="text-5xl lg:text-6xl font-semibold mb-6">{title}</h2>
-              {description && <p className="text-xl text-white/90 mb-8">{description}</p>}
+              <h2 className="text-5xl lg:text-6xl font-semibold mb-6">{localizedTitle || ''}</h2>
+              {localizedDescription && (
+                <p className="text-xl text-white/90 mb-8">{localizedDescription}</p>
+              )}
 
               {/* CTA Type */}
-              {ctaType === 'link' && link?.url && link?.label && (
+              {ctaType === 'link' && link?.url && localizedLabel && (
                 <Link
                   href={link.url}
                   className="inline-flex items-center justify-center px-8 py-4 bg-white text-primary-red font-bold text-md rounded-[10px] hover:bg-red-50 transition-colors"
                 >
-                  {link.label}
+                  {localizedLabel || ''}
                 </Link>
               )}
 

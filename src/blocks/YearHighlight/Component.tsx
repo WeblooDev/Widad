@@ -27,7 +27,12 @@ export const YearHighlight: React.FC<YearHighlightType & { locale: TypedLocale }
             {/* Large Main Image - Takes full height on left */}
             <div className="relative rounded-[20px] overflow-hidden col-span-3">
               {mainImg?.url && (
-                <Image src={mainImg.url} alt={title} fill className="object-cover w-full h-full" />
+                <Image
+                  src={mainImg.url}
+                  alt={getLocalizedField(title, locale) || ''}
+                  fill
+                  className="object-cover w-full h-full"
+                />
               )}
             </div>
 
@@ -59,10 +64,14 @@ export const YearHighlight: React.FC<YearHighlightType & { locale: TypedLocale }
             )}
 
             {/* Title */}
-            <h2 className="text-4xl md:text-4xl font-semibold text-black leading-tight">{getLocalizedField(title, locale)}</h2>
+            <h2 className="text-4xl md:text-4xl font-semibold text-black leading-tight">
+              {getLocalizedField(title, locale) || ''}
+            </h2>
 
             {/* Description */}
-            <p className="text-lg text-black/70 leading-relaxed">{getLocalizedField(description, locale)}</p>
+            <p className="text-lg text-black/70 leading-relaxed">
+              {getLocalizedField(description, locale) || ''}
+            </p>
           </div>
         </div>
       </div>

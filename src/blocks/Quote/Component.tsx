@@ -4,8 +4,12 @@ import type { Quote as QuoteType, Media as MediaType } from '@/payload-types'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { useState, useEffect } from 'react'
+import { getLocalizedField } from '@/utilities/getLocalizedField'
+import type { TypedLocale } from 'payload'
 
-export const Quote: React.FC<QuoteType> = ({ image, overlayImage, quote, author }) => {
+export const Quote: React.FC<QuoteType & { locale: TypedLocale }> = ({ image, overlayImage, quote, author, locale }) => {
+  const localizedQuote = getLocalizedField(quote, locale)
+  const localizedAuthor = getLocalizedField(author, locale)
   const quoteImage = image as MediaType
   const overlayImg = overlayImage as MediaType
   const [isInView, setIsInView] = useState(false)
@@ -13,14 +17,14 @@ export const Quote: React.FC<QuoteType> = ({ image, overlayImage, quote, author 
   const [isTypingComplete, setIsTypingComplete] = useState(false)
 
   useEffect(() => {
-    if (!isInView || !quote) return
+    if (!isInView || !localizedQuote) return
 
     let currentIndex = 0
     const typingSpeed = 30 // milliseconds per character
 
     const typeNextChar = () => {
-      if (currentIndex < quote.length) {
-        setDisplayedText(quote.slice(0, currentIndex + 1))
+      if (currentIndex < localizedQuote.length) {
+        setDisplayedText(localizedQuote.slice(0, currentIndex + 1))
         currentIndex++
         setTimeout(typeNextChar, typingSpeed)
       } else {
@@ -34,7 +38,7 @@ export const Quote: React.FC<QuoteType> = ({ image, overlayImage, quote, author 
       setDisplayedText('')
       setIsTypingComplete(false)
     }
-  }, [isInView, quote])
+  }, [isInView, localizedQuote])
 
   return (
     <div className="py-0 lg:py-20">
@@ -91,7 +95,7 @@ export const Quote: React.FC<QuoteType> = ({ image, overlayImage, quote, author 
             {quoteImage?.url && (
               <Image
                 src={quoteImage.url}
-                alt={author || 'Quote'}
+                alt={localizedAuthor || 'Quote'}
                 fill
                 className="object-cover rounded-[20px]"
               />

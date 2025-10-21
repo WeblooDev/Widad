@@ -2,8 +2,10 @@
 import type { History as HistoryType, Media as MediaType } from '@/payload-types'
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
+import { getLocalizedField } from '@/utilities/getLocalizedField'
+import type { TypedLocale } from 'payload'
 
-export const History: React.FC<HistoryType> = ({ title, timeline }) => {
+export const History: React.FC<HistoryType & { locale: TypedLocale }> = ({ title, timeline, locale }) => {
   const [activeIndex, setActiveIndex] = useState(0)
   const [scrollProgress, setScrollProgress] = useState(0)
   const timelineRefs = useRef<(HTMLDivElement | null)[]>([])
@@ -57,7 +59,7 @@ export const History: React.FC<HistoryType> = ({ title, timeline }) => {
       <div className="container">
         {title && (
           <h2 className="text-4xl lg:text-6xl font-semibold text-black mb-8 lg:mb-16 text-center">
-            {title}
+            {getLocalizedField(title, locale) || ''}
           </h2>
         )}
 
@@ -78,7 +80,7 @@ export const History: React.FC<HistoryType> = ({ title, timeline }) => {
                     {itemImage?.url && (
                       <Image
                         src={itemImage.url}
-                        alt={item.title || ''}
+                        alt={getLocalizedField(item.title, locale) || ''}
                         fill
                         className="object-cover"
                       />
@@ -122,7 +124,7 @@ export const History: React.FC<HistoryType> = ({ title, timeline }) => {
                       <div className="relative w-full h-[250px] rounded-[20px] overflow-hidden mb-6 lg:hidden transition-all duration-500">
                         <Image
                           src={itemImage.url}
-                          alt={item.title || ''}
+                          alt={getLocalizedField(item.title, locale) || ''}
                           fill
                           className="object-cover transition-all duration-500"
                           style={{
@@ -175,9 +177,9 @@ export const History: React.FC<HistoryType> = ({ title, timeline }) => {
                       >
                         <span className="text-white text-xs font-semibold">{item.year}</span>
                       </div>
-                      <h3 className="text-2xl lg:text-3xl font-semibold mb-3">{item.title}</h3>
+                      <h3 className="text-2xl lg:text-3xl font-semibold mb-3">{getLocalizedField(item.title, locale) || ''}</h3>
                       <p className="text-sm lg:text-md leading-relaxed lg:leading-md text-black/80">
-                        {item.description}
+                        {getLocalizedField(item.description, locale) || ''}
                       </p>
                     </div>
                   </div>
