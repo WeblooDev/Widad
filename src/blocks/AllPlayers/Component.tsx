@@ -43,7 +43,7 @@ export const AllPlayers: React.FC<AllPlayersProps> = ({ title, team, showFilters
       try {
         setLoading(true)
         const response = await fetch(
-          `/api/players?where[team][equals]=${teamId}&depth=1&locale=${locale || 'en'}`,
+          `/api/players?where[team][equals]=${teamId}&depth=1&locale=${locale || 'en'}&limit=100`,
         )
         const data = await response.json()
         setPlayers(data.docs || [])
@@ -69,7 +69,6 @@ export const AllPlayers: React.FC<AllPlayersProps> = ({ title, team, showFilters
     setTimeout(() => setSelectedPlayer(null), 300)
   }
 
-  // Filter players
   const filteredPlayers =
     selectedFilter === 'all'
       ? players
@@ -77,7 +76,6 @@ export const AllPlayers: React.FC<AllPlayersProps> = ({ title, team, showFilters
         ? players.filter((p) => p.status === 'onLoan')
         : players.filter((p) => p.position === selectedFilter)
 
-  // Group players by position
   const groupedPlayers: Record<Position, Player[]> = {
     goalkeeper: [],
     defender: [],
@@ -92,7 +90,6 @@ export const AllPlayers: React.FC<AllPlayersProps> = ({ title, team, showFilters
     }
   })
 
-  // Sort positions to display in order
   const positionOrder: Position[] = ['goalkeeper', 'defender', 'midfielder', 'forward', 'staff']
 
   if (loading) {
