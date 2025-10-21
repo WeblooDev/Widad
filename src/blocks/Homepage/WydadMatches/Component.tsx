@@ -5,8 +5,12 @@ import { ChevronRightIcon } from 'lucide-react'
 import Link from 'next/link'
 import { MatchCard } from '@/components/MatchCard'
 import { motion } from 'framer-motion'
+import { getLocalizedField } from '@/utilities/getLocalizedField'
+import type { TypedLocale } from 'payload'
 
-export const WydadMatches: React.FC<WydadMatchesBlock> = ({ title, link }) => {
+export const WydadMatches: React.FC<WydadMatchesBlock & { locale: TypedLocale }> = ({ title, link, locale }) => {
+  const localizedTitle = getLocalizedField(title, locale)
+  const localizedLabel = getLocalizedField(link?.label, locale)
   return (
     <div className="wydad-matches-bg py-20">
       <div className="flex flex-col gap-8 w-full container">
@@ -18,7 +22,7 @@ export const WydadMatches: React.FC<WydadMatchesBlock> = ({ title, link }) => {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            {title}
+            {localizedTitle}
           </motion.h2>
 
           <motion.div
@@ -31,7 +35,7 @@ export const WydadMatches: React.FC<WydadMatchesBlock> = ({ title, link }) => {
               href={link.url ? link.url : ''}
               className="flex justify-center items-center text-white text-sm font-bold uppercase hover:text-primary-red transition-colors"
             >
-              {link.label} <ChevronRightIcon size={20} />
+              {localizedLabel} <ChevronRightIcon size={20} />
             </Link>
           </motion.div>
         </div>

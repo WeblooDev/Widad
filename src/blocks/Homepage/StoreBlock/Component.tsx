@@ -1,6 +1,8 @@
 import { CardsCarousel } from '@/components/CollectionArchive/CardsCarousel'
 import { ChevronRightIcon } from 'lucide-react'
 import Link from 'next/link'
+import { getLocalizedField } from '@/utilities/getLocalizedField'
+import type { TypedLocale } from 'payload'
 
 const productsData = [
   {
@@ -57,11 +59,13 @@ const productsData = [
   },
 ]
 
-export const StoreBlock = ({ title }: { title: string }) => {
+export const StoreBlock = ({ title, locale }: { title: string | Record<string, string>; locale: TypedLocale }) => {
+  const localizedTitle = getLocalizedField(title, locale)
+  
   return (
     <div className="store-bg flex flex-col gap-8 p-24 pe-0">
       <div className="flex flex-row justify-between items-end pe-24">
-        <h2 className="text-6xl font-semibold text-white">{title}</h2>
+        <h2 className="text-6xl font-semibold text-white">{localizedTitle}</h2>
 
         <Link
           href="/"
