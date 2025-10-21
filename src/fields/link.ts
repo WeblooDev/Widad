@@ -110,7 +110,6 @@ export const link: LinkType = ({ appearances, disableLabel = false, overrides = 
           },
           label: 'Label',
           required: true,
-          localized: true,
         },
       ],
     })
