@@ -1,0 +1,65 @@
+/* Glass border effect for cards */
+.glass-border {
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.glass-border::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 1px;
+  background: linear-gradient(
+    150deg,
+    rgba(255, 255, 255, 0.5) 16.73%,
+    rgba(255, 255, 255, 0.1) 30.2%,
+    rgba(255, 255, 255, 0.1) 68.2%,
+    rgba(255, 255, 255, 0.6) 81.89%
+  );
+  border-radius: inherit;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 1;
+  animation: border-glow 3s ease-in-out infinite;
+}
+
+@keyframes border-glow {
+  0%, 100% {
+    background: linear-gradient(
+      150deg,
+      rgba(255, 255, 255, 0.5) 16.73%,
+      rgba(255, 255, 255, 0.1) 30.2%,
+      rgba(255, 255, 255, 0.1) 68.2%,
+      rgba(255, 255, 255, 0.6) 81.89%
+    );
+  }
+  50% {
+    background: linear-gradient(
+      330deg,
+      rgba(255, 255, 255, 0.6) 16.73%,
+      rgba(255, 255, 255, 0.1) 30.2%,
+      rgba(255, 255, 255, 0.1) 68.2%,
+      rgba(255, 255, 255, 0.5) 81.89%
+    );
+  }
+}
+
+/* Background glow animation */
+.glow-animation {
+  animation: glow-move 3s ease-in-out infinite;
+}
+
+@keyframes glow-move {
+  0%, 100% {
+    background: linear-gradient(-30deg, rgba(220, 38, 38, 0.6), transparent, rgba(220, 38, 38, 0.4));
+  }
+  50% {
+    background: linear-gradient(150deg, rgba(220, 38, 38, 0.4), transparent, rgba(220, 38, 38, 0.6));
+  }
+}

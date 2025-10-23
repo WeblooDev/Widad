@@ -83,6 +83,13 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'IBMPlexSansArabic-SemiBold';
+  src: url('/fonts/IBMPlexSansArabic-SemiBold.ttf');
+  font-weight: 600;
+  font-display: swap;
+}
+
 body {
   font-family: 'DMSans', sans-serif;
   background-color: black;
@@ -94,6 +101,10 @@ body {
 
 .Built-Titling {
   font-family: 'Built Titling', sans-serif;
+}
+
+.IBMPlexSansArabic-SemiBold {
+  font-family: 'IBMPlexSansArabic-SemiBold', sans-serif;
 }
 
 .store-bg {

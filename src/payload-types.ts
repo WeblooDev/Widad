@@ -153,7 +153,7 @@ export interface Page {
   id: string;
   title: string;
   hero: {
-    type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact' | 'home' | 'contentHero' | 'ticketsHero';
+    type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact' | 'home' | 'contentHero' | 'ticketsHero' | 'comingSoon';
     subtitle?: string | null;
     richText?: {
       root: {
@@ -223,6 +223,7 @@ export interface Page {
     | AllPlayers
     | FAQ
     | UpcomingMatches
+    | WhatsComingBlock
   )[];
   meta?: {
     title?: string | null;
@@ -1191,6 +1192,43 @@ export interface UpcomingMatches {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "WhatsComingBlock".
+ */
+export interface WhatsComingBlock {
+  heading: string;
+  subheading?: string | null;
+  items?:
+    | {
+        tag: string;
+        title: string;
+        description: string;
+        image?: (string | null) | Media;
+        backgroundType: 'color' | 'image';
+        /**
+         * Hex color code (e.g., #DC2626)
+         */
+        backgroundColor?: string | null;
+        backgroundImage?: (string | null) | Media;
+        /**
+         * Add trophies to display on the last card instead of an image
+         */
+        trophies?:
+          | {
+              name: string;
+              count: number;
+              logo: string | Media;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'whatsComing';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "players".
  */
 export interface Player {
@@ -1626,6 +1664,7 @@ export interface PagesSelect<T extends boolean = true> {
         allPlayers?: T | AllPlayersSelect<T>;
         faq?: T | FAQSelect<T>;
         upcomingMatches?: T | UpcomingMatchesSelect<T>;
+        whatsComing?: T | WhatsComingBlockSelect<T>;
       };
   meta?:
     | T
@@ -2039,6 +2078,36 @@ export interface FAQSelect<T extends boolean = true> {
  */
 export interface UpcomingMatchesSelect<T extends boolean = true> {
   title?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "WhatsComingBlock_select".
+ */
+export interface WhatsComingBlockSelect<T extends boolean = true> {
+  heading?: T;
+  subheading?: T;
+  items?:
+    | T
+    | {
+        tag?: T;
+        title?: T;
+        description?: T;
+        image?: T;
+        backgroundType?: T;
+        backgroundColor?: T;
+        backgroundImage?: T;
+        trophies?:
+          | T
+          | {
+              name?: T;
+              count?: T;
+              logo?: T;
+              id?: T;
+            };
+        id?: T;
+      };
   id?: T;
   blockName?: T;
 }

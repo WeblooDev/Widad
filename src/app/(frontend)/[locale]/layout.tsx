@@ -9,6 +9,7 @@ import { Footer } from '@/Footer/Component'
 import { Header } from '@/Header/Component'
 import { Providers } from '@/providers'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
+import { SplashScreenWrapper } from '@/components/SplashScreenWrapper'
 
 import './globals.css'
 import { getServerSideURL } from '@/utilities/getURL'
@@ -17,6 +18,7 @@ import { routing } from '@/i18n/routing'
 import { notFound } from 'next/navigation'
 import { getMessages, setRequestLocale } from 'next-intl/server'
 import { NextIntlClientProvider } from 'next-intl'
+import { ComingSoonFooter } from '@/Footer/ComingSoonFooter'
 
 export default async function RootLayout({
   children,
@@ -77,10 +79,13 @@ export default async function RootLayout({
       <body className="overflow-x-hidden">
         <Providers>
           <NextIntlClientProvider messages={messages}>
-            <Header locale={locale} />
-            <div className="h-[72px]" />
-            {children}
-            <Footer locale={locale} />
+            <SplashScreenWrapper>
+              <Header locale={locale} />
+              <div className="h-[72px]" />
+              {children}
+              {/* <Footer locale={locale} /> */}
+              <ComingSoonFooter />
+            </SplashScreenWrapper>
           </NextIntlClientProvider>
         </Providers>
       </body>

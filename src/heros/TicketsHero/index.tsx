@@ -7,7 +7,7 @@ import type { TypedLocale } from 'payload'
 import { Media } from '@/components/Media'
 import RichText from '@/components/RichText'
 import { MatchCard } from '@/components/MatchCard'
-import { matches } from '@/blocks/Homepage/WydadMatches/Component'
+import { mockMatches as matches } from '@/blocks/Homepage/WydadMatches/Component'
 
 export const TicketsHero: React.FC<Page['hero'] & { locale?: TypedLocale }> = (props) => {
   const locale = props.locale || 'en'

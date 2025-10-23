@@ -12,5 +12,31 @@
   "dashboard": "Dashboard",
   "previous": "Previous",
   "next": "Next",
-  "more-pages": "More pages"
+  "more-pages": "More pages",
+  "coming-soon": "Coming soon",
+  "hero": {
+    "subtitle": "Official wydad website",
+    "words": {
+      "winners": "WINNERS",
+      "nation": "NATION",
+      "family": "FAMILY"
+    },
+    "comingSoon": "Coming Soon",
+    "description": "The Wydad official website is launching soon! Stay tuned for the latest news and exclusive content. "
+  },
+  "whatsComing": {
+    "subtitle": "OFFICIAL WYDAD WEBSITE",
+    "title": {
+      "part1": "STAY TUNED FOR THE",
+      "highlight": "FULL",
+      "part2": "EXPERIENCE"
+    }
+  },
+  "footer": {
+    "description": "The Wydad official website is launching soon! Stay tuned for the latest news, scores, and exclusive content.",
+    "copyright": "2025 wydad | All Rights Reserved ©"
+  },
+  "header": {
+    "title": "Wydad Athletic Club"
+  }
 }

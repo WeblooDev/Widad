@@ -7,6 +7,42 @@ import { MatchCard } from '@/components/MatchCard'
 import { motion } from 'framer-motion'
 import { getLocalizedField } from '@/utilities/getLocalizedField'
 import type { TypedLocale } from 'payload'
+import { useState, useEffect } from 'react'
+
+interface ApiMatch {
+  fixture: {
+    id: number
+    date: string
+    venue: {
+      name: string
+      city: string
+    }
+    status: {
+      short: string
+      long: string
+    }
+  }
+  league: {
+    name: string
+    round: string
+  }
+  teams: {
+    home: {
+      id: number
+      name: string
+      logo: string
+    }
+    away: {
+      id: number
+      name: string
+      logo: string
+    }
+  }
+  goals: {
+    home: number | null
+    away: number | null
+  }
+}
 
 export const WydadMatches: React.FC<WydadMatchesBlock & { locale: TypedLocale }> = ({
   title,
@@ -15,6 +51,74 @@ export const WydadMatches: React.FC<WydadMatchesBlock & { locale: TypedLocale }>
 }) => {
   const localizedTitle = getLocalizedField(title, locale)
   const localizedLabel = getLocalizedField(link?.label, locale)
+  const [matches, setMatches] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    const fetchMatches = async () => {
+      try {
+        setLoading(true)
+        // Wydad AC team ID in API-SPORTS is 968
+        const response = await fetch('/api/football-matches?team=968')
+        
+        if (!response.ok) {
+          throw new Error('Failed to fetch matches')
+        }
+        
+        const data = await response.json()
+        
+        if (data.matches && data.matches.length > 0) {
+          const formattedMatches = data.matches.slice(0, 3).map((match: ApiMatch) => {
+            const isWydadHome = match.teams.home.id === 968
+            const wydadScore = isWydadHome ? match.goals.home : match.goals.away
+            const opponentScore = isWydadHome ? match.goals.away : match.goals.home
+            const opponent = isWydadHome ? match.teams.away : match.teams.home
+            const isOngoing = match.fixture.status.short === 'LIVE' || match.fixture.status.short === '1H' || match.fixture.status.short === '2H' || match.fixture.status.short === 'HT'
+            
+            // Extract matchday from round string
+            const matchdayMatch = match.league.round.match(/\d+/)
+            const matchday = matchdayMatch ? parseInt(matchdayMatch[0]) : 1
+            
+            // Determine competition type
+            const isCup = match.league.name.toLowerCase().includes('cup') || match.league.name.toLowerCase().includes('coupe')
+            
+            // Use API-SPORTS media URL for team logos
+            const opponentLogoUrl = `https://media.api-sports.io/football/teams/${opponent.id}.png`
+            
+            return {
+              id: match.fixture.id.toString(),
+              botola: isCup ? 'cup' : 'ball',
+              matchday: matchday,
+              team1: isWydadHome ? 'wydad' : opponent.name.toLowerCase(),
+              team1Image: isWydadHome ? '/wydad-logo.svg' : opponentLogoUrl,
+              team2: isWydadHome ? opponent.name.toLowerCase() : 'wydad',
+              team2Image: isWydadHome ? opponentLogoUrl : '/wydad-logo.svg',
+              ongoing: isOngoing,
+              team1Score: isWydadHome ? (wydadScore ?? 0) : (opponentScore ?? 0),
+              team2Score: isWydadHome ? (opponentScore ?? 0) : (wydadScore ?? 0),
+              date: match.fixture.date,
+              time: new Date(match.fixture.date).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false }),
+              place: match.fixture.venue.name || 'Stadium',
+            }
+          })
+          setMatches(formattedMatches)
+        } else {
+          // Fallback to mock data if no matches found
+          setMatches(mockMatches)
+        }
+      } catch (err) {
+        console.error('Error fetching matches:', err)
+        setError('Failed to load matches')
+        // Fallback to mock data on error
+        setMatches(mockMatches)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchMatches()
+  }, [])
   return (
     <div className="wydad-matches-bg py-20">
       <div className="flex flex-col gap-8 w-full container">
@@ -44,39 +148,50 @@ export const WydadMatches: React.FC<WydadMatchesBlock & { locale: TypedLocale }>
           </motion.div>
         </div>
 
-        <motion.div
-          className="grid grid-cols-1 lg:grid-cols-3 gap-4"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
-          variants={{
-            hidden: {},
-            visible: {
-              transition: {
-                staggerChildren: 0.15,
+        {loading ? (
+          <div className="text-center text-white py-12">
+            <p>Loading matches...</p>
+          </div>
+        ) : error ? (
+          <div className="text-center text-white py-12">
+            <p>{error}</p>
+          </div>
+        ) : (
+          <motion.div
+            className="grid grid-cols-1 lg:grid-cols-3 gap-4"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+            variants={{
+              hidden: {},
+              visible: {
+                transition: {
+                  staggerChildren: 0.15,
+                },
               },
-            },
-          }}
-        >
-          {matches.map((match, index) => (
-            <motion.div
-              key={index}
-              variants={{
-                hidden: { opacity: 0, y: 50 },
-                visible: { opacity: 1, y: 0 },
-              }}
-              transition={{ duration: 0.5, ease: 'easeOut' }}
-            >
-              <MatchCard match={match} />
-            </motion.div>
-          ))}
-        </motion.div>
+            }}
+          >
+            {matches.map((match, index) => (
+              <motion.div
+                key={match.id || index}
+                variants={{
+                  hidden: { opacity: 0, y: 50 },
+                  visible: { opacity: 1, y: 0 },
+                }}
+                transition={{ duration: 0.5, ease: 'easeOut' }}
+              >
+                <MatchCard match={match} />
+              </motion.div>
+            ))}
+          </motion.div>
+        )}
       </div>
     </div>
   )
 }
 
-export const matches = [
+// Mock data as fallback
+export const mockMatches = [
   {
     id: '1',
     botola: 'cup',

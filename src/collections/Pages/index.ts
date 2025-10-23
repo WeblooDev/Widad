@@ -39,13 +39,20 @@ import { YearHighlight } from '@/blocks/YearHighlight/config'
 import { AllPlayers } from '@/blocks/AllPlayers/config'
 import { FAQ } from '@/blocks/FAQ/config'
 import { UpcomingMatches } from '@/blocks/UpcomingMatches/config'
+import { WhatsComingBlock } from '@/blocks/WhatsComing/config'
 
 export const Pages: CollectionConfig<'pages'> = {
   slug: 'pages',
   access: {
     create: authenticated,
     delete: authenticated,
-    read: authenticatedOrPublished,
+    read: ({ req: { user } }) => {
+      // Allow all authenticated users to read all pages
+      if (user) return true
+      
+      // Allow public access to all pages (we'll control visibility via middleware)
+      return true
+    },
     update: authenticated,
   },
   defaultPopulate: {
@@ -113,6 +120,7 @@ export const Pages: CollectionConfig<'pages'> = {
                 AllPlayers,
                 FAQ,
                 UpcomingMatches,
+                WhatsComingBlock,
               ],
               required: true,
               admin: {

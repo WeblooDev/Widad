@@ -47,6 +47,10 @@ export const hero: Field = {
           label: 'Tickets Hero',
           value: 'ticketsHero',
         },
+        {
+          label: 'Coming Soon',
+          value: 'comingSoon',
+        },
       ],
       required: true,
     },
@@ -108,7 +112,7 @@ export const hero: Field = {
       type: 'upload',
       admin: {
         condition: (_, { type } = {}) =>
-          ['highImpact', 'mediumImpact', 'home', 'contentHero', 'ticketsHero'].includes(type),
+          ['highImpact', 'mediumImpact', 'home', 'contentHero', 'ticketsHero', 'comingSoon'].includes(type),
       },
       relationTo: 'media',
       required: true,

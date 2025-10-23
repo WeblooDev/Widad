@@ -5,12 +5,13 @@ import React, { useEffect, useRef } from 'react'
 
 import type { Props as MediaProps } from '../types'
 
-import { getMediaUrl } from '@/utilities/getMediaUrl'
+import { getClientSideURL } from '@/utilities/getURL'
 
 export const VideoMedia: React.FC<MediaProps> = (props) => {
-  const { onClick, resource, videoClassName } = props
+  const { onClick, resource, videoClassName, ref: forwardedRef } = props
 
-  const videoRef = useRef<HTMLVideoElement>(null)
+  const internalRef = useRef<HTMLVideoElement>(null)
+  const videoRef = (forwardedRef as React.RefObject<HTMLVideoElement>) || internalRef
   // const [showFallback] = useState<boolean>()
 
   useEffect(() => {
@@ -21,7 +22,7 @@ export const VideoMedia: React.FC<MediaProps> = (props) => {
         // console.warn('Video was suspended, rendering fallback image.')
       })
     }
-  }, [])
+  }, [videoRef])
 
   if (resource && typeof resource === 'object') {
     const { filename } = resource
@@ -29,7 +30,7 @@ export const VideoMedia: React.FC<MediaProps> = (props) => {
     return (
       <video
         autoPlay
-        className={cn(videoClassName)}
+        className={cn(videoClassName, 'max-md:max-w-none')}
         controls={false}
         loop
         muted
@@ -37,7 +38,7 @@ export const VideoMedia: React.FC<MediaProps> = (props) => {
         playsInline
         ref={videoRef}
       >
-        <source src={getMediaUrl(`/media/${filename}`)} />
+        <source src={`${getClientSideURL()}/api/media/file/${filename}`} />
       </video>
     )
   }

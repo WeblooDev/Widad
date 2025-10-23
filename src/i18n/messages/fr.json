@@ -12,5 +12,30 @@
   "dashboard": "Tableau de bord",
   "previous": "Précédent",
   "next": "Suivant",
-  "more-pages": "Plus de pages"
+  "more-pages": "Plus de pages",
+  "hero": {
+    "subtitle": "Site officiel du Wydad",
+    "words": {
+      "winners": "GAGNANTS",
+      "nation": "NATION",
+      "family": "FAMILLE"
+    },
+    "comingSoon": "Coming Soon",
+    "description": "Restez connectés pour découvrir les dernières actualités et du contenu exclusif."
+  },
+  "whatsComing": {
+    "subtitle": "SITE OFFICIEL DU WYDAD",
+    "title": {
+      "part1": "Restez connectés pour vivre",
+      "highlight": "l’expérience",
+      "part2": "complète."
+    }
+  },
+  "footer": {
+    "description": "Une expérience digitale complète qui réunit tout l’univers du Wydad en un seul endroit",
+    "copyright": "2025 wydad | Tous Droits Réservés ©"
+  },
+  "header": {
+    "title": "Wydad Athletic Club"
+  }
 }

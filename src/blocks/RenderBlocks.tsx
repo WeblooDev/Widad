@@ -27,6 +27,7 @@ import { YearHighlight } from './YearHighlight/Component'
 import { AllPlayers } from './AllPlayers/Component'
 import { FAQ } from './FAQ/Component'
 import { UpcomingMatches } from './UpcomingMatches/Component'
+import { WhatsComingBlock } from './WhatsComing/Component'
 
 const blockComponents = {
   archive: ArchiveBlock,
@@ -53,6 +54,7 @@ const blockComponents = {
   allPlayers: AllPlayers,
   faq: FAQ,
   upcomingMatches: UpcomingMatches,
+  whatsComing: WhatsComingBlock,
 }
 
 export const RenderBlocks: React.FC<{
@@ -81,6 +83,8 @@ export const RenderBlocks: React.FC<{
                 marginClass = '' // Full width, no margin
               } else if (blockType === 'ctaBlock') {
                 marginClass = 'mt-16 lg:my-16'
+              } else if (blockType === 'whatsComing') {
+                marginClass = 'my-0'
               }
 
               return (

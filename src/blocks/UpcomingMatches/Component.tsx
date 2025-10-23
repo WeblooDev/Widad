@@ -4,7 +4,7 @@ import React from 'react'
 import { Link } from '@/i18n/routing'
 import type { UpcomingMatches as UpcomingMatchesBlock } from '@/payload-types'
 import { UpcomingMatchCard } from '@/components/UpcomingMatchCard'
-import { matches } from '../Homepage/WydadMatches/Component'
+import { mockMatches as matches } from '../Homepage/WydadMatches/Component'
 import { getLocalizedField } from '@/utilities/getLocalizedField'
 import type { TypedLocale } from 'payload'
 

@@ -9,6 +9,7 @@ import { MediumImpactHero } from '@/heros/MediumImpact'
 import { HomeHero } from '@/heros/HomeHero'
 import { ContentHero } from '@/heros/ContentHero'
 import { TicketsHero } from '@/heros/TicketsHero'
+import { ComingSoonHero } from '@/heros/ComingSoonHero'
 
 const heroes = {
   highImpact: HighImpactHero,
@@ -17,6 +18,7 @@ const heroes = {
   home: HomeHero,
   contentHero: ContentHero,
   ticketsHero: TicketsHero,
+  comingSoon: ComingSoonHero,
 }
 
 export const RenderHero: React.FC<Page['hero'] & { locale?: TypedLocale }> = (props) => {
