@@ -86,7 +86,7 @@ export default buildConfig({
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
   localization: {
-    defaultLocale: 'en',
+    defaultLocale: 'ar',
     fallback: true,
     locales: [
       {

@@ -20,9 +20,9 @@ export default function middleware(request: NextRequest) {
   const isComingSoonPage = pathname.includes('/coming-soon')
 
   if (!isComingSoonPage) {
-    const locale = pathname.split('/')[1] || 'en'
+    const locale = pathname.split('/')[1] || 'ar'
     const validLocales = ['en', 'fr', 'ar']
-    const targetLocale = validLocales.includes(locale) ? locale : 'en'
+    const targetLocale = validLocales.includes(locale) ? locale : 'ar'
 
     const url = request.nextUrl.clone()
     url.pathname = `/${targetLocale}/coming-soon`

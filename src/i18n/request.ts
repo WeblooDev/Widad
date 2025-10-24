@@ -1,9 +1,9 @@
 import { getRequestConfig } from 'next-intl/server'
 import { routing } from './routing'
 
-import en from './messages/en.json'
+import ar from './messages/ar.json'
 
-type Messages = typeof en
+type Messages = typeof ar
 
 declare global {
   // Use type safe message keys with `next-intl`

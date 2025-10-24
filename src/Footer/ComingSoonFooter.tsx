@@ -127,18 +127,26 @@ export function ComingSoonFooter() {
           {/* Social Icons */}
           <nav className="flex flex-row">
             <a
-              href="#"
+              href="https://www.instagram.com/wacofficiel/"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center w-12 h-12"
+              className="flex items-center justify-center w-12 h-12 hover:scale-110 transition-all duration-300"
             >
               <Instagram size={24} />
             </a>
             <a
-              href="#"
+              href="https://www.tiktok.com/@wacofficiel?lang=en"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center w-12 h-12"
+              className="flex items-center justify-center w-12 h-12 hover:scale-110 transition-all duration-300"
+            >
+              <Image src="/icons/tiktok-icon.svg" alt="Tiktok" width={24} height={24} />
+            </a>
+            <a
+              href="https://x.com/WACofficiel/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center w-12 h-12 hover:scale-110 transition-all duration-300"
             >
               <svg
                 width={24}
@@ -151,10 +159,10 @@ export function ComingSoonFooter() {
               </svg>
             </a>
             <a
-              href="#"
+              href="https://www.facebook.com/WACofficiel/"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center w-12 h-12"
+              className="flex items-center justify-center w-12 h-12 hover:scale-110 transition-all duration-300"
             >
               <svg
                 width={24}

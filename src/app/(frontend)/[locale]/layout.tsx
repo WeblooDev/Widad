@@ -41,7 +41,7 @@ export default async function RootLayout({
   return (
     <html
       className={cn(GeistSans.variable, GeistMono.variable, 'antialiased')}
-      lang={locale || 'en'}
+      lang={locale || 'ar'}
       suppressHydrationWarning
       data-theme="light"
     >
@@ -98,6 +98,15 @@ export const metadata: Metadata = {
   openGraph: mergeOpenGraph(),
   twitter: {
     card: 'summary_large_image',
-    creator: '@payloadcms',
+    creator: '@webloo',
+    title: 'Widad',
+    description: 'Widad',
+    images: [
+      {
+        url: '/images/OG-image.webp',
+        width: 1200,
+        height: 630,
+      },
+    ],
   },
 }

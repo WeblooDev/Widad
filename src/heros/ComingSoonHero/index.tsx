@@ -245,7 +245,7 @@ export const ComingSoonHero: React.FC<Page['hero']> = ({ media }) => {
           transition={{ duration: 0.8, delay: 0.7 }}
         >
           <a
-            href="#"
+            href="https://www.instagram.com/wacofficiel/"
             target="_blank"
             rel="noopener noreferrer"
             className="glass-social-button flex items-center justify-center w-12 h-12 text-white rounded-[14px] transition-all"
@@ -253,7 +253,7 @@ export const ComingSoonHero: React.FC<Page['hero']> = ({ media }) => {
             <Instagram size={24} />
           </a>
           <a
-            href="#"
+            href="https://x.com/WACofficiel/"
             target="_blank"
             rel="noopener noreferrer"
             className="glass-social-button flex items-center justify-center w-12 h-12 text-white rounded-[14px] transition-all"
