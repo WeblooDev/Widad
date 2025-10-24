@@ -167,7 +167,7 @@ export const ComingSoonHero: React.FC<Page['hero']> = ({ media }) => {
         </motion.p>
 
         {/* Animated Text Section */}
-        <div className="relative h-[200px] flex items-center justify-center">
+        <div className="relative h-[120px] md:h-[200px] flex items-center justify-center">
           {!showComingSoon ? (
             !counterMode ? (
               // Phase 1: Single word morphing (slow)
@@ -271,7 +271,7 @@ export const ComingSoonHero: React.FC<Page['hero']> = ({ media }) => {
         </motion.div>
       </div>
 
-      <div className="min-h-[100vh] select-none">
+      <div className="min-h-[100dvh] lg:min-h-[100vh] select-none">
         {media && typeof media === 'object' && (
           <>
             <Media
@@ -280,7 +280,7 @@ export const ComingSoonHero: React.FC<Page['hero']> = ({ media }) => {
               className="w-full h-full object-cover absolute inset-0"
               priority
               resource={media}
-              videoClassName="object-cover"
+              videoClassName="object-cover max-md:h-full "
               ref={videoRef}
             />
             {/* Unmute button */}

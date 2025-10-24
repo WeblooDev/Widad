@@ -65,7 +65,7 @@ export const WhatsComingCard: React.FC<WhatsComingCardProps> = ({
             )}
 
             {/* Gradient Overlay for better text readability */}
-            <div className="absolute inset-0 bg-gradient-to-r from-black/10 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent z-[6]" />
 
             {/* Content */}
             <div className="relative h-full flex flex-col justify-between p-8 md:p-10 z-10">
@@ -82,13 +82,8 @@ export const WhatsComingCard: React.FC<WhatsComingCardProps> = ({
 
               {/* Trophy Hexagons - positioned after logo, before text on mobile */}
               {isLastCard && trophies.length > 0 && (
-                <div className="flex md:hidden flex-row items-center justify-center gap-4 my-4 scale-[0.7]">
+                <div className="flex md:hidden absolute top-[55px] left-[-20px] flex-row items-center justify-center gap-4 my-4 scale-[0.7]">
                   {trophies.map((trophy, idx) => {
-                    const logoUrl =
-                      typeof trophy.logo === 'string' ? trophy.logo : trophy.logo?.url || ''
-                    const trophyName =
-                      typeof trophy.name === 'string' ? trophy.name : trophy.name?.en || ''
-
                     return (
                       <motion.div
                         key={idx}
@@ -157,7 +152,7 @@ export const WhatsComingCard: React.FC<WhatsComingCardProps> = ({
                   {title}
                 </motion.h3>
                 <motion.p
-                  className={`text-white/80 text-base md:text-lg leading-relaxed ${isArabic ? 'IBMPlexSansArabic-SemiBold' : ''}`}
+                  className={`text-white lg:text-white/80 text-base md:text-lg leading-relaxed ${isArabic ? 'IBMPlexSansArabic-SemiBold' : ''}`}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}

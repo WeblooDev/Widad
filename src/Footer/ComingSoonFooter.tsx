@@ -81,7 +81,7 @@ export function ComingSoonFooter() {
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: svgRef.current,
-        start: 'top 80%',
+        start: 'top 95%',
         toggleActions: 'play none none reverse',
       },
     })
@@ -193,7 +193,7 @@ export function ComingSoonFooter() {
         <div className="flex flex-col gap-6">
           <div
             ref={svgRef}
-            className="w-full flex justify-center items-center"
+            className="w-full flex justify-center items-center max-w-full overflow-hidden [&>svg]:w-full [&>svg]:h-auto [&>svg]:max-h-[150px] md:[&>svg]:max-h-[200px] lg:[&>svg]:max-h-none [&>svg]:pt-8 lg:[&>svg]:pt-0"
             dangerouslySetInnerHTML={{ __html: svgContent }}
           />
         </div>

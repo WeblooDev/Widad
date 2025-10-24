@@ -166,3 +166,7 @@ body {
   background-position: center;
   background-repeat: no-repeat;
 }
+
+body[dir='rtl'] {
+  font-family: 'IBMPlexSansArabic-SemiBold', sans-serif !important;
+}

@@ -151,7 +151,7 @@ export const WhatsComingBlock: React.FC<Props> = (props) => {
           {t('whatsComing.subtitle')}
         </motion.p>
         <motion.h2
-          className={`text-5xl md:text-8xl font-bold text-black leading-5xl md:leading-8xl gap-2 uppercase mx-auto ${isArabic ? 'IBMPlexSansArabic-SemiBold' : ''}`}
+          className={`text-[2.7rem] md:text-8xl font-bold text-black leading-[48px] md:leading-8xl gap-2 uppercase mx-auto ${isArabic ? 'IBMPlexSansArabic-SemiBold' : ''}`}
           initial={{ opacity: 0, scale: 0.9 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
