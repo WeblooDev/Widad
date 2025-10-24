@@ -7,7 +7,7 @@ const defaultOpenGraph: Metadata['openGraph'] = {
     'The Wydad official website is launching soon! Stay tuned for the latest news and exclusive content.',
   images: [
     {
-      url: `${getServerSideURL()}/OG-image.webp`,
+      url: `${getServerSideURL()}/OG-image.jpg`,
     },
   ],
   siteName: 'Wydad Athletic Club',

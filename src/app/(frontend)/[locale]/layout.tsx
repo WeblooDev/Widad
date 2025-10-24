@@ -106,7 +106,7 @@ export const metadata: Metadata = {
       'The Wydad official website is launching soon! Stay tuned for the latest news and exclusive content.',
     images: [
       {
-        url: '/images/OG-image.webp',
+        url: '/images/OG-image.jpg',
         width: 1200,
         height: 630,
       },
