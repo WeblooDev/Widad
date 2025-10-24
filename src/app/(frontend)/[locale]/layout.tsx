@@ -4,6 +4,7 @@ import { cn } from '@/utilities/ui'
 import { GeistMono } from 'geist/font/mono'
 import { GeistSans } from 'geist/font/sans'
 import React from 'react'
+import { Analytics } from '@vercel/analytics/next'
 
 import { Footer } from '@/Footer/Component'
 import { Header } from '@/Header/Component'
@@ -81,6 +82,7 @@ export default async function RootLayout({
           <NextIntlClientProvider messages={messages}>
             <SplashScreenWrapper>
               <Header locale={locale} />
+              <Analytics />
               <div className="h-[72px]" />
               {children}
               {/* <Footer locale={locale} /> */}
