@@ -6,6 +6,7 @@ import Image from 'next/image'
 import type { Media } from '@/payload-types'
 import './WhatsComingCard.css'
 import { useLocale } from 'next-intl'
+import { cn } from '@/utilities/ui'
 
 interface Trophy {
   name: string | Record<string, string>
@@ -65,7 +66,12 @@ export const WhatsComingCard: React.FC<WhatsComingCardProps> = ({
             )}
 
             {/* Gradient Overlay for better text readability */}
-            <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent z-[6]" />
+            <div
+              className={cn('absolute inset-0 from-black/50 to-transparent z-[6]', {
+                'bg-gradient-to-l': isArabic,
+                'bg-gradient-to-r': !isArabic,
+              })}
+            />
 
             {/* Content */}
             <div className="relative h-full flex flex-col justify-between p-8 md:p-10 z-10">
