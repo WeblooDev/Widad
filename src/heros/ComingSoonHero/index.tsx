@@ -280,7 +280,7 @@ export const ComingSoonHero: React.FC<Page['hero']> = ({ media }) => {
               className="w-full h-full object-cover absolute inset-0"
               priority
               resource={media}
-              videoClassName="object-cover max-md:h-full "
+              videoClassName="object-cover max-lg:h-full "
               ref={videoRef}
             />
             {/* Unmute button */}
