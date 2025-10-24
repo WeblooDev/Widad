@@ -17,15 +17,15 @@ interface ComingSoonHeaderProps {
 }
 
 export const ComingSoonHeader: React.FC<ComingSoonHeaderProps> = ({ data }) => {
-  /* Storing the value in a useState to avoid hydration errors */
   const [theme, setTheme] = useState<string | null>(null)
-  const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false)
   const [isVisible, setIsVisible] = useState(true)
   const [lastScrollY, setLastScrollY] = useState(0)
   const { headerTheme, setHeaderTheme } = useHeaderTheme()
   const pathname = usePathname()
   const { scrollY } = useScroll()
   const t = useTranslations()
+  const locale = useLocale()
+  const isArabic = locale === 'ar'
 
   useEffect(() => {
     setHeaderTheme(null)
@@ -37,16 +37,12 @@ export const ComingSoonHeader: React.FC<ComingSoonHeaderProps> = ({ data }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [headerTheme])
 
-  // Handle scroll direction
   useMotionValueEvent(scrollY, 'change', (latest) => {
     const currentScrollY = latest
 
-    // Show header when scrolling up or at the top
     if (currentScrollY < lastScrollY || currentScrollY < 10) {
       setIsVisible(true)
-    }
-    // Hide header when scrolling down (and not at the very top)
-    else if (currentScrollY > lastScrollY && currentScrollY > 100) {
+    } else if (currentScrollY > lastScrollY && currentScrollY > 100) {
       setIsVisible(false)
     }
 
@@ -61,7 +57,10 @@ export const ComingSoonHeader: React.FC<ComingSoonHeaderProps> = ({ data }) => {
         animate={{ y: isVisible ? 0 : '-100%' }}
         transition={{ duration: 0.3, ease: 'easeInOut' }}
       >
-        <div className="py-4 flex justify-between container px-4 lg:px-0">
+        <div
+          className="py-4 flex justify-between container px-4 lg:px-0"
+          dir={isArabic ? 'rtl' : 'ltr'}
+        >
           <div className="flex flex-row gap-8 justify-between items-center">
             <Link href="/" className="flex flex-row items-center gap-2 w-full">
               <Logo loading="eager" priority="high" />
@@ -69,7 +68,7 @@ export const ComingSoonHeader: React.FC<ComingSoonHeaderProps> = ({ data }) => {
             </Link>
           </div>
 
-          <div className="flex gap-3 items-center">
+          <div className="flex gap-3 items-center" dir={isArabic ? 'ltr' : 'ltr'}>
             <div className="">
               <LocaleSwitcher />
             </div>
