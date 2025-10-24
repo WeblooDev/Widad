@@ -63,9 +63,9 @@ export const ComingSoonHeader: React.FC<ComingSoonHeaderProps> = ({ data }) => {
       >
         <div className="py-4 flex justify-between container px-4 lg:px-0">
           <div className="flex flex-row gap-8 justify-between items-center">
-            <Link href="/" className="flex flex-row items-center gap-2 w-full min-w-max">
+            <Link href="/" className="flex flex-row items-center gap-2 w-full">
               <Logo loading="eager" priority="high" />
-              <p className="text-md font-semibold text-white">{t('header.title')}</p>
+              <p className="text-md font-semibold text-white min-w-max">{t('header.title')}</p>
             </Link>
           </div>
 
