@@ -17,22 +17,24 @@ export default function middleware(request: NextRequest) {
     return intlMiddleware(request)
   }
 
-  const isComingSoonPage = pathname.includes('/coming-soon')
+  const validLocales = ['en', 'fr', 'ar']
+  const pathLocale = pathname.split('/')[1]
 
-  if (!isComingSoonPage) {
-    const locale = pathname.split('/')[1] || 'ar'
-    const validLocales = ['en', 'fr', 'ar']
-    const targetLocale = validLocales.includes(locale) ? locale : 'ar'
-
+  if (pathname === '/coming-soon') {
     const url = request.nextUrl.clone()
-    url.pathname = `/${targetLocale}/coming-soon`
+    url.pathname = '/ar/coming-soon'
     return NextResponse.redirect(url)
   }
 
-  return intlMiddleware(request)
+  if (validLocales.includes(pathLocale)) {
+    return intlMiddleware(request)
+  }
+
+  const url = request.nextUrl.clone()
+  url.pathname = '/ar/coming-soon'
+  return NextResponse.redirect(url)
 }
 
-// see https://next-intl-docs.vercel.app/docs/routing/middleware
 export const config = {
-  matcher: ['/', '/(en|fr|ar)/:path*'], // Adjust to your supported locales
+  matcher: ['/', '/coming-soon', '/(en|fr|ar)/:path*'],
 }

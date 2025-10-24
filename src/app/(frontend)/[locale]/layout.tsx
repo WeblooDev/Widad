@@ -99,8 +99,9 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     creator: '@webloo',
-    title: 'Widad',
-    description: 'Widad',
+    title: 'Wydad Athletic Club',
+    description:
+      'The Wydad official website is launching soon! Stay tuned for the latest news and exclusive content.',
     images: [
       {
         url: '/images/OG-image.webp',

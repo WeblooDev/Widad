@@ -71,6 +71,7 @@ export const generateMeta = async (args: GenerateMetaArgs): Promise<Metadata> =>
       description: metaDescription || '',
       title,
       url: canonicalPath,
+      images: metaImage ? [getImageURL(metaImage)] : [],
     }),
     title,
     alternates: {

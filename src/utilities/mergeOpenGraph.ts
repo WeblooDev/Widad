@@ -3,7 +3,8 @@ import { getServerSideURL } from './getURL'
 
 const defaultOpenGraph: Metadata['openGraph'] = {
   type: 'website',
-  description: 'Stay updated with the latest news and content from Wydad',
+  description:
+    'The Wydad official website is launching soon! Stay tuned for the latest news and exclusive content.',
   images: [
     {
       url: `${getServerSideURL()}/OG-image.webp`,
