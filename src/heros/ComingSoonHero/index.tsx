@@ -271,13 +271,13 @@ export const ComingSoonHero: React.FC<Page['hero']> = ({ media }) => {
         </motion.div>
       </div>
 
-      <div className="min-h-[100dvh] lg:min-h-[100vh] select-none">
+      <div className="max-h-[100dvh] lg:min-h-[100vh] select-none">
         {media && typeof media === 'object' && (
           <>
             <Media
               fill
               imgClassName="object-cover"
-              className="w-full h-full object-cover absolute inset-0"
+              className="min-xl:w-full max-xl:h-full object-cover absolute inset-0"
               priority
               resource={media}
               videoClassName="object-cover max-xl:h-full "

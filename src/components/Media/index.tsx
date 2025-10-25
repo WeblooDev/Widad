@@ -1,12 +1,10 @@
 import React, { Fragment } from 'react'
-
 import type { Props } from './types'
-
 import { ImageMedia } from './ImageMedia'
 import { VideoMedia } from './VideoMedia'
 
 export const Media: React.FC<Props> = (props) => {
-  const { className, htmlElement = 'div', resource } = props
+  const { className = '', htmlElement = 'div', resource } = props
 
   const isVideo = typeof resource === 'object' && resource?.mimeType?.includes('video')
   const Tag = htmlElement || Fragment
@@ -15,12 +13,15 @@ export const Media: React.FC<Props> = (props) => {
     <Tag
       {...(htmlElement !== null
         ? {
-            className,
+            className: `relative flex items-center justify-center overflow-hidden ${className}`,
           }
         : {})}
     >
       {isVideo ? (
-        <VideoMedia videoClassName="object-cover max-w-none" {...props} />
+        <VideoMedia
+          videoClassName="object-cover object-center max-w-none absolute inset-0 w-full h-full"
+          {...props}
+        />
       ) : (
         <ImageMedia {...props} />
       )}
